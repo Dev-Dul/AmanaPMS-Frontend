@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-
+import afustaLogo from "../assets/Img/afusta-logo.png"
 
 
 function SignupPage(){
@@ -44,6 +44,7 @@ function SignupPage(){
     return (
       <div className={`${styles.container} ${styles.signup}`}>
         <div className={styles.left}>
+          <img src={afustaLogo} alt="Afusta Logo" className={styles.afLogo} />
           <h1>
             Welcome! <br /> <span>to AFUSTA Transit Management System</span>
           </h1>

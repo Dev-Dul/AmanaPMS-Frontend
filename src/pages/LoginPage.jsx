@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
+import afustaLogo from "../assets/Img/afusta-logo.png"
 
 
 
@@ -45,15 +46,15 @@ function LogInPage(){
       <div className={`${styles.container} ${styles.login}`}>
         <div className={styles.left}></div>
         <div className={styles.right}>
+          <img src={afustaLogo} alt="Afusta Logo" className={styles.afLogo} />
           <h1>
             Welcome Back! <br />{" "}
             <span>to AFUSTA Transit Management System</span>
           </h1>
           <p className={styles.sub}>Powered by SwiftRyde!.</p>
           <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <h2>Experience Transit Like Never Before.</h2>
+            <h2>Log In to continue to your account.</h2>
             <div className={styles.nav}>
-              <h3>Log in to continue to your account:</h3>
               <div className={styles.btns}>
                 <button
                   type="button"

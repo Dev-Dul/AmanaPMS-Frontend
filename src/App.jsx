@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import OverviewPage from './pages/OverviewPage';
 import SignupPage from './pages/SignupPage';
+import LogInPage from './pages/LoginPage';
 
 function App() {
   // const location = useLocation();
