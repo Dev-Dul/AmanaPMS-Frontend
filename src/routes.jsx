@@ -3,7 +3,7 @@ import AuthError from "./components/AuthError";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Friends from "./components/Friends";
-import Signup from "./components/Signup";
+import SignupPage from "./pages/SignupPage";
 import Welcome from "./components/welcome";
 import Error from "./components/Error";
 import SearchPage from "./components/Search";
@@ -21,7 +21,7 @@ const routes = [
       { index: true, element: <Welcome /> },
       { path: "home", element: <Home /> },
       { path: "new", element: <NewPost /> },
-      { path: "signup", element: <Signup /> },
+      { path: "signup", element: <SignupPage /> },
       { path: "friends", element: <Friends /> },
       { path: "profile", element: <Profile /> },
       { path: "search", element: <SearchPage /> },

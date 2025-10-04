@@ -8,36 +8,43 @@ import { useMediaQuery } from "react-responsive";
 import { useContext } from 'react';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import OverviewPage from './pages/OverviewPage';
+import SignupPage from './pages/SignupPage';
 
 function App() {
-  const location = useLocation();
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  const hideSidebar = location.pathname === '/' || location.pathname === '/signup' || location.pathname.startsWith('/posts/view/');
+  // const location = useLocation();
+  // const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  // const hideSidebar = location.pathname === '/' || location.pathname === '/signup' || location.pathname.startsWith('/posts/view/');
 
+
+  // return (
+  //   <AuthProvider>
+  //     <Toaster richColors position="top-right" />
+  //     <AnimatePresence mode="wait">
+  //       <ScrollProvider>
+  //         <div className={(!hideSidebar && !isMobile) ? "grid" : "mobile"}>
+  //           {(!hideSidebar && !isMobile) ? <Sidebar /> : <Navbar showNav={hideSidebar} isMobile={isMobile} /> }
+  //           <div>
+  //             <motion.div
+  //               key={location.pathname}
+  //               initial={{ opacity: 0, x: 50 }}
+  //               animate={{ opacity: 1, x: 0 }}
+  //               exit={{ opacity: 0, x: -50 }}
+  //               transition={{ duration: 0.8 }}
+  //               className='wrapper'>
+  //               <Outlet />
+  //             </motion.div>
+  //           </div>
+  //         </div>
+  //       </ScrollProvider>
+  //     </AnimatePresence>
+  //   </AuthProvider>
+  // );
 
   return (
-    <AuthProvider>
-      <Toaster richColors position="top-right" />
-      <AnimatePresence mode="wait">
-        <ScrollProvider>
-          <div className={(!hideSidebar && !isMobile) ? "grid" : "mobile"}>
-            {(!hideSidebar && !isMobile) ? <Sidebar /> : <Navbar showNav={hideSidebar} isMobile={isMobile} /> }
-            <div>
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.8 }}
-                className='wrapper'>
-                <Outlet />
-              </motion.div>
-            </div>
-          </div>
-        </ScrollProvider>
-      </AnimatePresence>
-    </AuthProvider>
-  );
+    <SignupPage />
+  )
 
 }
 

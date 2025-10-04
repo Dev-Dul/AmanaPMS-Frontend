@@ -1,0 +1,750 @@
+@font-face {
+    font-family: "homebase";
+    src: url("../assets/Fonts/homebase.ttf");
+}
+
+@font-face {
+    font-family: "longshot";
+    src: url("../assets/Fonts/Long_Shot.ttf");
+}
+
+@font-face {
+    font-family: 'captain';
+    src: url("../assets/Fonts/AmericanCaptain-MdEY.otf");
+}
+
+@font-face {
+    font-family: "mailendra";
+    src: url("../assets/Fonts/SweetJoys.ttf");
+}
+
+.container{
+    min-height: 100vh;
+    width: 100%;
+    /* font-family: 'consolas'; */
+    background: #e6f0fa;
+    background: linear-gradient(to right, #fff, #c4daee);
+    color: #040404;
+    overflow-x: hidden;
+}
+
+.header{
+    height: 15vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header nav{
+    height: 80%;
+    width: 90%;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    background: #040404;
+    color: #f3f3f3;
+    padding: 0 1rem;
+    transition: all 1.5s ease;
+    transition-delay: 1s;
+    transform: translateY(-100vh);
+    animation: navAnim 1.5s ease both;
+}
+
+@keyframes navAnim {
+    from{
+        opacity: 0;
+        transform: translateY(-100vh);
+    }to{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+nav .secondNav{
+    width: 70%;
+    height: 100%;
+}
+
+nav .second{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    height: 100%;
+    width: 30%;
+    font-family: "homebase";
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo h2{
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+
+nav button{
+    border-color: white;
+    padding: 0.8rem 1rem;
+}
+
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.center button{
+    margin: 0 0.5rem;
+}
+
+.end button{
+    color: #040404;
+    background: #f3f3f3;
+}
+
+.main{
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.anim{
+    position: absolute;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.menu{
+    width: 35px;
+    height: 35px;
+    position: fixed;
+    right: 15px;
+    z-index: 1000;
+    display: none;
+}
+
+.menu input{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    appearance: none;
+    border: none;
+}
+
+.menu span{
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    border-radius: 10px;
+    background: #f3f3f3;
+    pointer-events: none;
+}
+
+.menu span:nth-of-type(1){
+    top: 10%;
+    transform-origin: left top;
+}
+
+.menu span:nth-of-type(2){
+    top: 50%;
+    transition: all .3s .1s;
+}
+
+.menu span:last-of-type{
+    bottom: 0;
+    transform-origin: left bottom;
+}
+
+.anim, .text{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text{
+    position: relative;
+}
+
+.anim h2{
+  font-size: 3rem;
+  position: absolute;
+  word-break: keep-all;
+  animation: welcome 1.5s ease both;
+  animation-delay: calc((var(--i)) * 2s);
+}
+
+.anim.hide{
+    transform: translateY(-200vh);
+}
+
+@keyframes welcome{
+    0%{
+        opacity: 0;
+        transform: translateY(100vh);
+    }50%, 70%, 80%, 90%{
+        opacity: 1;
+        transform: translate(0);
+    }100%{
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+}
+
+
+.welcome{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: all 1s ease;
+    position: relative;
+}
+
+.welcome > *{
+    transition: all 2s ease;
+    animation: welcomeAnim 1.5s ease 2s both;
+}
+
+@keyframes welcomeAnim {
+    from{
+        opacity: 0;
+        transform: translateY(150px);
+    }to{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+.cryptoAnim{
+    position: absolute;
+    height: 200px;
+    width: 300px;
+    bottom: 0;
+    opacity: 0;
+    display: none;
+    transition-delay: 5s;
+    transition: all 1.5s ease;
+    transform: translateX(100vw);
+    /* z-index: -1; */
+}
+
+.cryptoAnim.show{
+    display: block;
+    opacity: 1;
+    transform: translate(0);
+}
+
+.textTwo{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    transition: all 1s ease;
+    position: relative;
+}
+
+.textTwo img{
+    position: absolute;
+}
+
+.textTwo h2{
+    margin: 0;
+    font-size: 2rem;
+    text-wrap: balance;
+    font-family: "homebase";
+}
+
+.block{
+    z-index: -1;
+    width: 500px;
+    right: -10%;
+    top: -100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: all 1s ease;
+    transition-delay: 1s;
+    transform: translateX(100vw);
+}
+
+.chest{
+    width: 100px;
+    top: -5%;
+    left: 10%;
+    opacity: 0;
+    transition: all 1s ease;
+    /* animation: float 3s ease infinite; */
+}
+
+
+@keyframes float {
+    from{
+        transform: translate(0);
+    }to{
+        transform: rotate(-15deg) translateY(-2px);
+    }
+}
+
+.welcome h1{
+    font-size: 3rem;
+    /* text-wrap: balance; */
+    margin-bottom: 0;
+    transition-delay: 1.5s;
+    font-family: 'captain';
+}
+
+/* .color{
+    color: #f3f3f3;
+} */
+
+.subOne{
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    text-align: left;
+    /* margin-left: 8rem; */
+    transition-delay: 1.5s;
+}
+
+.action{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition-delay: 1.5s;
+}
+
+.action button{
+    color: #f3f3f3;
+    background: #040404;
+    padding: 0.75rem;
+}
+
+.section{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.section h2, .play h2, .waitlist h2{
+    font-size: 2.5rem;
+    margin-bottom: 0;
+    font-family: 'captain';
+}
+
+.sectionOne .right, .sectionOne .left{
+    width: 50%;
+}
+
+.sectionOne .left img{
+    height: 100%;
+    width: 800px;
+    object-fit: cover;
+}
+
+
+.sectionOne .right, .sectionOne .left{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sectionOne .right{
+    align-items: flex-end;
+    padding-right: 3rem;
+}
+
+
+.sectionOne .right p{
+    margin: 5px 0;
+}
+
+.subTwo{
+    font-size: 1.5rem;
+}
+
+.sectionOne .right p span{
+    font-size: 1.5rem;
+    font-weight: bolder;
+    font-family: 'homebase';
+}
+
+.play{
+    min-height: 100vh;
+    display: flex;
+    padding: 0 4rem;
+    background: #040404;
+    color: #f3f3f3;
+}
+
+.features{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.play p{
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.play button{
+    color: #040404;
+    margin-top: 1rem;
+    font-family: "homebase";
+    background: #f3f3f3;
+}
+
+.play button:hover{
+    color: #f3f3f3;
+    border-color: #f3f3f3;
+    background: #040404;
+}
+
+.cards{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.card{
+    height: 300px;
+    width: 250px;
+    color: #040404;
+    background: #f3f3f3;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.waitlist{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5rem 0;
+}
+
+.waitlist h2, .waitlist p{
+    align-self: flex-start;
+    margin-left: 8rem;
+}
+
+.waitlist h2{
+    margin-bottom: 0;
+}
+
+.waitlist p{
+    font-size: 1.5rem;
+    margin: 10px 8rem;
+}
+
+.waitlist form{
+    height: auto;
+    width: 80%;
+    border: 1px solid;
+    padding: 0.5rem 0;
+}
+
+.inputBox{
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.inputBox input, .inputBox textarea{
+    height: 100%;
+    width: 90%;
+    font-size: 1.5rem;
+    font-family: inherit;
+    text-indent: 10px;
+    border: 1px solid;
+}
+
+.inputBox button{
+    width: 90%;
+    color: #f3f3f3;
+    padding: 1rem 0;
+    background: #040404;
+}
+
+.footer{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    background: #040404;
+    color: #f3f3f3;
+}
+
+.footer > div{
+    height: auto;
+    width: 100%;
+}
+
+.top{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-left: 8rem;
+}
+
+.top h2{
+    font-family: 'captain';
+    font-size: 2.5rem;
+    margin-bottom: 0;
+}
+
+.top h3{
+    margin: 0;
+    font-size: 1.8rem;
+    font-family: "captain";
+}
+
+.top p{
+    font-family: 'captain';
+    margin: 4px 0;
+    font-size: 1.3rem
+}
+
+
+@media screen and (min-width: 968px){
+    .welcome h1{
+        font-size: 6.5rem;
+        margin-top: 0;
+    }
+
+    .action {
+        width: 35%;
+    }
+
+    .action button{
+        padding: 0.5rem 3.5rem;
+    }
+}
+
+
+@media screen and (max-width: 468px) {
+    .header nav{
+        height: 70%;
+        width: 85%;
+    }
+
+    nav .secondNav{
+        position: fixed;
+        top: -22%;
+        right: -7%;
+        height: 100vh;
+        width: 80vw;
+        margin-right: 0;
+        overflow: hidden;
+        background: #040404;
+        transition: all 1.5s ease;
+        transform: translateX(100vw);
+    }
+
+    nav .secondNav.show{
+        transform: translate(0);
+    }
+
+    nav .second{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        z-index: 100;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    nav .second > *{
+        z-index: 1000;
+    }
+
+    .center{
+        flex-direction: column;
+    }
+
+    .center > button, .end > button{
+        padding: 1rem 4.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .menu{
+        display: block;
+        position: fixed;
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    .checked ~ span:nth-of-type(1){
+        transform: rotate(50deg);
+    }
+
+    .checked ~ span:nth-of-type(2){
+        transform: translateX(300%);
+    }
+
+    .checked ~ span:nth-of-type(3){
+        transform: rotate(-50deg);
+    }
+
+    .second button{
+        width: 100%;
+        /* margin-bottom: 0.5rem; */
+        transition: all 0.8s ease;
+        transition-delay: calc(var(--pos) * 0.7s);
+        transform: translateX(calc(var(--pos) * -100vw));
+    }
+
+    .secondNav.show .second button{
+        transform: translate(0);
+    }
+
+    .welcome{
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+    .welcome h1{
+        font-size: 4rem;
+        margin-top: 0;
+        text-wrap: balance;
+    }
+
+    .subOne {
+        margin-left: 0.8rem;
+        margin-bottom: 0;
+        font-size: 1.2rem;
+    }
+
+    .anim h2{
+        font-size: 2rem;
+    }
+
+    .action {
+        width: 85%;
+        margin-top: 0.5rem;
+        justify-content: space-around;
+    }
+
+    .action button{
+        border-radius: 12px;
+        padding: 1rem 2rem;
+    }
+
+    .block {
+        width: 300px;
+        right: -30%;
+        top: -120%;
+    }
+
+    .chest{
+        top: -29%;
+        left: -6%;
+    }
+
+    .cryptoAnim{
+        width: 270px;
+    }
+
+    .section{
+        flex-direction: column;
+    }
+
+    .section h2{
+        font-size: 2rem;
+    }
+
+    .section p.subTwo{
+        font-size: 1.2rem;
+        text-wrap: balance;
+    }
+
+    .play{
+        padding: 0 3rem;
+    }
+
+    .play h2{
+        text-wrap: balance;
+    }
+
+    .section p, .play p{
+        font-size: 1rem;
+    }
+
+    .play p{
+        text-align: justify;
+    }
+
+    .sectionOne .right{
+        padding: 0;
+        align-items: center;
+    }
+
+    .sectionOne .right,
+    .sectionOne .left{
+        height: 50%;
+        width: 100%;
+    }
+
+    .sectionOne .left{
+        align-items: center;
+    }
+
+    .sectionOne .left img{
+        width: 600px;
+    }
+
+    .inputBox{
+        border: none;
+        justify-content: space-between;
+    }
+
+    .inputBox button{
+        width: 20%;
+        padding: 1rem;
+    }
+
+    .waitlist h2{
+        text-wrap: balance;
+    }
+
+    .footer .top{
+        padding-left: 2rem;
+    }
+}

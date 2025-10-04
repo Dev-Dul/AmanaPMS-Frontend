@@ -13,8 +13,14 @@
     src: url("../assets/Fonts/Scripto-2OR2v.ttf");
 }
 
+@font-face {
+    font-family: "captain";
+    src: url("../assets/Fonts/AmericanCaptain-MdEY.otf");
+}
+
 .container{
     min-height: 100vh;
+    height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -27,23 +33,50 @@
     position: relative;
 }
 
-
-
-.container::before{
-    content: '';
-    position: absolute;
-    height: 100vh;
-    width: 100%;
-    z-index: -1;
-    background: transparent;
-    backdrop-filter: blur(7px);
+.container.signup{
+    justify-content: space-between;
+    flex-direction: row;
 }
 
-.container h1{
-    font-size: 3rem;
-    font-family: "scripto";
+.container.signup > div{
+    border: 1px solid;
+    height: 100%;
+}
+
+.container.signup .left,
+.container.login .right{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-color: red;
+}
+
+.container.signup .right,
+.container.login .left{
+    width: 70%;
+}
+
+.container .left h1,
+.container.login h1{
+    font-size: 2rem;
+    font-family: "captain";
     margin-bottom: 5px;
     animation: welcome 1.5s ease-in both;
+}
+
+.container .left h1 span,
+.container .right h1 span{
+    font-size: 1.5rem;
+    text-wrap: balance;
+}
+
+.left .sub,
+.right .sub{
+    margin: 0;
+    font-size: 0.7rem;
+    margin-bottom: 5px;
 }
 
 @keyframes welcome {
@@ -56,7 +89,8 @@
     }
 }
 
-form{
+.left form,
+.right form{
     width: 350px;
     height: auto;
     display: flex;
@@ -64,9 +98,10 @@ form{
     justify-content: center;
     flex-direction: column;
     border-radius: 20px;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0px;
 }
+
 
 .container form{
     padding: 0 1.5rem;
@@ -76,9 +111,49 @@ form{
 }
 
 
-form h2{
-    font-size: 1.3rem;
-    margin-top: 3rem;
+.left form h2,
+.right form h2{
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.nav, .btns{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0;
+    /* overflow: hidden; */
+    justify-content: center;
+    flex-direction: column;
+}
+
+.nav h3{
+    margin: 0;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
+
+.btns{
+    flex-direction: row;
+}
+
+.btns button{
+    border-radius: 0;
+    border: 1px solid;
+    padding: 0.2rem 3.5rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    text-align: center;
+    transition: all 0.7s ease
+}
+
+.btns button:hover,
+.btns button.selected{
+    color: white;
+    border-radius: 0;
+    background: #040404;
 }
 
 .inputBox{
@@ -104,7 +179,8 @@ form h2{
 }
 
 .container.signup .inputBox{
-    height: 2.5rem;
+    height: 3rem;
+    margin-bottom: 0rem;
 }
 
 .container.signup .inputBox input{
@@ -117,6 +193,11 @@ form h2{
 
 .container.signup .google{
     padding: 0.3rem 3rem;
+}
+
+.container.login .inputBox{
+    width: 80%;
+    align-items: flex-start;
 }
 
 .already{
@@ -134,6 +215,10 @@ form h2{
     border: 1px solid;
     text-indent: 10px;
     border-radius: 10px;
+}
+
+.container.login .inputBox input{
+    width: 100%;
 }
 
 .line{

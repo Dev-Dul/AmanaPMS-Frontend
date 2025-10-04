@@ -1,0 +1,118 @@
+*{
+    box-sizing: border-box;
+}
+
+.top, .middle{
+    height: auto;
+    width: 90%;
+    /* color: #fffff7; */
+    margin: 0 auto;
+    margin-top: 13vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid;
+    box-sizing: border-box;
+    padding: 1rem 0;
+    /* background: #040404; */
+    border-radius: 25px;
+    border-bottom: 5px solid;
+    overflow-x: hidden;
+}
+
+.top > h2{
+    margin: 0;
+    /* margin-bottom: 20px; */
+    padding-left: 3.5rem;
+}
+
+.middle{
+    margin-top: 0;
+    border: none;
+    overflow-x: hidden;
+}
+
+.middle .card{
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid;
+}
+
+.cardsWrapper{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.cardsWrapper h3{
+    margin: 0;
+    margin-top: 10px;
+    padding-left: 3.5rem;
+}
+
+.cards{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card{
+    height: 60px;
+    width: 250px;
+    border-radius: 15px;
+    border: 1px solid;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 35px 0;
+    padding-left: 1rem;
+}
+
+.card h2{
+    margin: 0;
+    font-size: 1.7rem;
+}
+
+.card h4{
+    margin: 0;
+}
+
+.bottom{
+    height: auto;
+    width: 90%;
+    text-align: left;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* overflow-x: hidden; */
+}
+
+.bottom h2{
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    font-size: 1.3rem;
+    margin-top: 20px;
+    /* padding-left: 5rem; */
+    border-bottom: 2px solid;
+}
+
+.chart{
+    height: 200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 2px solid;
+    border-radius: 15px;
+}

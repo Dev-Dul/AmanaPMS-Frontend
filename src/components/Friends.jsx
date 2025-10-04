@@ -60,32 +60,27 @@ function Friends(){
           <div className={styles.nav}>
             <button
               onClick={() => handleTab(1)}
-              style={{ borderBottom: tab === 1 ? "2px solid" : "" }}
-            >
+              style={{ borderBottom: tab === 1 ? "2px solid" : "" }}>
               All
             </button>
             <button
               onClick={() => handleTab(2)}
-              style={{ borderBottom: tab === 2 ? "2px solid" : "" }}
-            >
+              style={{ borderBottom: tab === 2 ? "2px solid" : "" }}>
               Friends
             </button>
             <button
               onClick={() => handleTab(3)}
-              style={{ borderBottom: tab === 3 ? "2px solid" : "" }}
-            >
+              style={{ borderBottom: tab === 3 ? "2px solid" : "" }}>
               Pending
             </button>
             <button
               onClick={() => handleTab(4)}
-              style={{ borderBottom: tab === 4 ? "2px solid" : "" }}
-            >
+              style={{ borderBottom: tab === 4 ? "2px solid" : "" }}>
               Requests
             </button>
             <button
               onClick={() => handleTab(5)}
-              style={{ borderBottom: tab === 5 ? "2px solid" : "" }}
-            >
+              style={{ borderBottom: tab === 5 ? "2px solid" : "" }}>
               Rejected
             </button>
           </div>
