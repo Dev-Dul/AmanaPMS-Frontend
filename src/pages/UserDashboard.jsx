@@ -10,7 +10,7 @@ function UserDashboard() {
       </div>
       <div className={styles.top}>
         <h1>Welcome Back!, Abdulrahim</h1>
-        <div className={styles.sub}>Where Are we headed today?</div>
+        <p className={styles.sub}>Where Are we headed today?</p>
       </div>
       <div className={styles.middle}>
         <div className={styles.acctBox}>

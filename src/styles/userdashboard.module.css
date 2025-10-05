@@ -1,5 +1,5 @@
 .top{
-    margin-top: 13vh;
+   margin-top: 13vh;
    display: flex;
    align-items: flex-start;
    justify-content: flex-start;
@@ -11,6 +11,10 @@
 .top h1{
     font-size: 1.8rem;
     margin-bottom: 0;
+}
+
+.top > p{
+    margin: 0;
 }
 
 .middle{
