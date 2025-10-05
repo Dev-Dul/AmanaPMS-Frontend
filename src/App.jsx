@@ -14,6 +14,7 @@ import SignupPage from './pages/SignupPage';
 import LogInPage from './pages/LoginPage';
 import UserDashboard from './pages/UserDashboard';
 import TripPage from './pages/TripPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   // const location = useLocation();
@@ -46,7 +47,7 @@ function App() {
   // );
 
   return (
-    <TripPage />
+    <ProfilePage />
   )
 
 }
