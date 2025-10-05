@@ -1,0 +1,35 @@
+.preview{
+    height: auto;
+    width: 300px;
+    min-width: 200px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #d3d1d1;
+    cursor: pointer;
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.7s ease;
+}
+
+.preview:hover{
+    color: white;
+    background: #040404;
+}
+
+.preview > *{
+    margin: 5px 0;
+}
+
+.preview h2{
+    font-size: 1rem;
+}
+
+.preview h3{
+    font-size: 0.9rem;
+}
+
+.preview p{
+    font-size: 0.85rem;
+}

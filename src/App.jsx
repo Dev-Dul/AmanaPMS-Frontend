@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage';
 import OverviewPage from './pages/OverviewPage';
 import SignupPage from './pages/SignupPage';
 import LogInPage from './pages/LoginPage';
+import UserDashboard from './pages/UserDashboard';
 
 function App() {
   // const location = useLocation();
@@ -44,7 +45,7 @@ function App() {
   // );
 
   return (
-    <SignupPage />
+    <UserDashboard />
   )
 
 }
