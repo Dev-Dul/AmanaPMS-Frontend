@@ -1,10 +1,57 @@
 import styles from "../styles/operatorpage.module.css";
 import Operator from "../components/Operator";
-import { Download, PlusCircle } from "lucide-react";
+import { Download, PlusCircle, XCircle } from "lucide-react";
+import { useState } from "react";
 
 function OperatorPage() {
+    const [overlay, setOverlay] = useState(false);
+
+    function handleOverlay(){
+        setOverlay(prev => !prev);
+    }
+
   return (
     <div className="container">
+      <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
+        <XCircle className={styles.close} onClick={handleOverlay} />
+        <form action="">
+          <h2>Register A New Operator</h2>
+          <div className={styles.inputBox}>
+            <label htmlFor="fullname">Fullname</label>
+            <input type="text" />
+          </div>
+          <div className={styles.inputBox}>
+            <label htmlFor="staffId">Staff ID</label>
+            <input type="text" />
+          </div>
+          <div className={styles.inputBox}>
+            <label htmlFor="role">Assign Role</label>
+            <select name="role" id="role">
+              <option value="" selected>
+                Select Opearator Role
+              </option>
+              <option value={"1"}>Driver</option>
+              <option value={"2"}>Conductor</option>
+            </select>
+          </div>
+          <div className={styles.inputBox}>
+            <label htmlFor="role">Assign Bus</label>
+            <select name="role" id="role">
+              <option value="" selected>
+                Select Bus For Operator
+              </option>
+              <option value={"1"}>KSUSTA-BUS-01</option>
+              <option value={"2"}>KSUSTA-BUS-02</option>
+              <option value={"3"}>KSUSTA-BUS-03</option>
+              <option value={"4"}>KSUSTA-BUS-04</option>
+              <option value={"5"}>KSUSTA-BUS-05</option>
+              <option value={"6"}>KSUSTA-BUS-06</option>
+              <option value={"7"}>KSUSTA-BUS-07</option>
+            </select>
+          </div>
+          <button>Register</button>
+        </form>
+      </div>
       <div className="header">
         <h2>Operators</h2>
       </div>
@@ -54,8 +101,9 @@ function OperatorPage() {
             <button>
               Download Operator Data <Download style={{ marginLeft: "1rem" }} />
             </button>
-            <button>
-              Register New Operator <PlusCircle style={{ marginLeft: "1rem" }} />
+            <button onClick={handleOverlay}>
+              Register New Operator{" "}
+              <PlusCircle style={{ marginLeft: "1rem" }} />
             </button>
           </div>
         </div>
