@@ -1,0 +1,112 @@
+/* Start of styles for the Transaction Component */
+
+.trip{
+    width: 100%;
+    border-bottom: 1px solid;
+}
+
+.trip td:nth-child(even){
+    background: rgb(217, 215, 215);
+}
+
+/* End of styles for the Transaction Component */
+
+
+.top{
+    height: auto;
+    width: 100%;
+    margin-top: 13vh;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 3.5rem;
+    justify-content: space-between;
+}
+
+.filter{
+    height: auto;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* flex-direction: column; */
+}
+
+.filter > div{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.filter > div h2{
+    margin: 0;
+    font-size: 1rem;
+}
+
+.filter > div select{
+    height: 2rem;
+    width: 40%;
+    border: 1px solid;
+    text-indent: 10px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.left{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.left button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    background: #040404;
+    box-sizing: border-box;
+    padding: 0.3rem 3rem;
+    transition: all 0.5s ease;
+}
+
+.left button:hover{
+    color: #040404;
+    background: white;
+}
+
+.middle{
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.middle > h3{
+    margin: 0;
+}
+
+.middle table{
+    width: 100%;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+.middle table thead{
+    position: sticky;
+    top: 0;
+}
+
+.middle table thead tr{
+    color: white;
+    background: #040404;
+}
+
+.middle table thead tr th{
+    border-left: 2px solid white;
+}
