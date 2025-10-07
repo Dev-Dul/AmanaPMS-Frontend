@@ -1,0 +1,289 @@
+/* Start of styles for the Transaction Component */
+
+.route{
+    width: 100%;
+    border-bottom: 1px solid;
+}
+
+.route td:nth-child(even){
+    background: rgb(217, 215, 215);
+}
+
+.route td button{
+    height: 80%;
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    padding: 0.3rem;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+}
+
+.route td button:hover{
+   scale: 0.95;
+}
+
+.suspend{
+    color: white;
+    background: #ff9900;
+}
+
+.del{
+    color: white;
+    background: red;
+}
+
+/* End of styles for the Transaction Component */
+
+
+.top{
+    height: auto;
+    width: 100%;
+    margin-top: 13vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.cards{
+    height: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid; */
+    justify-content: space-between;
+}
+
+.cards > div{
+    border: 1px solid;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 0.2rem 3rem;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.card > h2{
+    margin: 0;
+    font-size: 1rem;
+}
+
+.card > h3{
+    margin: 6px 0;
+    font-size: 2.5rem;
+}
+
+.action{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 3.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    justify-content: space-between;
+}
+
+.filter{
+    height: auto;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.filter > div{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.filter > div h2{
+    margin: 0;
+    word-break: keep-all;
+    font-size: 1rem;
+}
+
+.filter > div select{
+    height: 2rem;
+    width: 40%;
+    border: 1px solid;
+    text-indent: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.left{
+    width: 30%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.left button,
+.new{
+    width: 75%;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    background: #040404;
+    padding: 0.3rem 1rem;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: all 0.5s ease;
+}
+
+.new{
+    width: 100%;
+    border-radius: 0;
+}
+
+.left button:nth-child(1){
+    margin-bottom: 1rem;
+}
+
+.left button:hover{
+    color: #040404;
+    background: white;
+}
+
+.middle{
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.middle > h3{
+    margin: 0;
+}
+
+.middle table{
+    width: 100%;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+.middle table thead{
+    position: sticky;
+    top: 0;
+}
+
+.middle table thead tr{
+    color: white;
+    background: #040404;
+}
+
+.middle table thead tr th{
+    border-left: 2px solid white;
+}
+
+/* Overlay Styles */
+
+.overlay{
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    transform: translateY(100vh);
+    transition: all 0.8s ease;
+}
+
+.overlay.active{
+    transform: translate(0);
+}
+
+.close{
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    border: 1px solid;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.overlay form{
+    width: 450px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+    /* border: 1px solid; */
+    border-radius: 0px;
+    background: white;
+    /* backdrop-filter: blur(15px); */
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.3);
+}
+
+.overlay form > h2,
+.overlay form > h3{
+    margin: 0;
+}
+
+.inputBox{
+    height: 3.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.inputBox.two{
+    height: auto;
+}
+
+.inputBox label{
+    align-self: flex-start;
+}
+
+.inputBox input,
+.inputBox select{
+    height: 70%;
+    width: 100%;
+    border: 1px solid;
+    text-indent: 10px;
+    cursor: pointer;
+    /* border-radius: 10px; */
+}
+
+.inputBox.two input{
+    min-height: 30px;
+    margin-bottom: 5px;
+}
+
+.overlay form button{
+    margin-top: 0;
+    color: white;
+    background: #040404;
+    margin-top:0.5rem;
+    transition: all 0.5s ease;
+}
+
+.overlay form button:hover{
+    color: #040404;
+    background: white;
+}
