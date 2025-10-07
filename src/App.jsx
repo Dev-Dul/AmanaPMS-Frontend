@@ -19,6 +19,7 @@ import TransactionPage from './pages/TransactionPage';
 import TripHistoryPage from './pages/TripHistoryPage';
 import UsersOverviewPage from './pages/UsersOverviewPage';
 import OperatorPage from './pages/OperatorPage';
+import BusesPage from './pages/BusesPage';
 
 function App() {
   // const location = useLocation();
@@ -51,7 +52,7 @@ function App() {
   // );
 
   return (
-    <OperatorPage />
+    <BusesPage />
   )
 
 }
