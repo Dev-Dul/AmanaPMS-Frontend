@@ -210,7 +210,7 @@
 }
 
 .overlay form{
-    width: max-content;
+    width: 450px;
     height: auto;
     display: flex;
     align-items: center;
@@ -256,6 +256,26 @@
     text-indent: 10px;
     cursor: pointer;
     /* border-radius: 10px; */
+}
+
+.deetBox{
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.deetBox h3{
+    margin: 10px 0;
+}
+
+.deetBox > p{
+    margin: 3px 0;
+    font-size: 0.9rem;
+    word-break: keep-all;
 }
 
 .overlay form button{

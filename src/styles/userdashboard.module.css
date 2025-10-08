@@ -60,9 +60,9 @@
     justify-content: space-between;
 }
 
-.left, .right{
+.left, .right, .ft{
     height: 100%;
-    width: 50%;
+    width: max-content;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -70,11 +70,22 @@
     margin-top: 0;
 }
 
+.ft h3,
 .left h3,
 .right h3{
     font-size: 0.9rem;
     margin-bottom: 0;
     position: relative;
+}
+
+.ft p{
+    margin: 0;
+}
+
+.ft button{
+    color: white;
+    padding: 0.3rem 0.5rem;
+    background: #040404;
 }
 
 .arrow{
