@@ -56,7 +56,7 @@ function App() {
   // );
 
   return (
-    <OperatorDashboard />
+    <UserDashboard />
   )
 
 }
