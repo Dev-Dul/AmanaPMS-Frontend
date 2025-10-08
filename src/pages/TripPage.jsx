@@ -4,6 +4,8 @@ import { XCircle } from "lucide-react";
 
 function TripPage(){
     const [overlay, setOverlay] = useState(false);
+    const role = "conductor";
+    const isPassenger = role === "STUDENT" || role === "STAFF";
 
     function handleOverlay(){
         setOverlay(prev => !prev);
@@ -11,8 +13,8 @@ function TripPage(){
 
     return (
       <div className="container">
-        <div className={`${styles.overlay} ${overlay ? styles.active : ''}`}>
-          <XCircle className={styles.close} onClick={handleOverlay}/>
+        <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
+          <XCircle className={styles.close} onClick={handleOverlay} />
           <form action="">
             <h2>Purchase Ticket For Trip AFU-123</h2>
             <h3>Ticket Price - N700</h3>
@@ -40,7 +42,11 @@ function TripPage(){
         </div>
         <div className={styles.top}>
           <h1>Welcome To Trip: AFU-123</h1>
-          <p className={styles.sub}>Purchase your tickets now and join us!.</p>
+          {isPassenger && (
+            <p className={styles.sub}>
+              Purchase your tickets now and join us!.
+            </p>
+          )}
         </div>
         <div className={styles.middle}>
           <div className={styles.firstBox}>
@@ -104,7 +110,11 @@ function TripPage(){
           </div>
         </div>
         <div className={styles.bottom}>
-          <button onClick={handleOverlay}>Purchase Ticket</button>
+          {isPassenger ? (
+            <button onClick={handleOverlay}>Purchase Ticket</button>
+          ) : (
+            <button>Mark Trip As Completed</button>
+          )}
           <button>Make A Complaint</button>
         </div>
       </div>

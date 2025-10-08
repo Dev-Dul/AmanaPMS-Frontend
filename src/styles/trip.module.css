@@ -13,16 +13,26 @@
     transition: all 0.7s ease;
 }
 
+.prev{
+    height: 100%;
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
 .preview:hover{
     color: white;
     background: #040404;
 }
 
-.preview > *{
+.prev > *{
     margin: 5px 0;
 }
 
-.preview h2{
+.prev h2{
     font-size: 1rem;
 }
 
@@ -30,7 +40,7 @@
     font-size: 0.9rem;
 }
 
-.preview p{
+.prev p{
     font-size: 0.85rem;
 }
 
