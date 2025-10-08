@@ -21,6 +21,7 @@ import UsersOverviewPage from './pages/UsersOverviewPage';
 import OperatorPage from './pages/OperatorPage';
 import BusesPage from './pages/BusesPage';
 import RoutesPage from './pages/RoutesPage';
+import RevenuePage from './pages/RevenuePage';
 
 function App() {
   // const location = useLocation();
@@ -53,7 +54,7 @@ function App() {
   // );
 
   return (
-    <RoutesPage />
+    <RevenuePage />
   )
 
 }
