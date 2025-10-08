@@ -275,7 +275,8 @@
     box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.3);
 }
 
-.overlay form.active{
+.overlay form.active,
+.overlayTwo form.active{
     transform: translate(0);
 }
 
@@ -284,6 +285,10 @@
 .overlayTwo form > h2,
 .overlayTwo form > h3{
     margin: 0;
+}
+
+.overlayTwo form > h3{
+    align-self: flex-start;
 }
 
 .inputBox{
@@ -321,7 +326,8 @@
     margin-bottom: 5px;
 }
 
-.overlay form button{
+.overlay form button,
+.overlayTwo form button{
     margin-top: 0;
     color: white;
     background: #040404;
@@ -329,7 +335,8 @@
     transition: all 0.5s ease;
 }
 
-.overlay form button:hover{
+.overlay form button:hover,
+.overlayTwo form button:hover{
     color: #040404;
     background: white;
 }

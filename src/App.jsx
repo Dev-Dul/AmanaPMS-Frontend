@@ -22,6 +22,7 @@ import OperatorPage from './pages/OperatorPage';
 import BusesPage from './pages/BusesPage';
 import RoutesPage from './pages/RoutesPage';
 import RevenuePage from './pages/RevenuePage';
+import TripAdminPage from './pages/TripAdminPage';
 
 function App() {
   // const location = useLocation();
@@ -54,7 +55,7 @@ function App() {
   // );
 
   return (
-    <RevenuePage />
+    <TripAdminPage />
   )
 
 }
