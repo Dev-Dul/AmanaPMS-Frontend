@@ -1,14 +1,35 @@
 import styles from "../styles/busespage.module.css";
 import Bus from "../components/Bus";
 import { Download, PlusCircle, XCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function BusesPage() {
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [filter, setFilter] = useState("ALL");
     const [overlay, setOverlay] = useState(false);
 
     function handleOverlay(){
         setOverlay(prev => !prev);
     }
+
+    function handleChange(value){
+      setFilter(value);
+    }
+
+    function handleFilter(){
+      let filtered = data;
+      // Filter by status
+      if(filter !== "ALL") {
+        filtered = filtered.filter((bus) => bus.status === filter);
+      }
+
+      setFilteredData(filtered);
+    }
+
+    useEffect(() => {
+      handleFilter();
+    }, [filter, data])
 
   return (
     <div className="container">

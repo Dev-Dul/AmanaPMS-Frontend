@@ -1,11 +1,14 @@
 import styles from "../styles/routespage.module.css";
 import Route from "../components/Route";
 import { Download, PlusCircle, XCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function RoutesPage() {
     const [stops, setStops] = useState([]);
     const [overlay, setOverlay] = useState(false);
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [statFilter, setStatFilter] = useState("ALL");
 
     function handleOverlay(){
         setOverlay(prev => !prev);
@@ -20,6 +23,22 @@ function RoutesPage() {
         newInputs[index] = value;
         setStops(newInputs);
     }
+
+    function handleStatChange(e) {
+      setStatFilter(e.target.value);
+    }
+
+    function handleFilter() {
+      let filtered = data;
+      // Filter by status
+      if(statFilter !== "ALL") filtered = filtered.filter((route) => route.status === statFilter);
+
+      setFilteredData(filtered);
+    }
+
+    useEffect(() => {
+      handleFilter();
+    }, [statFilter, data]);
 
   return (
     <div className="container">
@@ -90,7 +109,7 @@ function RoutesPage() {
             </div>
             <div className="second">
               <h2>Filter By Status:</h2>
-              <select name="filter_two" id="filter_two">
+              <select name="filter_two" id="filter_two" onChange={handleStatChange}>
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="EXPIRED">INACTIVE</option>

@@ -1,14 +1,39 @@
 import styles from "../styles/operatorpage.module.css";
 import Operator from "../components/Operator";
 import { Download, PlusCircle, XCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function OperatorPage() {
+    const [data, setData] = useState([]);
     const [overlay, setOverlay] = useState(false);
-
+    const [filteredData, setFilteredData] = useState([]);
+    const [statFilter, setStatFilter] = useState("ALL");
+    const [roleFilter, setRoleFilter] = useState("ALL");
+    
     function handleOverlay(){
         setOverlay(prev => !prev);
     }
+
+    function handleStatChange(e){
+      setStatFilter(e.target.value);
+    }
+
+    function handleRoleChange(e){
+      setRoleFilter(e.target.value);
+    }
+
+    function handleFilter() {
+      let filtered = data;
+      // Filter by status
+      if(statFilter !== "ALL") filtered = filtered.filter((opr) => opr.status === statFilter);
+      if(roleFilter !== "ALL") filtered = filtered.filter((opr) => opr.role === roleFilter);
+
+      setFilteredData(filtered);
+    }
+
+    useEffect(() => {
+      handleFilter();
+    }, [statFilter, roleFilter, data])
 
   return (
     <div className="container">
@@ -82,14 +107,15 @@ function OperatorPage() {
           <div className={styles.filter}>
             <div className="first">
               <h2>Filter By Role:</h2>
-              <select name="filter" id="filter">
-                <option value="1">Driver</option>
-                <option value="2">Conductor</option>
+              <select name="filter" id="filter" onChange={handleRoleChange}>
+                <option value="0">ALL</option>
+                <option value="1">DRIVER</option>
+                <option value="2">CONDUCTOR</option>
               </select>
             </div>
             <div className="second">
               <h2>Filter By Status:</h2>
-              <select name="filter_two" id="filter_two">
+              <select name="filter_two" id="filter_two" onChange={handleStatChange}>
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="EXPIRED">SUSPENDED</option>

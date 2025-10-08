@@ -22,6 +22,7 @@ function UserDashboard() {
           <h2>{isPassenger ? "Your Wallet" : "Details"}</h2>
           <div className={styles.action}>
             <div className={styles.left}>
+              {isPassenger && <h3>Acct Name: Abdulrahim Jamil</h3>}
               <h3>{isPassenger ? "Available Balance" : "Bus Assigned"}</h3>
               <h2>{isPassenger ? "2000" : "KSUSTA-BS-001"}</h2>
             </div>
@@ -52,8 +53,7 @@ function UserDashboard() {
       </div>
       <div className={styles.bottom}>
         <h2>
-          Trips {isPassenger ? "Available" : "Assigned"} Today (SUN, Oct., 5
-          2025).
+          Trips {isPassenger ? "Available" : "Assigned"} Today (SUN, Oct., 5 2025).
         </h2>
         <div className={styles.trips}>
           <TripPreview title={"AFU-123"} status={"ACTIVE"} time={"6:30 AM"} />

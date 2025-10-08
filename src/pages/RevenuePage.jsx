@@ -1,25 +1,66 @@
+import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
 import styles from "../styles/revenuepage.module.css";
 import Week from "../components/Week";
 import Ticket from "../components/Ticket";
 import { Download, PlusCircle, XCircle, TicketIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function RevenuePage() {
-    const [tab, setTab] = useState(1);
-    const [open, setOpen] = useState(false);
-    const [overlay, setOverlay] = useState(false);
+  const [tab, setTab] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [monthFilter, setMonthFilter] = useState("0");
 
-    function handleOverlay(){
-        setOverlay(prev => !prev);
+  function handleOverlay() {
+    setOverlay((prev) => !prev);
+  }
+
+  function handleOpen() {
+    setOpen((prev) => !prev);
+  }
+
+  function handleTab(num) {
+    setTab(num);
+  }
+
+  function handleMonthChange(e) {
+    setMonthFilter(e.target.value);
+  }
+
+  function handleFilter() {
+    let revenue = data;
+
+    if(monthFilter !== "0") {
+      const now = new Date();
+      let startDate, endDate;
+
+      if(monthFilter === "4") {
+        // Last Year
+        const lastYear = subYears(now, 1);
+        startDate = startOfYear(lastYear);
+        endDate = endOfYear(lastYear);
+      } else {
+        // Past X months
+        const monthsAgo = parseInt(monthFilter);
+        startDate = subMonths(now, monthsAgo);
+        endDate = now;
+      }
+
+      revenue = revenue.filter((rv) => {
+        const rvDate = parseISO(rv.created);
+        return isAfter(rvDate, startDate) && isBefore(rvDate, endDate);
+      });
     }
 
-    function handleOpen(){
-        setOpen(prev => !prev);
-    }
+    setFilteredData(revenue);
 
-    function handleTab(num){
-        setTab(num);
-    }
+  }
+
+  useEffect(() => {
+    handleFilter();
+  }, [monthFilter, data]);
 
   return (
     <div className="container">
@@ -157,7 +198,7 @@ function RevenuePage() {
             <div className={styles.filterTop}>
               <div className="first">
                 <h2>Filter By Month:</h2>
-                <select name="filter" id="filter">
+                <select name="filter" id="filter" onChange={handleMonthChange}>
                   <option value="0">All Time</option>
                   <option value="1">A Month Ago</option>
                   <option value="2">2 Months Ago</option>
@@ -170,7 +211,7 @@ function RevenuePage() {
                 <select name="filter_two" id="filter_two">
                   <option value="ALL">ALL</option>
                   <option value="LEAST">LEAST</option>
-                  <option value="MONTH">MOST</option>
+                  <option value="MOST">MOST</option>
                 </select>
               </div>
             </div>

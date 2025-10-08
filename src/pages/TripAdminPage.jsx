@@ -1,12 +1,52 @@
+import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
 import styles from "../styles/revenuepage.module.css";
 import Week from "../components/Week";
 import { Download, PlusCircle, XCircle, BusIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function TripAdminPage() {
   const [tab, setTab] = useState(1);
+  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const [monthFilter, setMonthFilter] = useState("0");
+  
+    function handleMonthChange(e){
+      setMonthFilter(e.target.value);
+    }
+
+    function handleFilter(){
+    let filtered = data;
+    if(monthFilter !== "0") {
+      const now = new Date();
+      let startDate, endDate;
+
+      if(monthFilter === "4") {
+        // Last Year
+        const lastYear = subYears(now, 1);
+        startDate = startOfYear(lastYear);
+        endDate = endOfYear(lastYear);
+      } else {
+        // Past X months
+        const monthsAgo = parseInt(monthFilter);
+        startDate = subMonths(now, monthsAgo);
+        endDate = now;
+      }
+
+      filtered = filtered.filter((trp) => {
+        const txDate = parseISO(trp.created);
+        return isAfter(txDate, startDate) && isBefore(txDate, endDate);
+      });
+    }
+
+    setFilteredData(filtered);
+
+  }
+
+  useEffect(() => {
+    handleFilter();
+  }, [monthFilter, data]);
 
   function handleOverlay() {
     setOverlay((prev) => !prev);
@@ -24,10 +64,7 @@ function TripAdminPage() {
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOverlay} />
-        <form
-          action=""
-          className={`${styles.one} ${tab === 1 ? styles.active : ""}`}
-        >
+        <form action="" className={`${styles.one} ${tab === 1 ? styles.active : ""}`}>
           <h2>Create New Trip</h2>
           <div className={styles.inputBox}>
             <label htmlFor="route">Choose A Route </label>
@@ -64,10 +101,7 @@ function TripAdminPage() {
       </div>
       <div className={`${styles.overlayTwo} ${open ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOpen} />
-        <form
-          action=""
-          className={`${styles.one} ${tab === 1 ? styles.active : ""}`}
-        >
+        <form action="" className={`${styles.one} ${tab === 1 ? styles.active : ""}`}>
           <h2>Create Trips For Today (Morning)</h2>
           <h3>Trip One</h3>
           <div className={styles.inputBox}>
@@ -135,10 +169,7 @@ function TripAdminPage() {
             Next
           </button>
         </form>
-        <form
-          action=""
-          className={`${styles.one} ${tab === 2 ? styles.active : ""}`}
-        >
+        <form action="" className={`${styles.one} ${tab === 2 ? styles.active : ""}`}>
           <h2>Create Trips For Today (Afternoon)</h2>
           <h3>Trip One</h3>
           <div className={styles.inputBox}>
@@ -238,7 +269,7 @@ function TripAdminPage() {
             <div className={styles.filterTop}>
               <div className="first">
                 <h2>Filter By Month:</h2>
-                <select name="filter" id="filter">
+                <select name="filter" id="filter" onChange={handleMonthChange}>
                   <option value="0">All Time</option>
                   <option value="1">A Month Ago</option>
                   <option value="2">2 Months Ago</option>

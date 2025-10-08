@@ -1,9 +1,57 @@
-
+import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
 import styles from "../styles/tripshistory.module.css";
 import Trip from "../components/Trip";
 import { Download } from "lucide-react";
+import { useState, useEffect } from "react";
 
 function TripHistoryPage() {
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [monthFilter, setMonthFilter] = useState("0");
+    const [statFilter, setStatFilter] = useState("ALL");
+    
+      function handleMonthChange(e){
+        setMonthFilter(e.target.value);
+      }
+
+      function handleStatChange(e){
+        setStatFilter(e.target.value);
+      }
+  
+      function handleFilter(){
+      let filtered = data;
+      if(monthFilter !== "0") {
+        const now = new Date();
+        let startDate, endDate;
+  
+        if(monthFilter === "4") {
+          // Last Year
+          const lastYear = subYears(now, 1);
+          startDate = startOfYear(lastYear);
+          endDate = endOfYear(lastYear);
+        } else {
+          // Past X months
+          const monthsAgo = parseInt(monthFilter);
+          startDate = subMonths(now, monthsAgo);
+          endDate = now;
+        }
+  
+        filtered = filtered.filter((trp) => {
+          const txDate = parseISO(trp.created);
+          return isAfter(txDate, startDate) && isBefore(txDate, endDate);
+        });
+      }
+
+      if(statFilter !== "ALL") filtered = filtered.filter((trp) => trp.status === statFilter);
+  
+      setFilteredData(filtered);
+  
+    }
+  
+    useEffect(() => {
+      handleFilter();
+    }, [monthFilter, data]);
+
   return (
     <div className="container">
       <div className="header">
@@ -13,16 +61,17 @@ function TripHistoryPage() {
         <div className={styles.filter}>
           <div className="first">
             <h2>Filter By Month:</h2>
-            <select name="filter" id="filter">
+            <select name="filter" id="filter" onChange={handleMonthChange}>
               <option value="0">All Months</option>
               <option value="1">1 Month Ago</option>
               <option value="2">2 Months Ago</option>
               <option value="3">3 Months Ago</option>
+              <option value="4">Last Year</option>
             </select>
           </div>
           <div className="second">
             <h2>Filter By Status:</h2>
-            <select name="filter_two" id="filter_two">
+            <select name="filter_two" id="filter_two" onChange={handleStatChange}>
               <option value="ALL">ALL</option>
               <option value="ACTIVE">ACTIVE</option>
               <option value="EXPIRED">EXPIRED</option>

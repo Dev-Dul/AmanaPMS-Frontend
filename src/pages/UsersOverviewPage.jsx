@@ -1,8 +1,36 @@
 import styles from "../styles/usersoverview.module.css";
 import UserOverview from "../components/UserOverView";
 import { Download } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function UsersOverviewPage() {
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [statFilter, setStatFilter] = useState("ALL");
+    const [roleFilter, setRoleFilter] = useState("ALL");
+    
+
+    function handleStatChange(e){
+      setStatFilter(e.target.value);
+    }
+
+    function handleRoleChange(e){
+      setRoleFilter(e.target.value);
+    }
+
+    function handleFilter() {
+      let filtered = data;
+      // Filter by status
+      if(statFilter !== "ALL") filtered = filtered.filter((user) => user.status === statFilter);
+      if(roleFilter !== "ALL") filtered = filtered.filter((user) => user.role === roleFilter);
+
+      setFilteredData(filtered);
+    }
+
+    useEffect(() => {
+      handleFilter();
+    }, [statFilter, roleFilter, data])
+  
   return (
     <div className="container">
       <div className="header">
@@ -35,14 +63,15 @@ function UsersOverviewPage() {
           <div className={styles.filter}>
             <div className="first">
               <h2>Filter By Role:</h2>
-              <select name="filter" id="filter">
-                <option value="1">Staff</option>
-                <option value="2">Student</option>
+              <select name="filter" id="filter" onChange={handleRoleChange}>
+                <option value="ALL">Staff</option>
+                <option value="STAFF">Staff</option>
+                <option value="STUDENT">Student</option>
               </select>
             </div>
             <div className="second">
               <h2>Filter By Status:</h2>
-              <select name="filter_two" id="filter_two">
+              <select name="filter_two" id="filter_two" onChange={handleStatChange}>
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="EXPIRED">SUSPENDED</option>
