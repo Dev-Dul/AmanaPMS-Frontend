@@ -1,274 +1,351 @@
 /* Start of styles for the Transaction Component */
 
-.bus{
-    width: 100%;
-    border-bottom: 1px solid;
+.bus {
+  width: 100%;
+  border-bottom: 1px solid;
 }
 
-.bus td:nth-child(even){
-    background: rgb(217, 215, 215);
+.bus td:nth-child(even) {
+  background: rgb(217, 215, 215);
 }
 
-.bus td button{
-    height: 80%;
-    width: 80%;
-    display: block;
-    margin: 0 auto;
-    padding: 0.3rem;
-    border-radius: 5px;
-    transition: all 0.5s ease;
+.bus td {
+  text-align: left;
+  padding: 10px;
 }
 
-.bus td button:hover{
-   scale: 0.95;
+.bus td button {
+  height: 80%;
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.5s ease;
 }
 
-.suspend{
-    color: white;
-    background: #ff9900;
+.bus td button:hover {
+  scale: 0.95;
 }
 
-.del{
-    color: white;
-    background: red;
+.suspend {
+  color: white;
+  background: #ff9900;
+}
+
+.del {
+  color: white;
+  background: red;
 }
 
 /* End of styles for the Transaction Component */
 
-
-.top{
-    height: auto;
-    width: 100%;
-    margin-top: 13vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+.top {
+  height: auto;
+  width: 100%;
+  margin-top: 13vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-.cards{
-    height: auto;
-    width: 90%;
-    display: flex;
-    align-items: center;
-    /* border: 1px solid; */
-    justify-content: space-between;
+.cards {
+  height: auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  place-items: center;
+  /* border: 1px solid; */
+  /* justify-content: space-between; */
 }
 
-.cards > div{
-    border: 1px solid;
-    border-radius: 10px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-around;
-    flex-direction: column;
-    padding: 0.2rem 3rem;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
+.cards > div {
+  border: 1px solid;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 0.2rem 3rem;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
 }
 
-.card > h2{
-    margin: 0;
-    font-size: 1rem;
+.card > h2 {
+  margin: 0;
+  font-size: 1rem;
 }
 
-.card > h3{
-    margin: 6px 0;
-    font-size: 2.5rem;
+.card > h3 {
+  margin: 6px 0;
+  font-size: 2.5rem;
 }
 
-.action{
-    height: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 3.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-    justify-content: space-between;
+.action {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 3.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  justify-content: space-between;
 }
 
-.filter{
-    height: auto;
-    width: 40%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+.filter {
+  height: auto;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
-
-.filter > div{
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+.filter > div {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
-.filter > div h2{
-    margin: 0;
-    word-break: keep-all;
-    font-size: 1rem;
+.filter > div h2 {
+  margin: 0;
+  word-break: keep-all;
+  font-size: 1rem;
 }
 
-.filter > div select{
-    height: 2rem;
-    width: 40%;
-    border: 1px solid;
-    text-indent: 10px;
-    cursor: pointer;
-    border-radius: 10px;
+.filter > div select {
+  height: 2rem;
+  width: 40%;
+  border: 1px solid;
+  cursor: pointer;
+  border-radius: 10px;
 }
 
-.left{
-    width: 30%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-direction: column;
+.left {
+  width: 30%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-.left button{
-    width: 75%;
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    background: #040404;
-    padding: 0.3rem 1rem;
-    justify-content: space-between;
-    box-sizing: border-box;
-    transition: all 0.5s ease;
+.left button {
+  width: 75%;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  background: #040404;
+  padding: 0.3rem 1rem;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: all 0.5s ease;
 }
 
-.left button:nth-child(1){
-    margin-bottom: 1rem;
+.left button:nth-child(1) {
+  margin-bottom: 1rem;
 }
 
-.left button:hover{
-    color: #040404;
-    background: white;
+.left button:hover {
+  color: #040404;
+  background: white;
 }
 
-.middle{
-    height: auto;
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: column;
-    margin-top: 1rem;
+.middle {
+  height: auto;
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 1rem;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
-.middle > h3{
-    margin: 0;
+.middle > h3 {
+  margin: 0;
 }
 
-.middle table{
-    width: 100%;
-    border: 1px solid;
-    border-collapse: collapse;
+.middle table {
+  width: 100%;
+  border: 1px solid;
+  border-collapse: collapse;
 }
 
-.middle table thead{
-    position: sticky;
-    top: 0;
+.middle table thead {
+  position: sticky;
+  top: 0;
 }
 
-.middle table thead tr{
-    color: white;
-    background: #040404;
-}
-
-.middle table thead tr th{
-    border-left: 2px solid white;
+.middle table thead tr {
+  color: white;
+  background: #040404;
 }
 
 /* Overlay Styles */
 
-.overlay{
-    min-height: 100vh;
-    width: 100%;
-    position: fixed;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    backdrop-filter: blur(10px);
-    transform: translateY(100vh);
-    transition: all 0.8s ease;
+.overlay {
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  transform: translateY(100vh);
+  transition: all 0.8s ease;
 }
 
-.overlay.active{
-    transform: translate(0);
+.overlay.active {
+  transform: translate(0);
 }
 
-.close{
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    border: 1px solid;
-    border-radius: 50%;
-    cursor: pointer;
+.close {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  border: 1px solid;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-.overlay form{
-    width: 450px;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 20px;
-    /* border: 1px solid; */
-    border-radius: 0px;
-    background: white;
-    /* backdrop-filter: blur(15px); */
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.3);
+.overlay form {
+  width: 450px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 20px;
+  /* border: 1px solid; */
+  border-radius: 0px;
+  background: white;
+  /* backdrop-filter: blur(15px); */
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.3);
 }
 
 .overlay form > h2,
-.overlay form > h3{
-    margin: 0;
+.overlay form > h3 {
+  margin: 0;
 }
 
-.inputBox{
-    height: 3.5rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    position: relative;
+.inputBox {
+  height: 3.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  position: relative;
 }
 
-.inputBox label{
-    align-self: flex-start;
+.inputBox label {
+  align-self: flex-start;
 }
 
 .inputBox input,
-.inputBox select{
-    height: 70%;
+.inputBox select {
+  height: 70%;
+  width: 100%;
+  border: 1px solid;
+  text-indent: 10px;
+  cursor: pointer;
+  /* border-radius: 10px; */
+}
+
+.overlay form button {
+  margin-top: 0;
+  color: white;
+  background: #040404;
+  margin-top: 0.5rem;
+  transition: all 0.5s ease;
+}
+
+.overlay form button:hover {
+  color: #040404;
+  background: white;
+}
+
+@media screen and (max-width: 468px) {
+  .action {
+    padding: 0 1rem;
+    flex-direction: column;
+  }
+
+  .filter,
+  .left {
     width: 100%;
+  }
+
+  .filter > div {
+    flex-direction: row;
+  }
+
+  .filter > div h2 {
+    font-size: 0.8rem;
+  }
+
+  .filter > div select {
+    width: 40%;
     border: 1px solid;
-    text-indent: 10px;
-    cursor: pointer;
-    /* border-radius: 10px; */
-}
+    border-radius: 8px;
+  }
 
-.overlay form button{
-    margin-top: 0;
-    color: white;
-    background: #040404;
-    margin-top:0.5rem;
-    transition: all 0.5s ease;
-}
+  .left {
+    margin-top: 1rem;
+    flex-direction: row;
+  }
 
-.overlay form button:hover{
-    color: #040404;
-    background: white;
+  .left button{
+    width: 45%;
+  }
+
+  .left button:nth-child(1) {
+    margin-bottom: 0;
+  }
+
+  .cards {
+    max-height: 260px;
+    overflow: auto;
+    scrollbar-width: thin;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards > div {
+    width: 100%;
+    padding: 0.2rem 1.5rem;
+  }
+
+  .middle{
+    overflow: auto;
+    padding: 2rem 1rem;
+    scrollbar-width: thin;
+  }
+
+  .middle table thead tr th {
+    padding: 5px;
+    font-size: 0.65rem;
+  }
+
+  td{
+    font-size: 0.5rem;
+  }
+
+  .bus td button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+  }
 }

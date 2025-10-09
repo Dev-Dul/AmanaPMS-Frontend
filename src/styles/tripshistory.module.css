@@ -1,225 +1,234 @@
 /* Start of styles for the Transaction Component */
 
-.trip{
-    width: 100%;
-    border-bottom: 1px solid;
+.trip {
+  width: 100%;
+  border-bottom: 1px solid;
 }
 
-.trip td:nth-child(even){
-    background: rgb(217, 215, 215);
+.trip td:nth-child(even) {
+  background: rgb(217, 215, 215);
 }
 
-.trip td{
-    padding: 0.5rem;
+.trip td {
+  text-align: left;
+  padding: 0.5rem;
 }
 
-.trip td button{
-    height: 80%;
-    width: 80%;
-    display: block;
-    margin: 0 auto;
-    padding: 0.3rem;
-    border-radius: 5px;
-    background: black;
-    color: white;
-    transition: all 0.5s ease;
+.trip td button {
+  height: 80%;
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+  padding: 0.3rem;
+  border-radius: 5px;
+  background: black;
+  color: white;
+  transition: all 0.5s ease;
 }
 
-.trip td button:hover{
-   scale: 0.95;
+.trip td button:hover {
+  scale: 0.95;
 }
 
 /* End of styles for the Transaction Component */
 
-
-.top{
-    height: auto;
-    width: 100%;
-    margin-top: 13vh;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 3.5rem;
-    justify-content: space-between;
+.top {
+  height: auto;
+  width: 100%;
+  margin-top: 13vh;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 3.5rem;
+  justify-content: space-between;
 }
 
-.filter{
-    height: auto;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* flex-direction: column; */
+.filter {
+  height: auto;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* flex-direction: column; */
 }
 
-.filter > div{
-    width: 50%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-around;
-    flex-direction: column;
+.filter > div {
+  width: 50%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
-.filter > div h2{
-    margin: 0;
-    font-size: 1rem;
+.filter > div h2 {
+  margin: 0;
+  font-size: 1rem;
 }
 
-.filter > div select{
-    height: 2rem;
-    width: max-content;
-    border: 1px solid;
-    text-indent: 10px;
-    cursor: pointer;
-    padding: 0.1rem 1rem;
-    /* box-sizing: border-box; */
-    border-radius: 5px;
+.filter > div select {
+  height: 2rem;
+  width: max-content;
+  border: 1px solid;
+  text-indent: 10px;
+  cursor: pointer;
+  padding: 0.1rem 1rem;
+  /* box-sizing: border-box; */
+  border-radius: 5px;
 }
 
-.filter > div select option{
-    height: 100%;
-    padding: 1rem;
-    width: max-content;
+.filter > div select option {
+  height: 100%;
+  padding: 1rem;
+  width: max-content;
 }
 
-.left{
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.left {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.left button{
+.left button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background: #040404;
+  box-sizing: border-box;
+  padding: 0.3rem 3rem;
+  transition: all 0.5s ease;
+}
+
+.left button:hover {
+  color: #040404;
+  background: white;
+}
+
+.middle {
+  height: auto;
+  width: 93%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.middle > h3 {
+  margin: 0;
+}
+
+.middle table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.middle table thead {
+  position: sticky;
+  top: 0;
+}
+
+.middle table thead tr {
+  color: white;
+  background: #040404;
+  border-radius: 20px;
+}
+
+.middle table thead tr th {
+  padding: 1rem;
+}
+
+.overlay {
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  transform: translateY(100vh);
+  transition: all 0.8s ease;
+}
+
+.overlay.active {
+  transform: translate(0);
+}
+
+.overlay button {
+  width: 90%;
+  color: white;
+  background-color: #040404;
+}
+
+.close {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  border: 1px solid;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 468px) {
+  .trip td button {
+    height: 60%;
     display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    background: #040404;
-    box-sizing: border-box;
-    padding: 0.3rem 3rem;
-    transition: all 0.5s ease;
-}
-
-.left button:hover{
-    color: #040404;
-    background: white;
-}
-
-.middle{
-    height: auto;
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: column;
-    margin-top: 1.5rem;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
-}
-
-.middle > h3{
-    margin: 0;
-}
-
-.middle table{
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.middle table thead{
-    position: sticky;
-    top: 0;
-}
-
-.middle table thead tr{
-    color: white;
-    background: #040404;
-    border-radius: 20px;
-}
-
-.middle table thead tr th{
-    padding: 1rem;
-}
-
-.overlay{
-    min-height: 100vh;
-    width: 100%;
-    position: fixed;
-    z-index: 1000;
-    display: flex;
+    text-align: center;
     align-items: center;
     justify-content: center;
+    padding: 0.3rem 1rem;
+  }
+
+  .top {
+    padding: 0 1.3rem;
     flex-direction: column;
-    background: transparent;
-    backdrop-filter: blur(10px);
-    transform: translateY(100vh);
-    transition: all 0.8s ease;
-}
+  }
 
-.overlay.active{
-    transform: translate(0);
-}
+  .filter {
+    width: 100%;
+  }
 
-.overlay button{
-    width: 90%;
-    color: white;
-    background-color: #040404;
-}
+  .filter > div {
+    flex-direction: row;
+  }
 
-.close{
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    border: 1px solid;
-    border-radius: 50%;
-    cursor: pointer;
-}
+  .filter > div select {
+    width: 40%;
+  }
 
-@media screen and (max-width: 468px){
-    .trip td button{
-        height: 60%;
-        display: inline-flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        padding: 0.3rem 1rem;
-    }
+  .filter > div h2 {
+    font-size: 0.8rem;
+  }
 
-    .top{
-        padding: 0 1.3rem;
-        flex-direction: column;
-    }
+  .filter > div select {
+    height: 1.5rem;
+    border-radius: 10px;
+  }
 
-    .filter{
-        width: 100%;
-    }
+  .left {
+    width: 100%;
+    margin-top: 1rem;
+  }
 
-    .filter > div h2{
-        font-size: 0.8rem;
-    }
+  .left button {
+    padding: 0.3rem 1rem;
+  }
 
-    .filter > div select{
-        height: 1.5rem;
-        border-radius: 10px;
-    }
+  .middle table thead tr th {
+    padding: 5px;
+    font-size: 0.65rem;
+  }
 
-    .left{
-        width: 100%;
-        margin-top: 1rem;
-    }
+  td {
+    font-size: 0.5rem;
+  }
 
-    .left button{
-        padding: 0.3rem 1rem;
-    }
-
-    table thead tr th{
-        padding: 5px;
-        font-size: 0.65rem;
-    }
-    
-    td{
-        font-size: 0.5rem;
-    }
 }

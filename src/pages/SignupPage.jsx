@@ -1,16 +1,18 @@
 import styles from "../styles/welcome.module.css";
-import { signUp } from "../../utils/fetch";
+// import { signUp } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import afustaLogo from "../assets/Img/afusta-logo.png"
+import { useMediaQuery } from "react-responsive";
 
 
 function SignupPage(){
     // const navigate = useNavigate();
     const [nav, setNav] = useState(1);
     const { register, handleSubmit, formState: { errors }} = useForm();
+    const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     // const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -30,19 +32,13 @@ function SignupPage(){
         })
     }
 
-    async function handleAuth(e) {
-      e.preventDefault(); // prevent form reload if any
-      window.location.href = `${apiUrl}/api/v1/auth/google`; // ✅ Do a browser redirect
-    }
-
+  
     function handleNav(num){
       setNav(num);
     }
 
-
-
     return (
-      <div className={`${styles.container} ${styles.signup}`}>
+      <div className={`${styles.container} ${styles.signup} ${isMobile ? styles.mobile : ""}`}>
         <div className={styles.left}>
           <img src={afustaLogo} alt="Afusta Logo" className={styles.afLogo} />
           <h1>
@@ -57,15 +53,13 @@ function SignupPage(){
                 <button
                   type="button"
                   className={nav === 1 ? styles.selected : ""}
-                  onClick={() => handleNav(1)}
-                >
+                  onClick={() => handleNav(1)}>
                   Student
                 </button>
                 <button
                   type="button"
                   className={nav === 2 ? styles.selected : ""}
-                  onClick={() => handleNav(2)}
-                >
+                  onClick={() => handleNav(2)}>
                   Staff
                 </button>
               </div>
@@ -165,21 +159,19 @@ function SignupPage(){
             <a
               href="https://github.com/Dev-Dul"
               target="_blank"
-              className="link"
-            >
+              className="link">
               DevAbdul
             </a>
             &nbsp; Check Out the{" "}
             <a
               href="https://github.com/Dev-Dul/OdinBook.git"
               target="_blank"
-              className="link"
-            >
+              className="link">
               Repo.
             </a>
           </h2>
         </div>
-        <div className={styles.right}></div>
+        {!isMobile && <div className={styles.right}></div>}
       </div>
     );
 }

@@ -138,11 +138,11 @@ function BusesPage() {
           </div>
           <div className={styles.left}>
             <button>
-              Download Bus Data <Download style={{ marginLeft: "1rem" }} />
+              Download Bus Data <Download style={{ marginLeft: "1rem" }}  size={20}/>
             </button>
             <button onClick={handleOverlay}>
               Register New Bus{" "}
-              <PlusCircle style={{ marginLeft: "1rem" }} />
+              <PlusCircle style={{ marginLeft: "1rem" }} size={20} />
             </button>
           </div>
         </div>

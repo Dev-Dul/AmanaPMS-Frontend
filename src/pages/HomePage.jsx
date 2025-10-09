@@ -10,7 +10,7 @@ import { toast } from "sonner";
 function HomePage(){
     const [sidebar, setSidebar] = useState(false);
     // const navigate = useNavigate();
-    // const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     const {
       register,
       handleSubmit,
@@ -62,9 +62,7 @@ function HomePage(){
               <span></span>
               <span></span>
             </div>
-            <div
-              className={`${styles.secondNav} ${sidebar ? styles.show : ""}`}
-            >
+            <div className={`${styles.secondNav} ${sidebar ? styles.show : ""}`}>
               <div className={styles.second}>
                 <div className={styles.center}>
                   <button style={{ "--pos": "1" }}>Features</button>
@@ -82,7 +80,7 @@ function HomePage(){
           <div className={`${styles.welcome}`}>
             <div className={styles.textTwo}>
               <p className={styles.subOne}>Welcome to SWIFTRYDE</p>
-              <h1>AFUSTA Transit Management System.</h1>
+              <h1>AFUSTA Digital Transit Management System.</h1>
               <h2>Your Gateway To Swift Transit.</h2>
               <div className={styles.action}>
                 <button onClick={() => navigate("/launch")}>Get Started</button>
@@ -100,8 +98,7 @@ function HomePage(){
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             {/* <img src={four} alt="Web3 Platform" /> */}
           </motion.div>
           <motion.div
@@ -109,8 +106,7 @@ function HomePage(){
             initial={{ opacity: 0, x: -80 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             <h2>The Ultimate Transit Platform.</h2>
             <p className={styles.subTwo}>
               Experience Transit Like Never Before.
@@ -129,12 +125,23 @@ function HomePage(){
             initial={{ opacity: 0, y: -150 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.8 }}
-          >
+            transition={{ duration: 0.8 }}>
             <h2>Features</h2>
             <div className={styles.cards}>
               <div className={styles.card}>
                 <h3>Ticket Purchase</h3>
+              </div>
+              <div className={styles.card}>
+                <h3>Seamless Payments</h3>
+              </div>
+              <div className={styles.card}>
+                <h3>Trip History</h3>
+              </div>
+              <div className={styles.card}>
+                <h3>{!isMobile && "Streamlined"} Ticket Verification</h3>
+              </div>
+              <div className={styles.card}>
+                <h3>Centralized Control</h3>
               </div>
             </div>
           </motion.div>
