@@ -13,15 +13,6 @@ function TripHistoryPage() {
     const [monthFilter, setMonthFilter] = useState("0");
     const [statFilter, setStatFilter] = useState("ALL");
     const receiptRef = useRef();
-    // const handlePrint = useReactToPrint({
-    //   content: () => receiptRef.current,
-    //   documentTitle: "Transaction Receipt / Transit Ticket",
-    //   pageStyle: `
-    //   @page { margin: 20mm; }
-    //   body { font-family: sans-serif; -webkit-print-color-adjust: exact; }
-    // `,
-    //   onAfterPrint: () => alert("Receipt Successfully Printed!"),
-    // });
     
       function handleMonthChange(e){
         setMonthFilter(e.target.value);
