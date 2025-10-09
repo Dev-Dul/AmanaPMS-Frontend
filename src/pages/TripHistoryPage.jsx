@@ -1,14 +1,27 @@
 import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
 import styles from "../styles/tripshistory.module.css";
+import Receipt from "../components/ReceiptEngine";
 import Trip from "../components/Trip";
-import { Download } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Download, XCircle } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
 function TripHistoryPage() {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
+    const [overlay, setOverlay] = useState(false);
     const [monthFilter, setMonthFilter] = useState("0");
     const [statFilter, setStatFilter] = useState("ALL");
+    const receiptRef = useRef();
+    // const handlePrint = useReactToPrint({
+    //   content: () => receiptRef.current,
+    //   documentTitle: "Transaction Receipt / Transit Ticket",
+    //   pageStyle: `
+    //   @page { margin: 20mm; }
+    //   body { font-family: sans-serif; -webkit-print-color-adjust: exact; }
+    // `,
+    //   onAfterPrint: () => alert("Receipt Successfully Printed!"),
+    // });
     
       function handleMonthChange(e){
         setMonthFilter(e.target.value);
@@ -17,6 +30,16 @@ function TripHistoryPage() {
       function handleStatChange(e){
         setStatFilter(e.target.value);
       }
+
+       function handleOverlay() {
+         setOverlay((prev) => !prev);
+       }
+
+       function handlePrint(){
+          window.print();
+       }
+
+       
   
       function handleFilter(){
       let filtered = data;
@@ -54,6 +77,11 @@ function TripHistoryPage() {
 
   return (
     <div className="container">
+      <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
+        <XCircle className={styles.close} onClick={handleOverlay} />
+        <Receipt props={"Hello"} ref={receiptRef}/>
+        <button type="button" onClick={handlePrint}>Print</button>
+      </div>
       <div className="header">
         <h2>Trips History</h2>
       </div>
@@ -95,6 +123,7 @@ function TripHistoryPage() {
               <th>ROUTE</th>
               <th>BUS STOP</th>
               <th>STATUS</th>
+              <th>RECEIPT</th>
             </tr>
           </thead>
           <tbody>
@@ -105,6 +134,7 @@ function TripHistoryPage() {
               route={"School - BK"}
               stop={"AP2"}
               status={"EXPIRED"}
+              onView={handleOverlay}
             />
           </tbody>
         </table>

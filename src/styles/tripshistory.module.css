@@ -9,6 +9,22 @@
     background: rgb(217, 215, 215);
 }
 
+.trip td button{
+    height: 80%;
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    padding: 0.3rem;
+    border-radius: 5px;
+    background: black;
+    color: white;
+    transition: all 0.5s ease;
+}
+
+.trip td button:hover{
+   scale: 0.95;
+}
+
 /* End of styles for the Transaction Component */
 
 
@@ -105,8 +121,90 @@
 .middle table thead tr{
     color: white;
     background: #040404;
+    border-radius: 20px;
 }
 
 .middle table thead tr th{
     border-left: 2px solid white;
+}
+
+.overlay{
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    transform: translateY(100vh);
+    transition: all 0.8s ease;
+}
+
+.overlay.active{
+    transform: translate(0);
+}
+
+.overlay button{
+    width: 90%;
+    color: white;
+    background-color: #040404;
+}
+
+.close{
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    border: 1px solid;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 468px){
+    .trip td button{
+        height: 60%;
+        display: inline-flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 0.3rem 1rem;
+    }
+
+    .top{
+        padding: 0 1.3rem;
+        flex-direction: column;
+    }
+
+    .filter{
+        width: 100%;
+    }
+
+    .filter > div h2{
+        font-size: 0.8rem;
+    }
+
+    .filter > div select{
+        height: 1.5rem;
+        border-radius: 10px;
+    }
+
+    .left{
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .left button{
+        padding: 0.3rem 1rem;
+    }
+
+    table thead tr th{
+        padding: 5px;
+        font-size: 0.65rem;
+    }
+    
+    td{
+        font-size: 0.5rem;
+    }
 }
