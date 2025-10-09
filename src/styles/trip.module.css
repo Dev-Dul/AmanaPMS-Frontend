@@ -59,6 +59,20 @@
     margin-bottom: 0;
 }
 
+.top h2{
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.top.two{
+    padding-left: 5rem;
+}
+
+.top.two h2,
+.top.two p{
+    text-wrap: balance;
+}
+
 .top > p{
     margin: 0;
 }
@@ -71,6 +85,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.middle.two{
+    margin-top: 0;
 }
 
 
@@ -288,4 +306,78 @@
 .overlay form button:hover{
     color: #040404;
     background: white;
+}
+
+.region{
+    width: 400px;
+    height: 300px;
+    margin: 5px auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.qrcontainer{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.qrcontainer p{
+    margin: 0;
+}
+
+.qrcontainer div:nth-of-type(2){
+    margin: 5px 0;
+}
+
+
+@media screen and (max-width: 468px) {
+
+    .top.two{
+        padding-left: 30px;
+        text-align: left;
+    }
+
+    .top.two > *{
+        width: 100%;
+        padding: 0;
+    }
+
+
+    .top.two h2{
+        font-size: 0.9rem;
+    }
+
+    .top.two p{
+        font-size: 0.7rem;
+    }
+
+    .middle.two{
+        margin-top: 3rem;
+    }
+
+    .qrcontainer h2{
+        align-self: flex-start;
+    }
+
+    .region{
+        width: 300px;
+        height: 250px;
+    }
+
+    .overlay form{
+        width: 90vw;
+    }
+
+    .deetBox > p{
+        font-size: 0.7rem;
+    }
 }

@@ -111,3 +111,10 @@ input, textarea{
   font-size: 1.8rem;
   border-bottom: 2px solid;
 }
+
+
+@media screen and (max-width: 468px){
+  .header{
+    padding: 0 2rem;
+  }
+}

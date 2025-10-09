@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@yudiel/react-qr-scanner": "^2.3.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.0",
+    "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.522.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

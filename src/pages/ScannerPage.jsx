@@ -35,14 +35,14 @@ function ScannerPage(){
         <div className="header">
           <h2>Ticket Verification</h2>
         </div>
-        <div className={styles.top}>
-          <h1>Use The QR Scanner Below to Verify Passenger Tickets</h1>
+        <div className={`${styles.top} ${styles.two}`}>
+          <h2>Use The QR Scanner Below to Verify Passenger Tickets</h2>
           <p className={styles.sub}>
             Note: Only Passengers with valid tickets should be allowed onto the
             bus.
           </p>
         </div>
-        <div className={styles.middle}>
+        <div className={`${styles.middle} ${styles.two}`}>
           <QrCodeScanner />
         </div>
       </div>
