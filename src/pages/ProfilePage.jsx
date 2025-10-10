@@ -4,6 +4,7 @@ import { ArrowRight, ClipboardCopy, ForwardIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { useMediaQuery } from "react-responsive";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../utils/context";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +15,8 @@ function ProfilePage(){
     // const navigate = useNavigate();
     // const { user, loading, error, socket } = useContext(AuthContext);
     const [ avatar, setAvatar ] = useState(null);
+    const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
+
 
     // useEffect(() => {
 
@@ -67,23 +70,26 @@ function ProfilePage(){
           <div className={styles.action}>
             <button>
               Log Out
-              <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />
+              {!isMobile && <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />}
             </button>
             <button>
               Contact Support
-              <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />
+              {!isMobile && <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />}
             </button>
             <button>
               File a complaint
-              <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />
+              {!isMobile && <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />}
             </button>
             <button>
               Leave a review
-              <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />
+              {!isMobile && <ArrowRight size={20} style={{ marginLeft: "5px" }} className={styles.arrow} />}
             </button>
           </div>
         </div>
         <div className={styles.txns}>
+          <button onClick={() => navigate("/transactions")}>
+            Trip History <ArrowRight className={styles.arrow} />
+          </button>
           <button onClick={() => navigate("/transactions")}>
             Transaction History <ArrowRight className={styles.arrow} />
           </button>

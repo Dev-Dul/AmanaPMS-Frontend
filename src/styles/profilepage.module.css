@@ -187,10 +187,17 @@
 
 .action > button,
 .txns > button{
-    width: 80%;
+    width: 90%;
     color: white;
     background: #040404;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.txns > button{
+    margin-bottom: 0.5rem;
 }
 
 .action > button .arrow,
@@ -219,13 +226,12 @@
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
     .deets{
         height: 25vh;
     }
 
     .action{
-        width: 65%;
         margin-top: 1rem;
     }
 
@@ -237,6 +243,14 @@
 
 @media screen and (max-width: 468px){
 
+    .text h1{
+        font-size: 1.5rem;
+    }
+
+    .text h2{
+        font-size: 1rem;
+    }
+
     .btns h3{
         font-size: 1.15rem;
     }
@@ -247,18 +261,22 @@
     }
 
     .pts{
-        width: 50%;
+        width: 85%;
     }
 
-    .pts h2{
-        font-size: 1.8rem;
+    .pts > div h2{
+        font-size: 0.85rem;
+    }
+
+    .pts > div h3{
+        font-size: 1.2rem;
     }
 
     .pts button{
         right: 35px;
     }
 
-    .streaks, .tasks, .invites{
+    .actionBox{
         width: 90%;
     }
 
@@ -266,6 +284,18 @@
         padding-left: 2rem;
     }
 
+    .action{
+        gap: 0.7rem;
+        width: 100%;
+    }
+
+    .txns{
+        width: 90%;
+    }
+
+    .action > button{
+        width: 90%;
+    }
 
     .txns button{
         padding-left: 1.5rem;

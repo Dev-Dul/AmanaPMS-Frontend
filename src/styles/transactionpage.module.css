@@ -9,6 +9,10 @@
     background: rgb(217, 215, 215);
 }
 
+.transaction td{
+    padding: 0.5rem;
+}
+
 /* End of styles for the Transaction Component */
 
 
@@ -41,7 +45,7 @@
     border: 1px solid;
     text-indent: 10px;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .left{
@@ -75,6 +79,9 @@
     justify-content: space-between;
     flex-direction: column;
     margin-top: 1.5rem;
+    padding: 2rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .middle > h3{
@@ -98,5 +105,43 @@
 }
 
 .middle table thead tr th{
-    border-left: 2px solid white;
+    padding: 0.5rem;
+}
+
+
+@media screen and (max-width: 468px) {
+
+    .top{
+        padding: 0rem 1rem;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    .filter{
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .filter h2{
+        font-size: 1rem;
+    }
+
+    .left{
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .left button{
+        width: 100%;
+    }
+  
+    .middle table thead tr th{
+        padding: 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .transaction td{
+        padding: 0.2rem;
+    }
 }

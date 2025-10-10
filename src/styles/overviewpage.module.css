@@ -47,24 +47,26 @@
     justify-content: center;
     flex-direction: column;
     box-sizing: border-box;
+    padding: 0rem 2rem;
 }
 
 .cardsWrapper h3{
     margin: 0;
-    margin-top: 10px;
-    padding-left: 3.5rem;
+    margin-top: 5px;
+    padding-left: 2rem;
 }
 
 .cards{
     height: auto;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
 }
 
 .card{
-    height: 60px;
+    height: 100px;
     width: 250px;
     border-radius: 15px;
     border: 1px solid;
@@ -115,4 +117,42 @@
     margin-top: 20px;
     border: 2px solid;
     border-radius: 15px;
+}
+
+
+@media screen and (max-width: 468px) {
+    .top{
+        width: 95%;
+    }
+
+    .top h2{
+        font-size: 1.3rem;
+        margin-bottom: 0;
+    }
+
+    .top > h2, .top h3{
+        padding-left: 1rem;
+    }
+
+    .cardsWrapper h3{
+        margin-top: 0;
+        font-size: 1rem;
+        padding: 0rem 1rem;
+    }
+    
+    .cards {
+        max-height: 150px;
+        overflow: auto;
+        scrollbar-width: thin;
+        gap: 10px;
+        grid-template-columns: 1fr;
+    }
+
+    .cards > div{
+        width: 100%;
+    }
+
+    .middle{
+        width: 95%;
+    }
 }
