@@ -105,6 +105,8 @@ input, textarea{
   padding: 0 4rem;
   box-sizing: border-box;
   justify-content: flex-start;
+  background: transparent;
+  backdrop-filter: blur(10px);
 }
 
 .header h2{
