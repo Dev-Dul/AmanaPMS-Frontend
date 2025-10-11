@@ -99,7 +99,7 @@ function TripAdminPage() {
           <button type="button">Create Trip</button>
         </form>
       </div>
-      <div className={`${styles.overlayTwo} ${open ? styles.active : ""}`}>
+      <div className={`${styles.overlayTwo} ${open ? styles.active : ""} ${styles.two}`}>
         <XCircle className={styles.close} onClick={handleOpen} />
         <form action="" className={`${styles.one} ${tab === 1 ? styles.active : ""}`}>
           <h2>Create Trips For Today (Morning)</h2>

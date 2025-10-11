@@ -246,6 +246,15 @@
     transform: translate(0);
 }
 
+.overlayTwo.two{
+    justify-content: space-between;
+}
+
+.overlayTwo.two form{
+    width: 100%;
+    position: absolute;
+}
+
 .close{
     position: absolute;
     top: 50px;
@@ -433,7 +442,7 @@
   .inputBox{
     height: 4rem;
   }
-  
+
   .close{
     height: 35px;
     width: 35px;

@@ -24,6 +24,7 @@ import RoutesPage from './pages/RoutesPage';
 import RevenuePage from './pages/RevenuePage';
 import TripAdminPage from './pages/TripAdminPage';
 import ScannerPage from './pages/ScannerPage';
+import UserOverview from './components/UserOverView';
 
 function App() {
   // const location = useLocation();
@@ -56,7 +57,7 @@ function App() {
   // );
 
   return (
-    <TransactionPage />
+    <UserDashboard />
   )
 
 }

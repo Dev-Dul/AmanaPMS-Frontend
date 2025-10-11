@@ -1,14 +1,25 @@
 import styles from "../styles/trip.module.css";
+import Receipt from "../components/ReceiptEngine";
 import { useState } from "react";
 import { XCircle } from "lucide-react";
 
 function TripPage(){
+    const [open, setOpen] = useState(false);
     const [overlay, setOverlay] = useState(false);
-    const role = "conductor";
+    const role = "STUDENT";
+    const paid = true;
     const isPassenger = role === "STUDENT" || role === "STAFF";
 
     function handleOverlay(){
         setOverlay(prev => !prev);
+    }
+
+    function handleOpen(){
+        setOpen(prev => !prev);
+    }
+
+    function handlePrint() {
+      window.print();
     }
 
     return (
@@ -37,6 +48,17 @@ function TripPage(){
             <button>Purchase</button>
           </form>
         </div>
+        <div
+          className={`${styles.overlay} ${styles.two} ${
+            open ? styles.active : ""
+          }`}
+        >
+          <XCircle className={styles.close} onClick={handleOpen} />
+          <Receipt props={"Hello"} />
+          <button type="button" onClick={handlePrint}>
+            Print
+          </button>
+        </div>
         <div className="header">
           <h2>Trip Page</h2>
         </div>
@@ -58,7 +80,7 @@ function TripPage(){
               </div>
               <div className="second">
                 <h2>Trip Type</h2>
-                <h3>Return Trip</h3>
+                <h3>RETURN</h3>
               </div>
               <div className="third">
                 <h2>Bus</h2>
@@ -68,9 +90,24 @@ function TripPage(){
                 <h2>Driver</h2>
                 <h3>Mal Suleiman</h3>
               </div>
-              <div className="fifth">
+            </div>
+            <div className={`${styles.deets} ${styles.two}`}>
+              <div className={styles.divider}></div>
+              <div className="first">
+                <h2>Conductor</h2>
+                <h3>Lawal Muhammad</h3>
+              </div>
+               <div className="second">
                 <h2>Capacity</h2>
                 <h3>35</h3>
+              </div>
+              <div className="third">
+                <h2>ETA</h2>
+                <h3>7:30 AM</h3>
+              </div>
+              <div className="fourth">
+                <h2>Route</h2>
+                <h3>Sch - BK</h3>
               </div>
             </div>
           </div>
@@ -80,23 +117,6 @@ function TripPage(){
           </div>
         </div>
         <div className={styles.secondMiddle}>
-          <div className={styles.thirdBox}>
-            <h2>More Details</h2>
-            <div className={styles.deetsBox}>
-              <div className="first">
-                <h2>Conductor</h2>
-                <h3>Lawal Muhammad</h3>
-              </div>
-              <div className="second">
-                <h2>Expected Arrival Time</h2>
-                <h3>7:30 AM</h3>
-              </div>
-              <div className="third">
-                <h2>Route</h2>
-                <h3>Aleiro - Birnin Kebbi</h3>
-              </div>
-            </div>
-          </div>
           <div className={styles.fourthBox}>
             <h2>Bus Stops</h2>
             <h3>School - Aleiro (Custom)</h3>
@@ -110,11 +130,13 @@ function TripPage(){
           </div>
         </div>
         <div className={styles.bottom}>
-          {isPassenger ? (
+          {isPassenger && !paid && (
             <button onClick={handleOverlay}>Purchase Ticket</button>
-          ) : (
-            <button>Mark Trip As Completed</button>
           )}
+          {isPassenger && paid && (
+            <button onClick={handleOpen}>View Ticket</button>
+          )}
+          {!isPassenger && <button>Mark Trip As Completed</button>}
           <button>Make A Complaint</button>
         </div>
       </div>
