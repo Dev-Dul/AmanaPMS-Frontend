@@ -1,52 +1,93 @@
+import { useFetchTrips, createNewTrip, useFetchBuses, useFetchRoutes, useFetchStats } from "../../utils/fetch";
 import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
 import styles from "../styles/revenuepage.module.css";
 import Week from "../components/Week";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 import { Download, PlusCircle, XCircle, BusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../utils/context";
+import { exportToExcel } from "../../utils/utils";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function TripAdminPage() {
   const [tab, setTab] = useState(1);
-  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const { user, userLoad, userError } = useContext(AuthContext);
   const [overlay, setOverlay] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredtrips, setFilteredtrips] = useState([]);
   const [monthFilter, setMonthFilter] = useState("0");
+  const { trips, tripLoading, tripError } = useFetchTrips();
+  const { buses, busLoading, busError } = useFetchBuses();
+  const { routes, routeLoading, routeError } = useFetchRoutes();
+  const { register, handleSubmit, formState: { errors }} = useForm();
+  const { stats, statLoading, statError } = useFetchStats("REV");
+  
+
   
     function handleMonthChange(e){
       setMonthFilter(e.target.value);
     }
 
-    function handleFilter(){
-    let filtered = data;
-    if(monthFilter !== "0") {
-      const now = new Date();
-      let startDate, endDate;
-
-      if(monthFilter === "4") {
-        // Last Year
-        const lastYear = subYears(now, 1);
-        startDate = startOfYear(lastYear);
-        endDate = endOfYear(lastYear);
-      } else {
-        // Past X months
-        const monthsAgo = parseInt(monthFilter);
-        startDate = subMonths(now, monthsAgo);
-        endDate = now;
+    function handleExport(){
+      if(stats.length > 0){
+        exportToExcel(stats, "swiftryde_trip_history_by_weeks", "SWIFTRYDE TRIP STATISTICS BY WEEKS");
+      }else{
+        toast.error("No data available");
       }
-
-      filtered = filtered.filter((trp) => {
-        const txDate = parseISO(trp.created);
-        return isAfter(txDate, startDate) && isBefore(txDate, endDate);
-      });
     }
 
-    setFilteredData(filtered);
+    function handleFilter() {
+      if(!stats || stats.length === 0) {
+        setFilteredtrips([]);
+        return;
+      }
 
-  }
+      let filtered = [...stats];
+      const now = new Date();
 
-  useEffect(() => {
-    handleFilter();
-  }, [monthFilter, data]);
+      if (monthFilter !== "0") {
+        let startDate, endDate;
+
+        switch (monthFilter) {
+          case "1": // a month ago
+            startDate = subMonths(now, 1);
+            endDate = now;
+            break;
+          case "2": // 2 months ago (exact window)
+            startDate = subMonths(now, 2);
+            endDate = subMonths(now, 1);
+            break;
+          case "3": // 3 months ago (exact window)
+            startDate = subMonths(now, 3);
+            endDate = subMonths(now, 2);
+            break;
+          case "4": // last year
+            const lastYear = subYears(now, 1);
+            startDate = startOfYear(lastYear);
+            endDate = endOfYear(lastYear);
+            break;
+          default:
+            startDate = null;
+            endDate = null;
+        }
+
+        if (startDate && endDate) {
+          filtered = filtered.filter((week) => {
+            const weekStart = parseISO(week.start);
+            return weekStart >= startDate && weekStart <= endDate;
+          });
+        }
+      }
+
+      setFilteredtrips(filtered);
+    }
+
+    useEffect(() => {
+      handleFilter();
+    }, [monthFilter, stats]);
+
 
   function handleOverlay() {
     setOverlay((prev) => !prev);
@@ -60,48 +101,97 @@ function TripAdminPage() {
     setTab(num);
   }
 
+  async function onSubmit(formData){
+      const newTripPromise = createNewTrip(new Date(), formData.bus, formData.route);
+      toast.promise(newTripPromise, {
+          loading: "Creating new trip...",
+          success: (response) => {
+            return response.message;
+          },
+          error: (error) => {
+              return error.message;
+          }
+      })
+  }
+
+  if(tripLoading || userLoad || busLoading || routeLoading || statLoading) return <Loader />;
+  if(userError || tripError || busError || routeError || statError) return <Error />;
+
   return (
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOverlay} />
-        <form action="" className={`${styles.one} ${tab === 1 ? styles.active : ""}`}>
+        <form
+          action=""
+          onSubmit={handleSubmit(onSubmit)}
+          className={`${styles.one} ${tab === 1 ? styles.active : ""}`}
+        >
           <h2>Create New Trip</h2>
           <div className={styles.inputBox}>
-            <label htmlFor="route">Choose A Route </label>
-            <select name="route" id="route">
+            <label htmlFor="route">Choose A Route</label>
+            <select
+              id="route"
+              {...register("route", {
+                required: "Trip route is required",
+              })}
+            >
               <option value="" selected>
                 Select a Route for the Trip
               </option>
-              <option value={"1"}>School - Birnin Kebbi</option>
-              <option value={"2"}>Birnin Kebbi - School</option>
+              {routes.length > 0 ? (
+                routes.map((route) => (
+                  <option key={route.id} value={route.id}>
+                    {route.name}
+                  </option>
+                ))
+              ) : (
+                <option>No routes found</option>
+              )}
             </select>
+            {errors.route && (
+              <p className={styles.error}>{errors.route.message}</p>
+            )}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="stop">Choose A Bus Stop </label>
-            <select name="stop" id="stop">
+            <label htmlFor="bus">Choose A Bus</label>
+            <select
+              id="bus"
+              {...register("bus", {
+                required: "Bus is required",
+              })}
+            >
               <option value="" selected>
-                Select a Bus Stop for the Trip
+                Select a Bus for the Trip
               </option>
-              <option value={"1"}>School - Aleiro (Custom)</option>
-              <option value={"1"}>School - Aleiro (Gadan Audu)</option>
-              <option value={"1"}>School - Aleiro (Kashin Zama)</option>
-              <option value={"1"}>School - Aleiro (Lemi)</option>
-              <option value={"1"}>School - Jega (Old BLB)</option>
-              <option value={"1"}>School - Jega (EcoBank)</option>
-              <option value={"1"}>School - BK (AP2)</option>
-              <option value={"1"}>School - BK (Halliru Abdu)</option>
+              {buses.length > 0 ? (
+                buses.map((bus) => (
+                  <option key={bus.id} value={bus.id}>
+                    {bus.plateNumber}
+                  </option>
+                ))
+              ) : (
+                <option>No buses found</option>
+              )}
             </select>
+            {errors.bus && <p className={styles.error}>{errors.bus.message}</p>}
           </div>
           <div className={styles.inputBox}>
             <label htmlFor="time">Set Departure Time</label>
             <input type="time" />
           </div>
-          <button type="button">Create Trip</button>
+          <button type="submit">Create Trip</button>
         </form>
       </div>
-      <div className={`${styles.overlayTwo} ${open ? styles.active : ""} ${styles.two}`}>
+      <div
+        className={`${styles.overlayTwo} ${open ? styles.active : ""} ${
+          styles.two
+        }`}
+      >
         <XCircle className={styles.close} onClick={handleOpen} />
-        <form action="" className={`${styles.one} ${tab === 1 ? styles.active : ""}`}>
+        <form
+          action=""
+          className={`${styles.one} ${tab === 1 ? styles.active : ""}`}
+        >
           <h2>Create Trips For Today (Morning)</h2>
           <h3>Trip One</h3>
           <div className={styles.inputBox}>
@@ -243,7 +333,7 @@ function TripAdminPage() {
         <h2>Trips</h2>
       </div>
       <div className={styles.top}>
-        <div className={styles.cards}>
+        <div className={`${styles.cards} ${styles.two}`}>
           <div className={styles.card}>
             <h2>All Time Trips</h2>
             <h3>15,000, 000</h3>
@@ -289,7 +379,7 @@ function TripAdminPage() {
           </div>
           <div className={styles.left}>
             <button>
-              Download Trip Data <Download style={{ marginLeft: "1rem" }} />
+              Download Trip trips <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOpen}>
               Schedule Trips For Today{" "}
@@ -311,22 +401,27 @@ function TripAdminPage() {
             </tr>
           </thead>
           <tbody>
-            <Week
-              num={"23"}
-              start={"5th Sept., 2025"}
-              end={"12th Sept., 2025"}
-              trips={"15"}
-              passengers={"1000"}
-              type={"TRIP"}
-            />
-            <Week
-              num={"24"}
-              start={"12th Sept., 2025"}
-              end={"19th Sept., 2025"}
-              trips={"25"}
-              passengers={"2000"}
-              type={"TRIP"}
-            />
+            {filteredtrips.length > 0 ? (
+              filteredtrips.map((week) => (
+                <Week
+                  num={week.num}
+                  start={week.start}
+                  end={week.end}
+                  trips={week.trips}
+                  passengers={week.passengers}
+                  type={"TRIP"}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "center", padding: "1rem" }}
+                >
+                  No data found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

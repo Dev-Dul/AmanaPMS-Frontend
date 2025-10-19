@@ -39,7 +39,7 @@
 .top{
     height: auto;
     width: 100%;
-    margin-top: 13vh;
+    margin-top: 15vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -50,24 +50,28 @@
     height: auto;
     width: 90%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     place-items: center;
+    column-gap: 1rem;
 }
 
 .cards > div{
+    height: 100%;
+    width: 100%;
     border: 1px solid;
     border-radius: 10px;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
     flex-direction: column;
-    padding: 0.2rem 3rem;
+    padding: 0.2rem 1.5rem;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
 }
 
 .card > h2{
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    text-align: left;
 }
 
 .card > h3{

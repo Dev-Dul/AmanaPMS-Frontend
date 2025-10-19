@@ -1,14 +1,23 @@
 import styles from "../styles/routespage.module.css";
 import Route from "../components/Route";
+import { useFetchRoutes } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
+import { AuthContext } from "../../utils/context";
+import { exportToExcel } from "../../utils/utils";
 
 function RoutesPage() {
     const [stops, setStops] = useState([]);
     const [overlay, setOverlay] = useState(false);
-    const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState("ALL");
+    const { register, handleSubmit, formState: { errors }} = useForm();
+    const { user, userLoad } = useContext(AuthContext);
+    const { routes, routeLoading, routeError } = useFetchRoutes();
+    
 
     function handleOverlay(){
         setOverlay(prev => !prev);
@@ -16,6 +25,14 @@ function RoutesPage() {
 
     function handleStops(){
         setStops([...stops, ""])
+    }
+
+    function handleExport(){
+      if(routes.length > 0){
+        exportToExcel(routes, "swiftryde_routes_data", "SWIFTRYDE ROUTES DATA");
+      }else{
+        toast.error("No data available");
+      }
     }
 
     function handleChange(index, value){
@@ -29,7 +46,7 @@ function RoutesPage() {
     }
 
     function handleFilter() {
-      let filtered = data;
+      let filtered = routes;
       // Filter by status
       if(statFilter !== "ALL") filtered = filtered.filter((route) => route.status === statFilter);
 
@@ -38,7 +55,15 @@ function RoutesPage() {
 
     useEffect(() => {
       handleFilter();
-    }, [statFilter, data]);
+    }, [statFilter, routes]);
+
+    if(routeLoading || userLoad) return <Loader />;
+    if(!user) return <Error />;
+    if(routeError) return <Error error={routeError} />;
+
+    const active = routes.filter(route => route.status === "ACTIVE").length;
+    const inActive = routes.filter(route => route.status !== "ACTIVE").length;
+    const totalStops = routes.reduce((total, route) => total + (route.stops?.length || 0), 0);
 
   return (
     <div className="container">
@@ -82,19 +107,19 @@ function RoutesPage() {
         <div className={styles.cards}>
           <div className={styles.card}>
             <h2>Total Routes</h2>
-            <h3>15</h3>
+            <h3>{routes.length}</h3>
           </div>
           <div className={styles.card}>
             <h2>Total Active Routes</h2>
-            <h3>13</h3>
+            <h3>{active}</h3>
           </div>
           <div className={styles.card}>
             <h2>Total Inactive Routes</h2>
-            <h3>2</h3>
+            <h3>{inActive}</h3>
           </div>
           <div className={styles.card}>
             <h2>Total Bus Stops</h2>
-            <h3>25</h3>
+            <h3>{totalStops}</h3>
           </div>
         </div>
         <div className={styles.action}>
@@ -112,7 +137,7 @@ function RoutesPage() {
               <select name="filter_two" id="filter_two" onChange={handleStatChange}>
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
-                <option value="EXPIRED">INACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
                 <option value="EXPIRED">DELETED</option>
               </select>
             </div>
@@ -142,20 +167,26 @@ function RoutesPage() {
             </tr>
           </thead>
           <tbody>
-            <Route
-              id={"RT-123"}
-              name={"School - BK"}
-              start={"School"}
-              end={"Birnin Kebbi"}
-              stops={6}
-              status={"ACTIVE"}/>
-            <Route
-              id={"RT-127"}
-              name={"Bk - School"}
-              start={"Birnin Kebbi"}
-              end={"School"}
-              stops={6}
-              status={"ACTIVE"}/>
+            {filteredData.length > 0 ? (
+              filteredData.map((route) => (
+                <Route
+                  id={route.id}
+                  name={route.name}
+                  start={route.startPoint}
+                  end={route.endPoint}
+                  stops={route.stops.length}
+                  status={route.status}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "center", padding: "1rem" }}>
+                  No routes found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

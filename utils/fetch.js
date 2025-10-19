@@ -1,461 +1,608 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export async function signUp(username, email, password){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/signup`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                username: username,
-                password: password,
-            })
-        });
-
-        const json = await res.json();
-
-        if(!res.ok){
-          const error = new Error(json.message || "SignUp Failed!!");
-          error.status = res.status;
-          error.response = json;
-          throw error;
-        }
-        return json;
-    }catch(err){
-        throw err;
-    }
-}
-
-
-export async function logIn(username, password){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/login`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            })
-        });
-
-        const json = await res.json();
-
-        if(!res.ok){
-          const error = new Error(json.message || "Login Failed!!");
-          error.status = res.status;
-          error.response = json;
-          throw error;
-        }
-
-        return json;
-    }catch(err){
-        throw err;
-    }
-}
-
-export async function logOut(){
+export async function SignUp(name, email, id, role, password) {
   try {
-    const res = await fetch(`${apiUrl}/api/v1/logout`, {
-      method: "GET",
+    const res = await fetch(`${apiUrl}/api/v1/signup`, {
+      method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        role: role,
+        email: email,
+        fullname: name,
+        password: password,
+      }),
     });
 
-    const json = await res.json();
+    if(!res.ok) throw new Error("Error Signing Up!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  } 
+}
 
-    if(!res.ok){
-      const error = new Error(json.message || "LogOut Failed!!");
-      error.status = res.status;
-      error.response = json;
-      throw error;
+
+export async function hydrateUser() {
+  try {
+    const response = await fetch(`${apiUrl}/api/v1/auth/hydrate`, {
+      method: "GET",
+      credentials: "include", // allows sending cookies/session
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if(!response.ok){
+      const errorData = await response.json().catch(() => ({}));
+      const message = errorData.message || "Failed to hydrate user";
+      throw new Error(message);
     }
 
-    return json;
-  } catch(err){
+    const data = await response.json();
+    return data; // expected shape: { user: {...} }
+  }catch(err){
+    console.error("Hydration error:", err);
     throw err;
   }
 }
 
 
-export async function sendNewPost(formData){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/posts/new`, {
-        method: "POST",
-        credentials: 'include',
-        body: formData,
-      });
-
-      const json = await res.json();
-
-      if(!res.ok){
-      const error = new Error(json.message || "Creating new post failed!!");
-      error.status = res.status;
-      error.response = json;
-      throw error;
-    }
-
-      return json;
-    }catch(err){
-      throw err;
-    }
-}
-
-
-export async function getPost(postId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/posts/${postId}`, {
-        method: "GET",
-        credentials: "include",
-      });
-      
-      const json = await res.json();
-      if(!res.ok) throw new Error(json.message);
-      return json;
-    }catch(err){
-      throw err;
-    }
-}
-
-
-export function useGetUser(){
-  const [other, setUser] = useState({});
-  const [userError, setUserError] = useState(null);
-  const [userLoading, setLoading] = useState(true);
-
-  async function getUser(userId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/profiles/${userId}`, {
-        method: "GET",
-        credentials: "include",
-      });
-      
-      if(!res.ok) throw new Error(res.message);
-      const json = await res.json();
-      setUser(json.user);
-    }catch(err){
-      setUserError(err.messsage);
-    }finally{
-      setLoading(false);
-    }
-  }
-
-  return { other, userError, userLoading, getUser };
-}
-
-
-export async function addFriend(userId, friendId){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/profiles/friends/${userId}/new`, {
-          method: "POST",
-          credentials: 'include',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: userId,
-            friendId: friendId,
-          }),
-        });
-        
-        if(!res.ok) throw new Error(res.message);
-        const json = await res.json();
-        return json;
-      }catch(err){
-        throw err;
-      }
-}
-
-
-
-export function useGetAllPosts(){
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
-  async function getAllPosts(){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/posts/all`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const json = await res.json();
-      if(!res.ok) throw new Error(json.message);
-
-      setPosts(json.posts);
-    }catch(err){
-      setError(err);
-    }finally{
-      setLoading(false);
-    }
-  }
-
-    return { posts, setPosts, error, loading, getAllPosts };
-}
-
-export function useGetAllUsers(){
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
-  async function getAllUsers(){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/profiles/all`, {
-        method: "GET",
-        credentials: "include",
-      });
-      if(!res.ok) throw new Error(res.message);
-
-      const json = await res.json();
-      setUsers(json.users);
-    }catch(err){
-      setError(err);
-    }finally{
-      setLoading(false);
-    }
-  }
-
-    return { users, error, loading, getAllUsers };
-}
-
-
-export function useSearch(){
-  const [usersRes, setUsers] = useState([]);
-  const [postsRes, setPosts] = useState([]);
-  const [commentsRes, setComments] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
-  async function SearchEngine(query){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/posts/search?query=${query}`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      const json = await res.json();
-      if(!res.ok){
-          const error = new Error(json.message || "Data fetch failed!!");
-          error.status = res.status;
-          throw error;
-        }
-
-      setUsers(json.users);
-      setPosts(json.posts);
-      setComments(json.comments);
-      return json;
-    }catch(err){
-      setError(err.message);
-      throw error;
-    }finally{
-      setLoading(false);
-    }
-  }
-
-    return { usersRes, postsRes, commentsRes, error, loading, SearchEngine };
-}
-
-
-export async function friendRequest(userId, friendId, friendStatus){
-    let res;
-    try {
-      switch (friendStatus){
-        case 'ACCEPT': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/accept`, {
-             method: "POST",
-             credentials: "include",
-             headers: {
-              "Content-Type": "application/json",
-            },
-             body: JSON.stringify({
-              friendId: friendId,
-            }),
-           });
-
-        break;
-        case 'REJECT': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/reject`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              friendId: friendId,
-            }),
-          });
-
-        break;
-        case 'REMOVE': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
-            method: "POST",
-            credentials: "include",
-          });
-
-        break;
-        case 'ADD': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/new`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-               "Content-Type": "application/json",
-             },
-             body: JSON.stringify({
-               friendId: friendId,
-             }),
-          });
-
-        break;
-        default: 
-          res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
-            method: "POST",
-            credentials: "include",
-          });
-
-        break;
-      }
-      const json = await res.json();
-      if(!res.ok) throw new Error(json.message);
-
-      return json;
-    }catch(err){
-      throw err;
-    }
-}
-
-export async function createNewComment(text, userId, postId){
-  try {
-    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/comments/new`, {
+export async function LogIn(id, password){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/login`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        text: text,
-        userId: userId,
-        postId: postId,
+        username: id,
+        password: password,
       }),
     });
 
-    const json = await res.json();
-    if(!res.ok) {
-      const error = new Error(json.message || "Creating comment failed...");
-      error.status = res.status;
-      error.response = json;
-      throw error;
+    if(!res.ok) throw new Error("Error Logging In!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+export async function LogOut(){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/logout`, {
+      credentials: "include",
+    });
+
+    if(!res.ok) throw new Error("Error Logging Out!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+
+
+export function useFetchOverView(){
+    const [ovError, setError] = useState(null);
+    const [overview, setOv] = useState({});
+    const [ovLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchOverView(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/admin/overview`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching Overview!");
+                const data = await res.json();
+                setOv(data.overview);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchOverView();
+
+    }, []);
+
+    return { overview, ovLoading, ovError };
+}
+
+
+
+export function useTripsLast7Days() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchTrips() {
+      try {
+        const res = await fetch(`${apiUrl}/api/v1/admin/data/recent`, {
+          credentials: "include",
+        });
+        const json = await res.json();
+        if(!res.ok) throw new Error(json.message);
+        setData(json.data);
+      }catch(err){
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
     }
-    return json;
+    fetchTrips();
+  }, []);
+
+  return { data, loading, error };
+}
+
+
+export function useFetchStats(type){
+  const [stats, setStat] = useState([]);
+  const [statLoading, setLoading] = useState(true);
+  const [statError, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchStats(type){
+      try {
+        const res = await fetch(`${apiUrl}/api/v1/admin/data/weekly/${type}`, {
+          credentials: "include",
+        });
+        const json = await res.json();
+        if(!res.ok) throw new Error(json.message);
+        setStat(json.data);
+      }catch(err){
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+    fetchStats(type);
+  }, []);
+
+  return { stats, statLoading, statError };
+}
+
+
+export function useFetchBuses(){
+    const [busError, setError] = useState(null);
+    const [buses, setBuses] = useState([]);
+    const [busLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchBuses(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/admin/buses/all`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching buses!");
+                const data = await res.json();
+                setBuses(data.buses);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchBuses();
+
+    }, []);
+
+    return { buses, busLoading, busError };
+}
+
+export async function registerNewBus(plateNum, make, model, capacity, driverId, conductorId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/admin/buses/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        make: make,
+        model: model,
+        driverId: driverId,
+        capacity: capacity,
+        plateNum: plateNum,
+        conductorId: conductorId
+      })
+    });
+
+    if(!res.ok) throw new Error("Error registering new bus!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+
+export function useFetchRoutes(){
+    const [routeError, setError] = useState(null);
+    const [routes, setRoutes] = useState([]);
+    const [routeLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchRoutes(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/admin/routes/all`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching routes!");
+                const data = await res.json();
+                setRoutes(data.routes);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchRoutes();
+
+    }, []);
+
+    return { routes, routeLoading, routeError };
+}
+
+export async function createNewRoute(name, shortName, startPoint, endPoint) {
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/admin/routes/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        endPoint: endPoint,
+        shortName: shortName,
+        startPoint: startPoint
+      }),
+    });
+
+    if(!res.ok) throw new Error("Error creating new route!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+export function useFetchRevenue(){
+    const [revError, setError] = useState(null);
+    const [revenue, setRevenue] = useState([]);
+    const [revLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchRevenue(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/revenue/all`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching revenue!");
+                const data = await res.json();
+                setRevenue(data.revenue);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchRevenue();
+
+    }, []);
+
+    return { revenue, revLoading, revError };
+}
+
+export function useFetchUsers(){
+  const [users, setUsers] = useState([]);
+  const [usersError, setError] = useState(null);
+  const [usersLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+      async function fetchUsers() {
+        try {
+          const res = await fetch(`${apiUrl}/api/v1/admin/users/all`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if(!res.ok) throw new Error("Error fetching Users!");
+          const data = await res.json();
+          setUsers(data.users);
+
+        }catch(err){
+          setError(err.message);
+        }finally{
+          setLoading(false);
+        }
+      }
+
+      fetchUsers();
+    }, []);
+
+    return { users, usersLoading, usersError };
+}
+
+
+export function useFetchOperators(){
+  const [operators, setOperators] = useState([]);
+  const [operatorError, setError] = useState(null);
+  const [operatorsLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+      async function fetchOperators() {
+        try {
+          const res = await fetch(`${apiUrl}/api/v1/admin/users/operators/all`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if(!res.ok) throw new Error("Error fetching Operators!");
+          const data = await res.json();
+          setOperators(data.operators);
+
+        }catch(err){
+          setError(err.message);
+        }finally{
+          setLoading(false);
+        }
+      }
+
+      fetchOperators();
+    }, []);
+
+    return { operators, operatorsLoading, operatorError };
+}
+
+export async function registerNewOperator(fullname, role, staffId, busId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/admin/operators/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role: role,
+        busId: busId,
+        staffId: staffId,
+        fullname: fullname,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Error registering new operator!");
+    const data = await res.json();
+    return data;
   } catch (err) {
     throw err;
   }
 }
 
 
-export async function deleteComment(postId, commentId){
-  try{
-    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/comments/${commentId}/delete`, {
-      method: "POST",
-      credentials: "include",
-    });
+export function useFetchUser(userId){
+    const [member, setMember] = useState(null);
+    const [memberError, setError] = useState(null);
+    const [memberLoading, setLoading] = useState(true);
 
-    const json = await res.json();
-    if(!res.ok) {
-      const error = new Error(json.message || "Deleting comment failed...");
-      error.status = res.status;
-      error.response = json;
-      throw error;
-    }
-    return json;
-  }catch(err) {
-    throw err;
-  }
+    useEffect(() => {
+      async function fetchUser(userId) {
+        try {
+          const res = await fetch(`${apiUrl}/api/v1/users/${userId}`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if(!res.ok) throw new Error("Error fetching user!");
+          const data = await res.json();
+          setMember(data.user);
+        }catch(err) {
+          setError(err.message);
+        }finally {
+          setLoading(false);
+        }
+      }
+
+      fetchUser(userId);
+    }, []);
+
+    return { member, memberLoading, memberError };
 }
 
 
-export async function deletePost(postId){
-  try{
-    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/delete`, {
-      method: "POST",
-      credentials: "include",
-    });
 
-    const json = await res.json();
-    if(!res.ok) {
-      const error = new Error(json.message || "SignUp Failed!!");
-      error.status = res.status;
-      error.response = json;
-      throw error;
-    }
-    return json;
-  }catch(err) {
-    throw err;
-  }
-}
-
-
-export async function likeHandler(userId, postId){
-  try{
-    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/likes/new`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: userId
-      })
-    });
-
-    const json = await res.json();
-    return json;
-  }catch(err) {
-    throw err;
-  }
-}
-
-export async function updateProfile(formData){
-  const userId = formData.get("userId");
+export async function verifyTicket(ticketData){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/update`, {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
-
-      const json = await res.json();
-      if(!res.ok) throw new Error(json.message);
-      return json;
-    }catch(err){
-      throw err;
-    }   
-}
-
-
-
-export async function hydrateUser(){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/profiles/hydrate`, {
-          method: "GET",
+        const res = await fetch(`${apiUrl}/api/v1/tickets/verify`, {
+          method: "POST",
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            payload: ticketData,
+          }),
         });
 
-        const json = await res.json();
-        if(res.status === 401) throw new Error("Unauthorized");
-        if(!res.ok) throw new Error(json.message);
-
-        return json;
+        const data = await res.json();
+        if(!res.ok) throw new Error(data.message);
+        return data;
     }catch(err){
         throw err;
     }
 }
+
+
+
+export async function createNewTrip(time, busId, routeId){
+    try{
+      const res = await fetch(`${apiUrl}/api/v1/trips/new`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            busId: busId,
+            routeId: routeId,
+            departure: time,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.message);
+      return data;
+    }catch(err){
+      throw err;
+    }
+}
+
+
+export async function purchaseTicket(price, userId, tripId){
+    try{
+      const res = await fetch(`${apiUrl}/api/v1/tickets/new`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            price: price,
+            tripId: tripId,
+            userId: userId,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.message);
+      return data;
+    }catch(err){
+      throw err;
+    }
+}
+
+
+
+export function useFetchTrip(tripId){
+    const [trip, setTrip] = useState(null);
+    const [tripError, setError] = useState(null);
+    const [tripLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+      async function fetchTrip(tripId){
+        try {
+          const res = await fetch(`${apiUrl}/api/v1/trips/${tripId}`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if(!res.ok) throw new Error("Error fetching trip");
+          const data = await res.json();
+          setTrip(data.trip);
+        }catch(err) {
+          setError(err.message);
+        }finally{
+          setLoading(false);
+        }
+      }
+
+      fetchTrip(tripId);
+    }, []);
+
+    return { trip, tripLoading, tripError };
+}
+
+
+export function useFetchTrips(){
+    const [trips, setTrips] = useState(null);
+    const [tripsError, setError] = useState(null);
+    const [tripsLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+      async function fetchTrips(){
+        try{
+          const res = await fetch(`${apiUrl}/api/v1/trips/all`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if(!res.ok) throw new Error("Error fetching trips");
+          const data = await res.json();
+          setTrips(data.trips);
+        }catch(err) {
+          setError(err.message);
+        }finally{
+          setLoading(false);
+        }
+      }
+
+      fetchTrips();
+    }, []);
+
+    return { trips, tripsLoading, tripsError };
+}
+
+export function useFetchTodaysTrips() {
+  const [trips, setTrips] = useState([]);
+  const [tripsError, setError] = useState(null);
+  const [tripsLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTodaysTrips(){
+      try{
+        const res = await fetch(`${apiUrl}/api/v1/trips/today`,{
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if(!res.ok) throw new Error("Error fetching trips for Today!");
+        const data = await res.json();
+        setTrips(data.trips || []);
+      }catch(err){
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+
+    fetchTodaysTrips();
+  }, []);
+
+  return { trips, tripsLoading, tripsError };
+}
+
+
+
+
+
+
+
+
+
 

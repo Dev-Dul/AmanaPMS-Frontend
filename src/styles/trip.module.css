@@ -50,7 +50,7 @@
 }
 
 .top {
-  margin-top: 13vh;
+  margin-top: 15vh;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -322,6 +322,13 @@
   text-indent: 10px;
   cursor: pointer;
   /* border-radius: 10px; */
+}
+
+.error {
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.65rem;
+  left: 15%;
 }
 
 .deetBox {

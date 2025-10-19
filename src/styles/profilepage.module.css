@@ -79,6 +79,14 @@
     flex-direction: column;
 }
 
+.text h1{
+    font-size: 2rem;
+}
+
+.text h2{
+    font-size: 1.3rem;
+}
+
 .btns{
     height: auto;
     width: 100%;

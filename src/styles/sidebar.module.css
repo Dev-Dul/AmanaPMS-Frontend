@@ -1,4 +1,7 @@
-
+@font-face {
+    font-family: "quickstep";
+    src: url("../assets/Fonts/Quickstep.otf");
+}
 
 .sidebar{
     height: 100vh;
@@ -9,11 +12,17 @@
     flex-direction: column;
     box-sizing: border-box;
     transition: all 0.7s ease;
-    border-right: 2.5px solid;
+    border-right: 1px solid;
 }
 
 .logo{
   font-size: 2rem;
+  font-family: "quickstep";
+}
+
+.sidebar .top h2{
+    text-align: center;
+    font-family: "quickstep";
 }
 
 .sidebar > div{
@@ -25,6 +34,10 @@
     border: none;
 }
 
+.sidebar:not(.collapsed) ~ div > .wrapper{
+    width: 80vw;
+}
+
 .collapsed .icon{
     border: none;
 }
@@ -32,10 +45,15 @@
 .icon{
     height: auto;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 1rem 0;
+    display: grid;
+    place-items: flex-start;
+    grid-template-columns: 30px 1fr;
+    padding: 1rem 0.5rem;
     cursor: pointer;
     transition: all 0.7s ease;
+}
+
+.icon.active{
+    color: white;
+    background: #05f390;
 }

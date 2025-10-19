@@ -1,36 +1,58 @@
-// import AuthSuccess from "./components/AuthSuccess";
-// import AuthError from "./components/AuthError";
-// import Home from "./components/Home";
-// import Profile from "./components/Profile";
-// import Friends from "./components/Friends";
-// import SignupPage from "./pages/SignupPage";
-// import Welcome from "./components/welcome";
-// import Error from "./components/Error";
-// import SearchPage from "./components/Search";
-// import NewPost from "./components/NewPost";
-// import PostView from "./components/PostView";
-// import UserView from "./components/User";
-// import App from "./App";
+import App from "./App";
+import Error from "./components/Error";
 
-// const routes = [
-//   {
-//     path: "/",
-//     element: <App />,
-//     errorElement: <Error />,
-//     children: [
-//       { index: true, element: <Welcome /> },
-//       { path: "home", element: <Home /> },
-//       { path: "new", element: <NewPost /> },
-//       { path: "signup", element: <SignupPage /> },
-//       { path: "friends", element: <Friends /> },
-//       { path: "profile", element: <Profile /> },
-//       { path: "search", element: <SearchPage /> },
-//       { path: "login-failure", element: <AuthError /> },
-//       { path: "auth-success", element: <AuthSuccess /> },
-//       { path: "posts/view/:postId", element: <PostView /> },
-//       { path: "users/view/:userId", element: <UserView /> },
-//     ],
-//   },
-// ];
+// --- Top-level pages (no sidebar) ---
+import HomePage from "./pages/HomePage";
+import LogInPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
-// export default routes;
+// --- App pages (with sidebar / dashboard layout) ---
+import OverviewPage from "./pages/OverviewPage";
+import UserDashboard from "./pages/UserDashboard";
+import TripPage from "./pages/TripPage";
+import ProfilePage from "./pages/ProfilePage";
+import TransactionPage from "./pages/TransactionPage";
+import TripHistoryPage from "./pages/TripHistoryPage";
+import UsersOverviewPage from "./pages/UsersOverviewPage";
+import OperatorPage from "./pages/OperatorPage";
+import BusesPage from "./pages/BusesPage";
+import RoutesPage from "./pages/RoutesPage";
+import RevenuePage from "./pages/RevenuePage";
+import TripAdminPage from "./pages/TripAdminPage";
+import ScannerPage from "./pages/ScannerPage";
+
+const routes = [
+  // --- Public routes (no sidebar) ---
+  {
+    path: "/",
+    errorElement: <Error />,
+    children: [
+      { index: true, element: <HomePage /> }, // HomePage is the main entry
+      { path: "login", element: <LogInPage /> },
+      { path: "signup", element: <SignupPage /> },
+    ],
+  },
+
+  // --- Protected / Dashboard routes (with sidebar) ---
+  {
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      { path: "overview", element: <OverviewPage /> },
+      { path: "dashboard", element: <UserDashboard /> },
+      { path: "trips/:tripId", element: <TripPage /> },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "transactions", element: <TransactionPage /> },
+      { path: "trip-history", element: <TripHistoryPage /> },
+      { path: "users", element: <UsersOverviewPage /> },
+      { path: "operators", element: <OperatorPage /> },
+      { path: "buses", element: <BusesPage /> },
+      { path: "routes", element: <RoutesPage /> },
+      { path: "revenue", element: <RevenuePage /> },
+      { path: "trip-admin", element: <TripAdminPage /> },
+      { path: "scanner", element: <ScannerPage /> },
+    ],
+  },
+];
+
+export default routes;

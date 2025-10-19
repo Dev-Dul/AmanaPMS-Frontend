@@ -3,8 +3,9 @@ import styles from "../styles/tripshistory.module.css";
 import Receipt from "../components/ReceiptEngine";
 import Trip from "../components/Trip";
 import { Download, XCircle } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/context";
 
 function TripHistoryPage() {
     const [data, setData] = useState([]);
@@ -12,38 +13,38 @@ function TripHistoryPage() {
     const [overlay, setOverlay] = useState(false);
     const [monthFilter, setMonthFilter] = useState("0");
     const [statFilter, setStatFilter] = useState("ALL");
-    const receiptRef = useRef();
+    const { user, userLoad } = useContext(AuthContext);
     
-      function handleMonthChange(e){
-        setMonthFilter(e.target.value);
-      }
+    function handleMonthChange(e){
+      setMonthFilter(e.target.value);
+    }
 
-      function handleStatChange(e){
-        setStatFilter(e.target.value);
-      }
+    function handleStatChange(e){
+      setStatFilter(e.target.value);
+    }
 
-       function handleOverlay() {
-         setOverlay((prev) => !prev);
-       }
+    function handleOverlay() {
+      setOverlay((prev) => !prev);
+    }
 
-       function handlePrint(){
-          window.print();
-       }
+    function handlePrint(){
+      window.print();
+    }
 
        
   
       function handleFilter(){
       let filtered = data;
-      if(monthFilter !== "0") {
+      if(monthFilter !== "0"){
         const now = new Date();
         let startDate, endDate;
   
-        if(monthFilter === "4") {
+        if(monthFilter === "4"){
           // Last Year
           const lastYear = subYears(now, 1);
           startDate = startOfYear(lastYear);
           endDate = endOfYear(lastYear);
-        } else {
+        }else{
           // Past X months
           const monthsAgo = parseInt(monthFilter);
           startDate = subMonths(now, monthsAgo);
@@ -66,12 +67,27 @@ function TripHistoryPage() {
       handleFilter();
     }, [monthFilter, data]);
 
+
+    useEffect(() => {
+      if(user && Array.isArray(user.trips)){
+        setData(user.trips);
+      }
+    }, [user]);
+
+
+    if(userLoad) return <Loader />;
+    if(!user) return <Error/>;
+
+    console.log("Filtered Data:", filteredData);
+
   return (
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOverlay} />
-        <Receipt props={"Hello"} ref={receiptRef}/>
-        <button type="button" onClick={handlePrint}>Print</button>
+        <Receipt props={"Hello"} />
+        <button type="button" onClick={handlePrint}>
+          Print
+        </button>
       </div>
       <div className="header">
         <h2>Trips History</h2>
@@ -90,7 +106,10 @@ function TripHistoryPage() {
           </div>
           <div className="second">
             <h2>Filter By Status:</h2>
-            <select name="filter_two" id="filter_two" onChange={handleStatChange}>
+            <select
+              name="filter_two"
+              id="filter_two"
+              onChange={handleStatChange}>
               <option value="ALL">ALL</option>
               <option value="ACTIVE">ACTIVE</option>
               <option value="EXPIRED">EXPIRED</option>
@@ -118,15 +137,28 @@ function TripHistoryPage() {
             </tr>
           </thead>
           <tbody>
-            <Trip
-              id={"tr-1249888yuibhj"}
-              date={"Oct, 6th 2025"}
-              type={"RETURN"}
-              route={"School - BK"}
-              stop={"AP2"}
-              status={"EXPIRED"}
-              onView={handleOverlay}
-            />
+            {filteredData.length > 0 ? (
+              filteredData.map((trip) => (
+                <Trip
+                  key={trip.id}
+                  id={trip.id}
+                  date={trip.created}
+                  type={trip.type}
+                  route={trip.route}
+                  stop={trip.stop}
+                  status={trip.status}
+                  onView={handleOverlay}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="7"
+                  style={{ textAlign: "center", padding: "1rem" }}>
+                  No trips found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

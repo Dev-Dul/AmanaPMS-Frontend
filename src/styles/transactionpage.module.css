@@ -19,7 +19,7 @@
 .top{
     height: auto;
     width: 100%;
-    margin-top: 13vh;
+    margin-top: 15vh;
     display: flex;
     align-items: center;
     box-sizing: border-box;
@@ -29,7 +29,7 @@
 
 .filter{
     height: auto;
-    width: 30%;
+    width: 35%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -37,6 +37,7 @@
 
 .filter h2{
     margin: 0;
+    font-size: 1.1rem;
 }
 
 .filter select{

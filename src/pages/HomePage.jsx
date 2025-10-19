@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 function HomePage(){
+    const navigate = useNavigate();
     const [sidebar, setSidebar] = useState(false);
-    // const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     const {
       register,
@@ -67,10 +67,10 @@ function HomePage(){
                 <div className={styles.center}>
                   <button style={{ "--pos": "1" }}>Features</button>
                   <button style={{ "--pos": "2" }}>About</button>
-                  <button style={{ "--pos": "3" }}>Login</button>
+                  <button style={{ "--pos": "3" }} onClick={() => navigate("/login")}>Login</button>
                 </div>
                 <div className={styles.end}>
-                  <button style={{ "--pos": "4" }}>Sign Up</button>
+                  <button style={{ "--pos": "4" }} onClick={() => navigate("/signup")}>Sign Up</button>
                 </div>
               </div>
             </div>

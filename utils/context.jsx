@@ -1,88 +1,66 @@
-import { createContext, useEffect, useState } from "react";
-import { hydrateUser } from "./fetch";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { hydrateUser, LogOut } from "./fetch";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { ThemeEngine } from "./utils";
-import socket from "./utils";
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext();
 
-export function AuthProvider({ children }){
-    const [user, setUser] = useState(null);
-    const [userLoad, setLoading] = useState(true);
-    const navigate = useNavigate();
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [userLoad, setUserLoad] = useState(true); // true = loading
+  const [error, setError] = useState(null);
 
-    function handleUser(person){
-        setUser(person)
-        if(person && !socket.connected){
-          socket.connect();
-          console.log("socket connected!");
-        }
-        // else if(!user && socket.connected){
-        //   socket.disconnect();
-        // }
+  /**
+   * Runs the external hydration function and updates user state.
+   */
+  const hydrate = useCallback(async () => {
+    setUserLoad(true);
+    setError(null);
+
+    try{
+      const data = await hydrateUser();
+      setUser(data.user);
+    }catch(err){
+      console.error("Auth hydration failed:", err);
+      setUser(null);
+      setError(err.message || "Failed to load user");
+    }finally{
+      setUserLoad(false);
     }
+  }, []);
 
-    async function hydrate(){
-      try{
-        const hydrate = await hydrateUser();
-        handleUser(hydrate.user);
-      }catch(err){
-        toast.error(err.message);
-        if(err.message === "Expired"){
-          setUser(null);
-          localStorage.removeItem("logged");
-          toast.info("Your session has expired, you need to login again.");
-          navigate("/");
-        }
-      }finally{
-        setLoading(false);
-      }
+  /**
+   * Re-run hydration when user has previously logged in.
+   */
+  useEffect(() => {
+    const hasLogged = localStorage.getItem("logged") === "true";
+
+    if(hasLogged){
+      hydrate();
+    }else{
+      setUserLoad(false);
     }
+  }, [hydrate]);
 
-    useEffect(() => {
-        const hasLogged = localStorage.getItem("logged") === 'true';
-        const theme = localStorage.getItem("theme");
-        if(!user && hasLogged){
-           hydrate().then(() => {
-             if(user && !socket.connected){
-              socket.connect();
-              console.log("socket connected!");
-             }
-           });
-        }
+  /**
+   * Simple reactive handlers for login/logout.
+   * - handleLogin() should be called after successful login.
+   * - handleLogout() should clear both local and context state.
+   */
+  const handleLogin = useCallback((userData) => {
+    localStorage.setItem("logged", "true");
+    setUser(userData);
+  }, []);
 
-        if(theme){
-          ThemeEngine(theme);
-        }else{
-          ThemeEngine("light");
-        }
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("logged");
+    setUser(null);
+  }, []);
 
-        socket.on('connect', () => {
-          console.log("Connected to Socket.IO");
-        });
-
-        socket.on('disconnect', (reason) => {
-          console.log("Disconnected", reason);
-        });
-
-        socket.on('connect_error', (err) => {
-          console.log("Connection error:", err.message);
-        });
-
-        if(!hasLogged) localStorage.setItem("theme", "light");
-
-        return () => {
-          socket.off('connect');
-          socket.off('disconnect');
-          socket.off('connect_error');
-          socket.disconnect();
-        }
-    }, []);
-
-    return (
-        <AuthContext.Provider value={{ user, handleUser, userLoad, hydrate }}>
-            {children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider value={{ user, userLoad, error, hydrate, handleLogin, handleLogout, setUser, }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
+
+

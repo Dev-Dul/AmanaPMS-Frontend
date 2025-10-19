@@ -1,5 +1,5 @@
 import styles from "../styles/welcome.module.css";
-// import { signUp } from "../../utils/fetch";
+import { SignUp } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,7 @@ import { useMediaQuery } from "react-responsive";
 
 
 function SignupPage(){
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [nav, setNav] = useState(1);
     const { register, handleSubmit, formState: { errors }} = useForm();
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
@@ -17,12 +17,14 @@ function SignupPage(){
 
 
     async function onSubmit(formData){
-        const signUpPromise = signUp(formData.username, formData.email, formData.password);
+        const userId = nav === 1 ? formData.admission : formData.staffId;
+        const role = nav === 1 ? "STUDENT" : "STAFF";
+        const signUpPromise = SignUp(formData.fullname, formData.email, userId, role, formData.password);
         toast.promise(signUpPromise, {
             loading: "Creating your account...",
             success: (response) => {
                 if(response){
-                    navigate("/");
+                    navigate("/login");
                     return response.message;
                 }
             },
@@ -36,6 +38,7 @@ function SignupPage(){
     function handleNav(num){
       setNav(num);
     }
+
 
     return (
       <div className={`${styles.container} ${styles.signup} ${isMobile ? styles.mobile : ""}`}>
@@ -71,14 +74,10 @@ function SignupPage(){
                 placeholder="fullname"
                 {...register("fullname", {
                   required: "Fullname is required",
-                  minLength: {
-                    value: 5,
-                    message: "Username must be at least 5 characters long",
-                  },
                 })}
               />
-              {errors.username && (
-                <p className={styles.error}>{errors.username.message}</p>
+              {errors.fullname && (
+                <p className={styles.error}>{errors.fullname.message}</p>
               )}
             </div>
             <div className={styles.inputBox}>
@@ -149,9 +148,9 @@ function SignupPage(){
             </button>
             <p className={styles.already}>
               Already have an account?{" "}
-              {/* <Link to="/" className="link">
+              <Link to="/login" className="link">
                 Log In
-              </Link> */}
+              </Link>
             </p>
           </form>
           <h2 className={styles.dev}>

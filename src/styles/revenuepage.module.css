@@ -17,9 +17,9 @@
     border-left: 2px solid black;
 }
 
-.week td:nth-child(even),
-.ticket td:nth-child(even){
-    background: rgb(217, 215, 215);
+.week td:not(:last-of-type),
+.ticket td:not(:last-of-type){
+    border: 1px solid grey;
 }
 
 .week td:nth-child(odd),
@@ -58,7 +58,7 @@
 .top{
     height: auto;
     width: 100%;
-    margin-top: 13vh;
+    margin-top: 15vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -71,9 +71,17 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     place-items: center;
+    column-gap: 1rem;
+}
+
+.cards.two{
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .cards > div{
+    height: 100%;
+    width: 100%;
+    max-height: 130px;
     border: 1px solid;
     border-radius: 10px;
     display: flex;
@@ -86,12 +94,13 @@
 
 .card > h2{
     margin: 0;
-    font-size: 1rem;
+    text-align: left;
+    font-size: 0.85rem;
 }
 
 .card > h3{
     margin: 6px 0;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .action{
@@ -258,7 +267,7 @@
 .close{
     position: absolute;
     top: 50px;
-    right: 50px;
+    right: 150px;
     border: 1px solid;
     border-radius: 50%;
     cursor: pointer;
@@ -332,6 +341,14 @@
     min-height: 30px;
     margin-bottom: 5px;
 }
+
+.error{
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.65rem;
+  left: 15%;
+}
+
 
 .overlay form button,
 .overlayTwo form button{

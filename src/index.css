@@ -39,6 +39,7 @@ body{
   background: var(--bg-color);
   color: var(--text-color);
   transition: all 0.8s ease;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -117,6 +118,7 @@ input, textarea{
 
 @media screen and (max-width: 468px){
   .header{
+    height: 12vh;
     padding: 0 2rem;
   }
 }

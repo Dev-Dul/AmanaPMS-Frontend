@@ -5,21 +5,22 @@
     border-bottom: 1px solid;
 }
 
-.user td:nth-child(even){
-    background: rgb(217, 215, 215);
-}
 
 .user td{
     padding: 0.5rem;
     text-align: left;
+  }
+  
+.user td:not(:last-of-type){
+  border-left: 1px solid grey;    
 }
 
 .user td button{
     height: 80%;
-    width: 80%;
+    width: 100%;
     display: block;
     margin: 0 auto;
-    padding: 0.3rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -47,7 +48,7 @@
 .top{
     height: auto;
     width: 100%;
-    margin-top: 13vh;
+    margin-top: 15vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -58,23 +59,28 @@
     height: auto;
     width: 90%;
     display: grid;
+    gap: 1rem;
     grid-template-columns: repeat(5, 1fr);
 }
 
 .cards > div{
+    height: 100%;
+    width: 100%;
+    max-height: 130px;
     border: 1px solid;
     border-radius: 10px;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
     flex-direction: column;
-    padding: 0.2rem 3rem;
+    padding: 0.2rem 1.5rem;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.35);
 }
 
 .card > h2{
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    text-align: left;
 }
 
 .card > h3{
@@ -168,7 +174,6 @@
 
 .middle table{
     width: 100%;
-    border: 1px solid;
     border-collapse: collapse;
 }
 

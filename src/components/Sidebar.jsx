@@ -1,47 +1,82 @@
 import { useState } from "react";
 import styles from "../styles/sidebar.module.css";
-import { Home, Search, FeatherIcon, User, UserPlus, Menu, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Home, User, CreditCard, List, UserPlus, Bus, MapPin, DollarSign, Scan, Menu, ArrowLeft, Clock } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-function Sidebar(){
-    const [collapse, setCollapse] = useState(true);
-    const navigate = useNavigate();
-    const items = [
-        { icon: <Home />, label: "Home", path: '/home' },
-        { icon: <Search />, label: "Search", path: '/search' },
-        { icon: <FeatherIcon />, label: "Post", path: '/new' },
-        { icon: <UserPlus />, label: "Friends", path: '/friends' },
-        { icon: <User />, label: "Profile", path: '/profile' },
-    ]
+function Sidebar({ role }) {
+  const [collapse, setCollapse] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    function handleCollapse(){
-        setCollapse(prev => !prev);
-    }
+  // Define items per role
+  const menuItems = {
+    STUDENT: [
+      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
+      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+      {
+        icon: <CreditCard />,
+        label: "Transaction History",
+        path: "/transactions",
+      },
+      { icon: <User />, label: "Profile", path: "/profile" },
+    ],
+    STAFF: [
+      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
+      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+      {
+        icon: <CreditCard />,
+        label: "Transaction History",
+        path: "/transactions",
+      },
+      { icon: <User />, label: "Profile", path: "/profile" },
+    ],
+    ADMIN: [
+      { icon: <Home />, label: "Overview", path: "/overview" },
+      { icon: <Bus />, label: "Buses", path: "/buses" },
+      { icon: <MapPin />, label: "Routes", path: "/routes" },
+      { icon: <DollarSign />, label: "Revenue", path: "/revenue" },
+      { icon: <Clock />, label: "Trip Admin", path: "/trip-admin" },
+      { icon: <UserPlus />, label: "Operators", path: "/operators" },
+      { icon: <User />, label: "Users Overview", path: "/users" },
+      { icon: <User />, label: "Profile", path: "/profile" },
+    ],
+    OPERATOR: [
+      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
+      { icon: <Scan />, label: "Scanner", path: "/scanner" },
+      { icon: <User />, label: "Profile", path: "/profile" },
+      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+    ],
+  };
 
-    return (
-      <div className={`${styles.sidebar} ${collapse ? styles.collapsed : ''}`}>
-        <div className="top">
-          {collapse ? <h2 className={styles.logo}>O</h2> : <h2>OdinBook</h2> }
-        </div>
-        <div className="middle">
-          {items.map((item, index) => (
-            <div className={styles.icon} key={index} 
-              onClick={() => navigate(item.path)}
-              style={{ borderBottom: location.pathname === item.path ? "2px solid" : '' }}>
-              {item.icon}
-              {!collapse && item.label}
-            </div>
+  const items = menuItems[role] || [];
+
+  function handleCollapse() {
+    setCollapse((prev) => !prev);
+  }
+
+  return (
+    <div className={`${styles.sidebar} ${collapse ? styles.collapsed : ""}`}>
+      <div className={styles.top}>
+        {collapse ? <h2 className={styles.logo}>S</h2> : <h2>SwiftRyde</h2>}
+      </div>
+      <div className="middle">
+        {items.map((item, index) => (
+          <div
+            className={`${styles.icon} ${location.pathname === item.path ? styles.active : ''}`}
+            key={index}
+            onClick={() => navigate(item.path)}>
+            {item.icon}
+            {!collapse && item.label}
+          </div>
         ))}
-        </div>
-        <div className="bottom">
-          <div className={`${styles.icon} ${styles.one}`} onClick={handleCollapse}>
-          {!collapse ? <ArrowLeft />
-           : <Menu />
-          }
-        </div>
+      </div>
+      <div className="bottom">
+        <div className={`${styles.icon} ${styles.one}`} onClick={handleCollapse}>
+          {!collapse ? <ArrowLeft /> : <Menu />}
         </div>
       </div>
-    );
+    </div>
+  );
 }
 
 export default Sidebar;

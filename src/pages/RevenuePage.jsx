@@ -2,16 +2,22 @@ import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYear
 import styles from "../styles/revenuepage.module.css";
 import Week from "../components/Week";
 import Ticket from "../components/Ticket";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
+import { useFetchStats } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle, TicketIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../utils/context";
+import { exportToExcel } from "../../utils/utils";
 
 function RevenuePage() {
   const [tab, setTab] = useState(1);
   const [open, setOpen] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [data, setData] = useState([]);
+  const { user, userLoad, userError } = useContext(AuthContext);
   const [filteredData, setFilteredData] = useState([]);
   const [monthFilter, setMonthFilter] = useState("0");
+  const { stats, statLoading, statError } = useFetchStats("REV");
 
   function handleOverlay() {
     setOverlay((prev) => !prev);
@@ -29,38 +35,68 @@ function RevenuePage() {
     setMonthFilter(e.target.value);
   }
 
+  function handleExport(){
+    if(stats.length > 0) {
+      exportToExcel(stats, "swiftryde_revenue_by_weeks", "SWIFTRYDE REVENUE BY WEEKS");
+    }else{
+      toast.error("No data available");
+    }
+  }
+
   function handleFilter() {
-    let revenue = data;
+  if (!stats || stats.length === 0) {
+    setFilteredData([]);
+    return;
+  }
 
-    if(monthFilter !== "0") {
-      const now = new Date();
-      let startDate, endDate;
+  // default: show everything
+  let filtered = [...stats];
 
-      if(monthFilter === "4") {
-        // Last Year
+  if(monthFilter !== "0") {
+    const now = new Date();
+    let startDate, endDate;
+
+    switch (monthFilter) {
+      case "1": // 1 month ago
+        startDate = subMonths(now, 1);
+        endDate = now;
+        break;
+      case "2": // 2 months ago
+        startDate = subMonths(now, 2);
+        endDate = subMonths(now, 1);
+        break;
+      case "3": // 3 months ago
+        startDate = subMonths(now, 3);
+        endDate = subMonths(now, 2);
+        break;
+      case "4": // last year
         const lastYear = subYears(now, 1);
         startDate = startOfYear(lastYear);
         endDate = endOfYear(lastYear);
-      } else {
-        // Past X months
-        const monthsAgo = parseInt(monthFilter);
-        startDate = subMonths(now, monthsAgo);
-        endDate = now;
-      }
-
-      revenue = revenue.filter((rv) => {
-        const rvDate = parseISO(rv.created);
-        return isAfter(rvDate, startDate) && isBefore(rvDate, endDate);
-      });
+        break;
+      default:
+        startDate = null;
+        endDate = null;
     }
 
-    setFilteredData(revenue);
-
+    if(startDate && endDate){
+      filtered = filtered.filter((rv) => {
+        const rvDate = parseISO(rv.start); // assumes your weekly data has a `start` field (ISO)
+        return rvDate >= startDate && rvDate <= endDate;
+      });
+    }
   }
 
+  setFilteredData(filtered);
+}
+
+  
   useEffect(() => {
     handleFilter();
-  }, [monthFilter, data]);
+  }, [monthFilter, stats]);
+
+  if(statLoading || userLoad) return <Loader />;
+  if(userError || statError) return <Error />;
 
   return (
     <div className="container">
@@ -239,20 +275,26 @@ function RevenuePage() {
             </tr>
           </thead>
           <tbody>
-            <Week
-              num={"23"}
-              start={"5th Sept., 2025"}
-              end={"12th Sept., 2025"}
-              revenue={"500, 000"}
-              tickets={"100, 000"}
-            />
-            <Week
-              num={"24"}
-              start={"13th Sept., 2025"}
-              end={"20th Sept., 2025"}
-              revenue={"700, 000"}
-              tickets={"120, 000"}
-            />
+            {filteredData.length > 0 ? (
+              filteredData.map((week) => (
+                <Week
+                  num={week.num}
+                  start={week.start}
+                  end={week.end}
+                  revenue={week.totalRevenue}
+                  tickets={week.totalTickets}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "center", padding: "1rem" }}
+                >
+                  No data found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

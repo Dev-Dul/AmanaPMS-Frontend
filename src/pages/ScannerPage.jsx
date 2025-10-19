@@ -1,52 +1,74 @@
+import { useState, useContext } from "react";
 import styles from "../styles/trip.module.css";
 import QrCodeScanner from "../components/QRscanner";
+import { AuthContext } from "../../utils/context";
 import { XCircle } from "lucide-react";
-import { useState } from "react";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
+import { toast } from "sonner";
 
-function ScannerPage(){
-    const [overlay, setOverlay] = useState(false);
+function ScannerPage() {
+  const [overlay, setOverlay] = useState(false);
+  const [ticketDetails, setTicketDetails] = useState(null);
+  const { user, userLoad, userError } = useContext(AuthContext);
 
-    function handleOverlay() {
-      setOverlay((prev) => !prev);
-    }
+  if (!user) return <Error />;
+  if (userLoad) return <Loader />;
+  if (userError) return <Error error={userError} />;
 
+  function handleValidTicket(res) {
+    setTicketDetails(res.ticket || res.data || res);
+    setOverlay(true);
+  }
 
-    return (
-      <div className="container">
-        <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
-          <XCircle className={styles.close} onClick={handleOverlay} />
-          <form action="">
-            <h2>Ticket Scan Was Succesful!</h2>
+  function handleInvalidTicket(err) {
+    toast.error(err?.message || "Invalid or expired ticket");
+  }
+
+  return (
+    <div className="container">
+      {/* Overlay */}
+      <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
+        <XCircle className={styles.close} onClick={() => setOverlay(false)} />
+        {ticketDetails && (
+          <form>
+            <h2>Ticket Scan Successful!</h2>
             <h3>Ticket Is Valid</h3>
             <div className={styles.deetBox}>
               <h3>Ticket Details:</h3>
-              <p>Passenger Name: AbdulRahim Jamil</p>
-              <p>Passenger Type: Student</p>
-              <p>Admission No: 2010203057</p>
-              <p>Route: School - Birnin Kebbi</p>
-              <p>Bus Stop: School - AP2</p>
-              <p>Ticket purchased by AbdulRahim Jamil</p>
-              <p>Ticket purchased for 6:30 AM Trip (DEPARTURE)</p>
-              <p>Ticket purchased at 4:00 AM, 8th Oct., 2025</p>
+              <p>Passenger Name: {ticketDetails.passengerName}</p>
+              <p>Passenger Type: {ticketDetails.role}</p>
+              <p>Admission No: {ticketDetails.admissionNo}</p>
+              <p>Route: {ticketDetails.route}</p>
+              <p>Bus Stop: {ticketDetails.stop}</p>
+              <p>Purchased for: {ticketDetails.tripTime}</p>
+              <p>Purchased at: {ticketDetails.purchaseTime}</p>
             </div>
-            <button>Admit</button>
+            <button type="button">Admit</button>
           </form>
-        </div>
-        <div className="header">
-          <h2>Ticket Verification</h2>
-        </div>
-        <div className={`${styles.top} ${styles.two}`}>
-          <h2>Use The QR Scanner Below to Verify Passenger Tickets</h2>
-          <p className={styles.sub}>
-            Note: Only Passengers with valid tickets should be allowed onto the
-            bus.
-          </p>
-        </div>
-        <div className={`${styles.middle} ${styles.two}`}>
-          <QrCodeScanner />
-        </div>
+        )}
       </div>
-    );
+
+      <div className="header">
+        <h2>Ticket Verification</h2>
+      </div>
+
+      <div className={`${styles.top} ${styles.two}`}>
+        <h2>Use the QR Scanner below to verify passenger tickets</h2>
+        <p className={styles.sub}>
+          Note: Only passengers with valid tickets should be allowed onto the
+          bus.
+        </p>
+      </div>
+
+      <div className={`${styles.middle} ${styles.two}`}>
+        <QrCodeScanner
+          onSuccess={handleValidTicket}
+          onFailure={handleInvalidTicket}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default ScannerPage;

@@ -1,28 +1,40 @@
 import styles from "../styles/welcome.module.css";
-import { signUp } from "../../utils/fetch";
+import { LogIn } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import afustaLogo from "../assets/Img/afusta-logo.png"
 import { useMediaQuery } from "react-responsive";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/context";
 
 
 function LogInPage(){
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [nav, setNav] = useState(1);
     const { register, handleSubmit, formState: { errors }} = useForm();
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     // const apiUrl = import.meta.env.VITE_API_URL;
+    const { setUser } = useContext(AuthContext);
 
 
     async function onSubmit(formData){
-        const signUpPromise = signUp(formData.username, formData.email, formData.password);
-        toast.promise(signUpPromise, {
-            loading: "Creating your account...",
+        const ids = { 1: formData.admissionNo, 2: formData.staffId, 3: formData.adminId };
+        const userId = ids[nav];
+        const LogInPromise = LogIn(userId, formData.password);
+        toast.promise(LogInPromise, {
+            loading: "Loggin you In...",
             success: (response) => {
-                if(response){
-                    navigate("/");
+                if(response && response.user){
+                  const { role } = response.user;
+                  localStorage.setItem("logged", "true");
+                  setUser(response.user);
+                  if(role === "ADMIN"){
+                    navigate("/overview");
+                  }else{
+                    navigate("/dashboard");
+                  }
                     return response.message;
                 }
             },
@@ -32,15 +44,10 @@ function LogInPage(){
         })
     }
 
-    async function handleAuth(e) {
-      e.preventDefault(); // prevent form reload if any
-      window.location.href = `${apiUrl}/api/v1/auth/google`; // ✅ Do a browser redirect
-    }
 
     function handleNav(num){
       setNav(num);
     }
-
 
 
     return (
@@ -60,8 +67,7 @@ function LogInPage(){
                 <button
                   type="button"
                   className={nav === 1 ? styles.selected : ""}
-                  onClick={() => handleNav(1)}
-                >
+                  onClick={() => handleNav(1)}>
                   Student
                 </button>
                 <button
@@ -112,9 +118,9 @@ function LogInPage(){
                 <input
                   type="text"
                   id="adminId"
-                  placeholder="Admin Access Key"
+                  placeholder="Admin ID"
                   {...register("adminId", {
-                    required: "Admin key is required",
+                    required: "AdminId is required",
                   })}
                 />
               )}
@@ -154,9 +160,9 @@ function LogInPage(){
             </button>
             <p className={styles.already}>
               Don't have an account?{" "}
-              {/* <Link to="/" className="link">
-                Log In
-              </Link> */}
+              <Link to="/signup" className="link">
+                Sign Up
+              </Link>
             </p>
           </form>
           <h2 className={styles.dev}>
@@ -164,16 +170,14 @@ function LogInPage(){
             <a
               href="https://github.com/Dev-Dul"
               target="_blank"
-              className="link"
-            >
+              className="link">
               DevAbdul
             </a>
             &nbsp; Check Out the{" "}
             <a
               href="https://github.com/Dev-Dul/OdinBook.git"
               target="_blank"
-              className="link"
-            >
+              className="link">
               Repo.
             </a>
           </h2>
