@@ -36,7 +36,8 @@ function OperatorPage() {
 
     function handleExport(){
       if(operators.length > 0){
-        exportToExcel(operators, "swiftryde_operator_data", "SwiftRyde Operator Data");
+        const safeUsers = operators.map(({ password, ...rest }) => rest)
+        exportToExcel(safeUsers, "swiftryde_operator_data", "SwiftRyde Operator Data");
       }else{
         toast.error("No data available");
       }
@@ -205,7 +206,7 @@ function OperatorPage() {
             </div>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download Operator Data <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOverlay}>

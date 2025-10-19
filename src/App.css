@@ -24,6 +24,11 @@
   margin: 0 auto;
   overflow-y: scroll;
   scrollbar-width: none;
+  transition: all 0.6s ease;
+}
+
+.wrapper.collapsed{
+  width: 80vw;
 }
 
 @media screen and (max-width: 768px){

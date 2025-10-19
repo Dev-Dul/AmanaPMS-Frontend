@@ -23,7 +23,8 @@ function UsersOverviewPage() {
 
     function handleExport(){
       if(users.length > 0){
-        exportToExcel(users, "swiftryde_user_data", "SWIFTRYDE USER DATA");
+        const safeUsers = users.map(({ password, ...rest }) => rest);
+        exportToExcel(safeUsers, "swiftryde_user_data", "SWIFTRYDE USER DATA");
       }else{
         toast.error("No data available");
       }

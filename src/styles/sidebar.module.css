@@ -34,10 +34,6 @@
     border: none;
 }
 
-.sidebar:not(.collapsed) ~ div > .wrapper{
-    width: 80vw;
-}
-
 .collapsed .icon{
     border: none;
 }

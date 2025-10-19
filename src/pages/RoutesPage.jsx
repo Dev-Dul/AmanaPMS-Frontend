@@ -143,7 +143,7 @@ function RoutesPage() {
             </div>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download Route Data <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOverlay}>

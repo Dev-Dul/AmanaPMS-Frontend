@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styles from "../styles/sidebar.module.css";
-import { Home, User, CreditCard, List, UserPlus, Bus, MapPin, DollarSign, Scan, Menu, ArrowLeft, Clock } from "lucide-react";
+import { Home, User, CreditCard, UserPlus, Bus, MapPin, DollarSign, Scan, Menu, ArrowLeft, Clock } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-function Sidebar({ role }) {
+function Sidebar({ role, handleToggle }) {
   const [collapse, setCollapse] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,11 +23,7 @@ function Sidebar({ role }) {
     STAFF: [
       { icon: <Home />, label: "Dashboard", path: "/dashboard" },
       { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      {
-        icon: <CreditCard />,
-        label: "Transaction History",
-        path: "/transactions",
-      },
+      { icon: <CreditCard />, label: "Transaction History", path: "/transactions", },
       { icon: <User />, label: "Profile", path: "/profile" },
     ],
     ADMIN: [
@@ -51,6 +47,7 @@ function Sidebar({ role }) {
   const items = menuItems[role] || [];
 
   function handleCollapse() {
+    handleToggle();
     setCollapse((prev) => !prev);
   }
 

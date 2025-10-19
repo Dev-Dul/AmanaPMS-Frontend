@@ -253,7 +253,7 @@ function RevenuePage() {
             </div>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download Revenue Data <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOverlay}>

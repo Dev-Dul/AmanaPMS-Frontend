@@ -378,7 +378,7 @@ function TripAdminPage() {
             </div>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download Trip trips <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOpen}>

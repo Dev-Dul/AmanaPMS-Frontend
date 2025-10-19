@@ -1,35 +1,18 @@
 import './App.css';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import { AuthProvider } from '../utils/context';
 import { AuthContext } from '../utils/context';
-import { ScrollProvider, ScrollContext } from '../utils/utils';
+import { ScrollProvider } from '../utils/utils';
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
-import HomePage from './pages/HomePage';
-import OverviewPage from './pages/OverviewPage';
-import SignupPage from './pages/SignupPage';
-import LogInPage from './pages/LoginPage';
-import UserDashboard from './pages/UserDashboard';
-import TripPage from './pages/TripPage';
-import ProfilePage from './pages/ProfilePage';
-import TransactionPage from './pages/TransactionPage';
-import TripHistoryPage from './pages/TripHistoryPage';
-import UsersOverviewPage from './pages/UsersOverviewPage';
-import OperatorPage from './pages/OperatorPage';
-import BusesPage from './pages/BusesPage';
-import RoutesPage from './pages/RoutesPage';
-import RevenuePage from './pages/RevenuePage';
-import TripAdminPage from './pages/TripAdminPage';
-import ScannerPage from './pages/ScannerPage';
-import UserOverview from './components/UserOverView';
 
 function App() {
   const location = useLocation();
+  const [toggle, setToggle] = useState(false);
   const { user, userLoad } = useContext(AuthContext);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const hideSidebar = location.pathname === '/' || location.pathname === '/signup' || location.pathname.startsWith('/posts/view/');
@@ -37,11 +20,15 @@ function App() {
 
   if(userLoad) return <Loader />
 
+  function handleToggle(){
+    setToggle(prev => !prev);
+  }
+
   return (
       <AnimatePresence mode="wait">
         <ScrollProvider>
           <div className={(!hideSidebar && !isMobile) ? "grid" : "mobile"}>
-            {(!hideSidebar && !isMobile) ? <Sidebar role={user.role} /> : <Navbar role={user.role} showNav={hideSidebar} isMobile={isMobile} /> }
+            {(!hideSidebar && !isMobile) ? <Sidebar role={user.role} handleToggle={handleToggle} /> : <Navbar role={user.role} showNav={hideSidebar} isMobile={isMobile} /> }
             <div>
               <motion.div
                 key={location.pathname}
@@ -49,7 +36,7 @@ function App() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.8 }}
-                className='wrapper'>
+                className={`${toggle ? 'collapsed' : ''} ${'wrapper'}`}>
                 <Outlet />
               </motion.div>
             </div>

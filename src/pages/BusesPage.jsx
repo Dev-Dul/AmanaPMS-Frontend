@@ -246,7 +246,7 @@ function BusesPage() {
             </div>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download Bus Data{" "}
               <Download style={{ marginLeft: "1rem" }} size={20} />
             </button>
