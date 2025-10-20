@@ -81,6 +81,7 @@
 .cards > div{
     height: 100%;
     width: 100%;
+    color: white;
     max-height: 130px;
     border: 1px solid;
     border-radius: 10px;
@@ -89,6 +90,7 @@
     justify-content: space-around;
     flex-direction: column;
     padding: 0.2rem 1.5rem;
+    background: #05f390;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
 }
 
@@ -170,7 +172,7 @@
     color: white;
     display: inline-flex;
     align-items: center;
-    background: #040404;
+    background: #05f390;
     padding: 0.3rem 1rem;
     justify-content: space-between;
     box-sizing: border-box;
@@ -207,6 +209,7 @@
     margin-top: 1rem;
     padding: 2rem;
     border-radius: 10px;
+    background: #fff;
     box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -226,7 +229,7 @@
 
 .middle table thead tr{
     color: white;
-    background: #040404;
+    background: #05f390;
 }
 
 
@@ -260,8 +263,15 @@
 }
 
 .overlayTwo.two form{
-    width: 100%;
+    width: 80%;
+    left: 0;
+    right: 0;
+    margin: auto;
     position: absolute;
+}
+
+.overlayTwo.two .close{
+    left: 0;
 }
 
 .close{
@@ -331,9 +341,9 @@
 .inputBox select{
     height: 70%;
     width: 100%;
-    border: 1px solid;
     text-indent: 10px;
     cursor: pointer;
+    border: 1px solid #05f390;
     /* border-radius: 10px; */
 }
 
@@ -354,7 +364,7 @@
 .overlayTwo form button{
     margin-top: 0;
     color: white;
-    background: #040404;
+    background: #05f390;
     margin-top:0.5rem;
     transition: all 0.5s ease;
 }

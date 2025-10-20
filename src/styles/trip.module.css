@@ -269,10 +269,10 @@
 .close {
   position: absolute;
   top: 50px;
-  right: 50px;
-  border: 1px solid;
+  right: 150px;
   border-radius: 50%;
   cursor: pointer;
+  border: 1px solid #05f390;
 }
 
 .overlay form {
@@ -318,9 +318,9 @@
 .inputBox select {
   height: 70%;
   width: 100%;
-  border: 1px solid;
   text-indent: 10px;
   cursor: pointer;
+  border: 1px solid #05f390;
   /* border-radius: 10px; */
 }
 
@@ -354,7 +354,7 @@
 .overlay form button {
   margin-top: 0;
   color: white;
-  background: #040404;
+  background: #05f390;
   transition: all 0.5s ease;
 }
 

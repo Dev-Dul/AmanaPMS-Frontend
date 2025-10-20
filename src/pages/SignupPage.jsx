@@ -159,7 +159,7 @@ function SignupPage(){
               href="https://github.com/Dev-Dul"
               target="_blank"
               className="link">
-              DevAbdul
+              Abdulrahim Jamil
             </a>
             &nbsp; Check Out the{" "}
             <a

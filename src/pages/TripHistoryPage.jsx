@@ -6,6 +6,8 @@ import { Download, XCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
+import { exportToExcel } from "../../utils/utils";
+import { toast } from "sonner";
 
 function TripHistoryPage() {
     const [data, setData] = useState([]);
@@ -31,6 +33,13 @@ function TripHistoryPage() {
       window.print();
     }
 
+    function handleExport() {
+      if(data.length > 0) {
+        exportToExcel(routes, `${user.fullname}_swiftryde_trips_history`, "SWIFTRYDE USER TRIP HISTORY");
+      }else{
+        toast.error("No data available");
+      }
+    }
        
   
       function handleFilter(){
@@ -117,7 +126,7 @@ function TripHistoryPage() {
           </div>
         </div>
         <div className={styles.left}>
-          <button>
+          <button onClick={handleExport}>
             Download History <Download style={{ marginLeft: "1rem" }} />
           </button>
         </div>

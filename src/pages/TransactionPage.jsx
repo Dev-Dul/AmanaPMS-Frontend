@@ -5,6 +5,8 @@ import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
+import { exportToExcel } from "../../utils/utils";
+import { toast } from "sonner";
 
 function TransactionPage(){
   const [data, setData] = useState([]);
@@ -15,6 +17,14 @@ function TransactionPage(){
    function handleMonthChange(e){
      setMonthFilter(e.target.value);
    }
+
+   function handleExport(){
+      if(data.length > 0){
+        exportToExcel(data, `${user.fullname}_swiftryde_transaction_history`, "SWIFTRYDE USER TRANSACTION HISTORY");
+      }else{
+        toast.error("No data available");
+      }
+    }
 
    function handleFilter(){
     let filtered = data;
@@ -73,7 +83,7 @@ function TransactionPage(){
             </select>
           </div>
           <div className={styles.left}>
-            <button>
+            <button onClick={handleExport}>
               Download History <Download style={{ marginLeft: "1rem" }} />
             </button>
           </div>

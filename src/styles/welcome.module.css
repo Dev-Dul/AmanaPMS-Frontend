@@ -18,6 +18,11 @@
   src: url("../assets/Fonts/AmericanCaptain-MdEY.otf");
 }
 
+
+.bodyStyles{
+  background: #fff;
+}
+
 .container {
   min-height: 100vh;
   height: 100vh;
@@ -55,14 +60,13 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border-color: red;
 }
 
 .container.signup .right,
 .container.login .left {
   width: 70%;
   height: 100%;
-  border: 1px solid blue;
+  background: url("../assets/Img/img_one.png") center / cover;
 }
 
 .container.login.mobile .right,
@@ -171,9 +175,9 @@
 
 .btns button:hover,
 .btns button.selected {
-  color: white;
+  color: #05f390;
   border-radius: 0;
-  background: #040404;
+  background: #fff;
 }
 
 .inputBox {
@@ -232,8 +236,8 @@
 .inputBox input {
   height: 70%;
   width: 100%;
-  border: 1px solid;
   text-indent: 10px;
+  border: 1px solid #05f390;
   /* border-radius: 10px; */
 }
 
@@ -286,6 +290,8 @@ form button {
   width: 100%;
   margin: 5px 0;
   border-radius: 0;
+  color: white;
+  background: #05f390;
   padding: 0.35rem 4rem;
 }
 

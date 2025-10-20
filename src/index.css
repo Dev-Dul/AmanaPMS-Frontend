@@ -40,9 +40,13 @@ body{
   color: var(--text-color);
   transition: all 0.8s ease;
   overflow-x: hidden;
+  position: relative;
+  background-image: radial-gradient(circle at top right, #7effc9 0%, #05f39066 50%, #05f39000 100%);
+  background: linear-gradient(115deg, #fff, #91ffd160);
 }
 
-h1 {
+
+h1{
   font-size: 2.5em;
   line-height: 1.1;
 }
@@ -63,7 +67,7 @@ button {
 
 button.btn{
   color: var(--bg-color);
-  background: var(--text-color);
+  background: #05f390;
 }
 
 button:hover {
@@ -112,7 +116,7 @@ input, textarea{
 
 .header h2{
   font-size: 1.8rem;
-  border-bottom: 2px solid;
+  border-bottom: 2px solid #05f390;
 }
 
 

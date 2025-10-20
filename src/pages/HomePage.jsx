@@ -1,3 +1,4 @@
+import { IconControl, IconHistory, IconPayment, IconTicket, IconTracking, IconVerify } from "../components/Icons";
 import styles from "../styles/homepage.module.css";
 import { useState, useEffect } from "react";
 import { SendIcon } from "lucide-react";
@@ -129,19 +130,28 @@ function HomePage(){
             <h2>Features</h2>
             <div className={styles.cards}>
               <div className={styles.card}>
+                <IconTicket className={styles.icon} />
                 <h3>Ticket Purchase</h3>
               </div>
               <div className={styles.card}>
+                <IconPayment className={styles.icon} />
                 <h3>Seamless Payments</h3>
               </div>
               <div className={styles.card}>
+                <IconHistory className={styles.icon} />
                 <h3>Trip History</h3>
               </div>
               <div className={styles.card}>
+                <IconVerify className={styles.icon} />
                 <h3>{!isMobile && "Streamlined"} Ticket Verification</h3>
               </div>
               <div className={styles.card}>
+                <IconControl className={styles.icon} />
                 <h3>Centralized Control</h3>
+              </div>
+              <div className={styles.card}>
+                <IconTracking className={styles.icon} />
+                <h3>Track payments &  More</h3>
               </div>
             </div>
           </motion.div>

@@ -89,7 +89,17 @@ const socket = io(apiUrl, {
 
 export default socket;
 
+export function imageLinkGenerator(seed, admin = null){
+  const encodedName = encodeURIComponent(seed);
+  let imageUrl;
+  if(admin){
+    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=fffff7&textColor=05f390`;
+  }else{
+    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=05f390&textColor=fffff7`;
+  }
 
+  return imageUrl;
+}
 
 /**
  * Exports an array of objects to an Excel file, with optional heading/title.
@@ -182,4 +192,6 @@ export async function exportToExcel(data, fileName = "data.xlsx", sheetName = "S
   // Fallback for browsers without file picker support
   saveAs(blob, fileName);
 }
+
+
 

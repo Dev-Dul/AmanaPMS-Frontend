@@ -9,7 +9,7 @@
 }
 
 .top h1 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   margin-bottom: 0;
 }
 
@@ -42,6 +42,12 @@
   padding: 1rem 2rem;
   border: 1px solid;
   border-radius: 10px;
+}
+
+.acctBox{
+  border-color: #05f390;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .tripBox {
@@ -122,6 +128,7 @@
   font-size: 1.2rem;
 }
 
+
 .amt {
   margin: 0;
   font-size: 2rem;
@@ -133,8 +140,9 @@
 
 .mid > div button {
   color: white;
+  border: none;
   padding: 0.3rem 2rem;
-  background: #040404;
+  background: #05f390;
 }
 
 .btm h3 {
@@ -146,6 +154,7 @@
 .btm button {
   border: 1px solid;
   padding: 0.3rem 1rem;
+  border-color: #05f390;
 }
 
 .arrow {

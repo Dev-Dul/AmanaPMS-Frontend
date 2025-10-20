@@ -34,7 +34,7 @@ function UserDashboard() {
       </div>
 
       <div className={styles.top}>
-        <h1>Welcome Back!, {user.fullname}</h1>
+        <h1 style={{ color: "#05f390" }}>Welcome Back!, {user.fullname}</h1>
         {isPassenger && (
           <p className={styles.sub}>Where are we headed today?</p>
         )}
@@ -46,7 +46,7 @@ function UserDashboard() {
             <div className={styles.action}>
               <div className={styles.ft}>
                 <div>
-                  <h2>
+                  <h2 style={{ color: "#05f390" }}>
                     <Wallet className={styles.icon} /> Your Wallet
                   </h2>
                   <p>Acct Name: {user.fullname}</p>
@@ -61,8 +61,8 @@ function UserDashboard() {
               <div className={styles.mid}>
                 <div>
                   <h3>Available Balance (NGN)</h3>
-                  <h2 className={styles.amt}>
-                    <span>N</span> {user.wallet.balance ?? 0}
+                  <h2 className={styles.amt} style={{ color: "#05f390" }}>
+                    <span>N</span> {user?.wallet?.balance ?? 0}
                   </h2>
                 </div>
                 <div>

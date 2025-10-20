@@ -21,11 +21,10 @@
 .container {
   min-height: 100vh;
   width: 100%;
-  /* font-family: 'consolas'; */
   background: #e6f0fa;
-  background: linear-gradient(to right, #fff, #c4daee);
   color: #040404;
   overflow-x: hidden;
+  background: #fff;
 }
 
 .header {
@@ -47,8 +46,8 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 20px;
-  background: #040404;
-  color: #f3f3f3;
+  background: #05f390;
+  color: #fff;
   padding: 0 1rem;
   transition: all 1.5s ease;
   transition-delay: 1s;
@@ -110,8 +109,8 @@ nav button {
 }
 
 .end button {
-  color: #040404;
-  background: #f3f3f3;
+  color: #05f390;
+  background: #fff;
 }
 
 .main {
@@ -200,10 +199,8 @@ nav button {
     opacity: 0;
     transform: translateY(100vh);
   }
-  50%,
-  70%,
-  80%,
-  90% {
+  50%,70%,
+  80%,90% {
     opacity: 1;
     transform: translate(0);
   }
@@ -217,11 +214,16 @@ nav button {
   min-height: 100vh;
   width: 100%;
   display: flex;
+  color: white;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   transition: all 1s ease;
   position: relative;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("../assets/Img/homepage_one.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .welcome > * {
@@ -339,7 +341,7 @@ nav button {
 
 .action button {
   color: #f3f3f3;
-  background: #040404;
+  background: #05f390;
   padding: 0.75rem;
 }
 
@@ -353,6 +355,7 @@ nav button {
   box-sizing: border-box;
   padding: 1rem;
 }
+
 
 .section h2,
 .play h2,
@@ -404,7 +407,7 @@ nav button {
   min-height: 100vh;
   display: flex;
   padding: 0 4rem;
-  background: #040404;
+  background: #05f390;
   color: #f3f3f3;
 }
 
@@ -423,7 +426,7 @@ nav button {
 }
 
 .play button {
-  color: #040404;
+  color: #05f390;
   margin-top: 1rem;
   font-family: "homebase";
   background: #f3f3f3;
@@ -440,18 +443,45 @@ nav button {
   width: 100%;
   display: grid;
   place-items: center;
-  column-gap: 2rem;
-  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
 }
 
 .card {
-  height: 300px;
-  width: 250px;
-  color: #040404;
-  background: #f3f3f3;
+  height: 200px;
+  width: 100%;
   border: 1px solid;
   border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  color: #05f390;
+  gap: 8px;
+  background: #fff;
+  border-bottom: 3px solid;
 }
+
+.card .icon {
+  width: 100px;
+  height: 100px;
+  color: var(--brand-color, #05f390); 
+  margin-bottom: 6px;
+}
+
+.card h3 {
+  margin: 6px 0 2px;
+  font-size: 1.05rem;
+}
+
+.cardSub {
+  font-size: 0.88rem;
+  color: #666;
+}
+
 
 .waitlist {
   display: flex;
@@ -507,7 +537,7 @@ nav button {
   width: 90%;
   color: #f3f3f3;
   padding: 1rem 0;
-  background: #040404;
+  background: #05f390;
 }
 
 .footer {
@@ -517,7 +547,7 @@ nav button {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  background: #040404;
+  background: #05f390;
   color: #f3f3f3;
 }
 
@@ -581,7 +611,7 @@ nav button {
     width: 80vw;
     margin-right: 0;
     overflow: hidden;
-    background: #040404;
+    background: #05f390;
     transition: all 1.5s ease;
     transform: translateX(100vw);
   }

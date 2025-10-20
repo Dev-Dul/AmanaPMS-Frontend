@@ -1,7 +1,7 @@
 import styles from "../styles/welcome.module.css";
 import { LogIn } from "../../utils/fetch";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import afustaLogo from "../assets/Img/afusta-logo.png"
@@ -20,7 +20,7 @@ function LogInPage(){
 
 
     async function onSubmit(formData){
-        const ids = { 1: formData.admissionNo, 2: formData.staffId, 3: formData.adminId };
+        const ids = { 1: formData.admission, 2: formData.staffId, 3: formData.adminId };
         const userId = ids[nav];
         const LogInPromise = LogIn(userId, formData.password);
         toast.promise(LogInPromise, {
@@ -48,6 +48,14 @@ function LogInPage(){
     function handleNav(num){
       setNav(num);
     }
+
+    useEffect(() => {
+      document.body.classList.add(styles.bodyStyles);
+      
+      return () => {
+        document.body.classList.remove(styles.bodyStyles);
+      }
+    }, [])
 
 
     return (
@@ -171,7 +179,7 @@ function LogInPage(){
               href="https://github.com/Dev-Dul"
               target="_blank"
               className="link">
-              DevAbdul
+              Abdulrahim Jamil
             </a>
             &nbsp; Check Out the{" "}
             <a

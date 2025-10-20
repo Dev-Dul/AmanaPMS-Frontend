@@ -5,10 +5,10 @@ import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { useMediaQuery } from "react-responsive";
 import { useState, useContext, useEffect } from "react";
+import { imageLinkGenerator } from "../../utils/utils";
 import { AuthContext } from "../../utils/context";
 import { useNavigate } from "react-router-dom";
 import { LogOut } from "../../utils/fetch";
-import { XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 function ProfilePage(){
@@ -18,13 +18,16 @@ function ProfilePage(){
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //   if(!user || !socket) return;
-    //   const image = imageLinkGenerator(user.username);
-    //   if(image) setAvatar(image);
+      if(!user) return;
+      const check = user.role === "ADMIN";
+      const image = check
+        ? imageLinkGenerator(user.username, true)
+        : imageLinkGenerator(user.username);
+      if(image) setAvatar(image);
 
-    // }, [user, socket]);
+    }, [user, socket]);
 
      async function logOutUser(){
         const logOutPromise = LogOut();
@@ -56,10 +59,7 @@ function ProfilePage(){
         </div>
         <div className={styles.top}>
           <div className={styles.pic}>
-            <div
-              className={styles.frame}
-              style={{ backgroundImage: avatar ? `url(${avatar})` : "" }}
-            ></div>
+            <div className={styles.frame} style={{ backgroundImage: avatar ? `url(${avatar})` : "" }}></div>
           </div>
           <div className={styles.text}>
             <h1>{user.fullname}</h1>

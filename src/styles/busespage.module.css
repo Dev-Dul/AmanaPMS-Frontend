@@ -71,6 +71,8 @@
   justify-content: space-around;
   flex-direction: column;
   padding: 0.2rem 1.5rem;
+  color: white;
+  background: #05f390;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
 }
 
@@ -140,7 +142,7 @@
   color: white;
   display: inline-flex;
   align-items: center;
-  background: #040404;
+  background: #05f390;
   padding: 0.3rem 1rem;
   justify-content: space-between;
   box-sizing: border-box;
@@ -167,6 +169,7 @@
   margin-top: 1rem;
   padding: 2rem;
   border-radius: 10px;
+  background: #fff;
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -186,7 +189,7 @@
 
 .middle table thead tr {
   color: white;
-  background: #040404;
+  background: #05f390;
 }
 
 /* Overlay Styles */
@@ -212,7 +215,7 @@
 .close {
   position: absolute;
   top: 50px;
-  right: 50px;
+  right: 150px;
   border: 1px solid;
   border-radius: 50%;
   cursor: pointer;
@@ -260,7 +263,7 @@
 .inputBox select {
   height: 70%;
   width: 100%;
-  border: 1px solid;
+  border: 1px solid #05f390;
   text-indent: 10px;
   cursor: pointer;
   /* border-radius: 10px; */
@@ -276,7 +279,7 @@
 .overlay form button {
   margin-top: 0;
   color: white;
-  background: #040404;
+  background: #05f390;
   margin-top: 0.5rem;
   transition: all 0.5s ease;
 }
