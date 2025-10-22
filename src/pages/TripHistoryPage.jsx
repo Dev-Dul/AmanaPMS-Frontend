@@ -11,6 +11,7 @@ import { toast } from "sonner";
 
 function TripHistoryPage() {
     const [data, setData] = useState([]);
+    const [trip, setTrip] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
     const [overlay, setOverlay] = useState(false);
     const [monthFilter, setMonthFilter] = useState("0");
@@ -25,8 +26,13 @@ function TripHistoryPage() {
       setStatFilter(e.target.value);
     }
 
-    function handleOverlay() {
-      setOverlay((prev) => !prev);
+    function handleOverlay(trip){
+      if(trip){
+        setTrip(trip);
+        setOverlay((prev) => !prev);
+      }else{
+        setOverlay((prev) => !prev);
+      }
     }
 
     function handlePrint(){
@@ -78,8 +84,8 @@ function TripHistoryPage() {
 
 
     useEffect(() => {
-      if(user && Array.isArray(user.trips)){
-        setData(user.trips);
+      if(user && Array.isArray(user.boardings)){
+        setData(user.boardings);
       }
     }, [user]);
 
@@ -92,8 +98,8 @@ function TripHistoryPage() {
   return (
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
-        <XCircle className={styles.close} onClick={handleOverlay} />
-        <Receipt props={"Hello"} />
+        <XCircle className={styles.close} onClick={() => handleOverlay()} />
+        {trip && <Receipt trip={trip} />}
         <button type="button" onClick={handlePrint}>
           Print
         </button>
@@ -140,7 +146,7 @@ function TripHistoryPage() {
               <th>DATE</th>
               <th>TYPE</th>
               <th>ROUTE</th>
-              <th>BUS STOP</th>
+              <th>SEAT NO.</th>
               <th>STATUS</th>
               <th>RECEIPT</th>
             </tr>
@@ -151,12 +157,12 @@ function TripHistoryPage() {
                 <Trip
                   key={trip.id}
                   id={trip.id}
-                  date={trip.created}
-                  type={trip.type}
-                  route={trip.route}
-                  stop={trip.stop}
-                  status={trip.status}
-                  onView={handleOverlay}
+                  date={trip.boardedAt}
+                  type={trip.trip.type}
+                  route={trip.trip.route.shortName}
+                  seat={trip.seatNumber}
+                  status={trip.trip.status}
+                  onView={() => handleOverlay(trip)}
                 />
               ))
             ) : (

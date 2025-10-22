@@ -59,7 +59,7 @@ function TransactionPage(){
      }, [monthFilter, data]);
 
     useEffect(() => {
-      if(user?.transactions) setData(user.transactions);
+      if(user.tickets) setData(user.tickets);
     }, [user]);
 
 
@@ -95,7 +95,6 @@ function TransactionPage(){
               <tr>
                 <th>ID</th>
                 <th>DATE</th>
-                <th>TYPE</th>
                 <th>AMOUNT</th>
                 <th>STATUS</th>
               </tr>
@@ -107,15 +106,14 @@ function TransactionPage(){
                     key={tx.id}
                     id={tx.id}
                     date={tx.created}
-                    type={tx.type}
-                    amount={tx.amount}
+                    amount={tx.price}
                     status={tx.status}
                   />
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="4"
                     style={{ textAlign: "center", padding: "1rem" }}>
                     No transactions found
                   </td>

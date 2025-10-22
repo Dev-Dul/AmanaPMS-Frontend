@@ -27,7 +27,7 @@ function ProfilePage(){
         : imageLinkGenerator(user.username);
       if(image) setAvatar(image);
 
-    }, [user, socket]);
+    }, [user]);
 
      async function logOutUser(){
         const logOutPromise = LogOut();
@@ -50,6 +50,7 @@ function ProfilePage(){
     if(userError) return <Error error={userError} />;
     
     const isAdmin = user.role === "ADMIN";
+    const isPassenger = user.role === "STUDENT" || user.role === "STAFF";
     const totalSpent = user.tickets.reduce((total, ticket) => total + (ticket.price || 0), 0);
 
     return (
@@ -65,7 +66,7 @@ function ProfilePage(){
             <h1>{user.fullname}</h1>
             <h2>{user.admissionNo ?? user.staffId}</h2>
             {isAdmin && <h2>ADMIN</h2>}
-            {!isAdmin && (
+            {isPassenger && (
               <div className={styles.pts}>
                 <div className="first">
                   <h2>Total Trips</h2>

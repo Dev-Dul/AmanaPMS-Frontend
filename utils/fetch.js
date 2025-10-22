@@ -482,6 +482,22 @@ export async function createNewTrip(time, busId, routeId){
 }
 
 
+export async function markTripAsDone(tripId){
+    try{
+      const res = await fetch(`${apiUrl}/api/v1/trips/done/${tripId}`, {
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.message);
+      return data;
+    }catch(err){
+      throw err;
+    }
+}
+
+
 export async function purchaseTicket(price, userId, tripId){
     try{
       const res = await fetch(`${apiUrl}/api/v1/tickets/new`, {
@@ -513,6 +529,23 @@ export function useFetchTrip(tripId){
     const [tripError, setError] = useState(null);
     const [tripLoading, setLoading] = useState(true);
 
+    async function refetch(tripId){
+      try {
+        const res = await fetch(`${apiUrl}/api/v1/trips/${tripId}`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if(!res.ok) throw new Error("Error fetching trip");
+        const data = await res.json();
+        setTrip(data.trip);
+      }catch(err) {
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+
     useEffect(() => {
       async function fetchTrip(tripId){
         try {
@@ -534,7 +567,7 @@ export function useFetchTrip(tripId){
       fetchTrip(tripId);
     }, []);
 
-    return { trip, tripLoading, tripError };
+    return { trip, tripLoading, tripError, refetch };
 }
 
 

@@ -12,20 +12,15 @@
 
 .week td,
 .ticket td{
+    padding: 0.3rem 0.5rem;
     box-sizing: border-box;
-    padding: 0 10px;
-    border-left: 2px solid black;
 }
 
-.week td:not(:last-of-type),
+/* .week td:not(:last-of-type),
 .ticket td:not(:last-of-type){
     border: 1px solid grey;
-}
+} */
 
-.week td:nth-child(odd),
-.ticket td:nth-child(odd){
-    background: white;
-}
 
 .week td button,
 .ticket td button{
@@ -230,6 +225,10 @@
 .middle table thead tr{
     color: white;
     background: #05f390;
+}
+
+.middle table thead tr th{
+    border-left: 2px solid;
 }
 
 

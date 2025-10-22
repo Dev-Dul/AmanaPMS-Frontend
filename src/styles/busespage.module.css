@@ -11,15 +11,17 @@
 
 .bus td {
   text-align: left;
-  padding: 10px;
+  padding: 0.3rem 0.5rem;
 }
 
 .bus td button {
   height: 80%;
-  width: 80%;
-  display: block;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 5px;
   transition: all 0.5s ease;
 }
@@ -190,6 +192,10 @@
 .middle table thead tr {
   color: white;
   background: #05f390;
+}
+
+.middle table thead tr th{
+  border-left: 2px solid;
 }
 
 /* Overlay Styles */

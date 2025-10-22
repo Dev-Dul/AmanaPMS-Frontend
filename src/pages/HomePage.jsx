@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useForm } from "react-hook-form";
+import img from "../assets/Img/bus_stop.png";
 import { toast } from "sonner";
 
 function HomePage(){
@@ -100,7 +101,7 @@ function HomePage(){
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.8 }}>
-            {/* <img src={four} alt="Web3 Platform" /> */}
+            <img src={img} alt="Bus Stop Image" />
           </motion.div>
           <motion.div
             className={styles.right}

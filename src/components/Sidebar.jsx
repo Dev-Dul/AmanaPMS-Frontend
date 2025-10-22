@@ -36,11 +36,17 @@ function Sidebar({ role, handleToggle }) {
       { icon: <User />, label: "Users Overview", path: "/users" },
       { icon: <User />, label: "Profile", path: "/profile" },
     ],
-    OPERATOR: [
+    DRIVER: [
       { icon: <Home />, label: "Dashboard", path: "/dashboard" },
       { icon: <Scan />, label: "Scanner", path: "/scanner" },
-      { icon: <User />, label: "Profile", path: "/profile" },
       { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+      { icon: <User />, label: "Profile", path: "/profile" },
+    ],
+    CONDUCTOR: [
+      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
+      { icon: <Scan />, label: "Scanner", path: "/scanner" },
+      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+      { icon: <User />, label: "Profile", path: "/profile" },
     ],
   };
 

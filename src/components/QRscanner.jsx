@@ -119,7 +119,10 @@ const QrCodeScanner = ({ onSuccess, onFailure, autoStart = false }) => {
   }, []);
 
   return (
-    <div className={styles.qrcontainer} style={{ padding: "20px", textAlign: "center" }}>
+    <div
+      className={styles.qrcontainer}
+      style={{ padding: "20px", textAlign: "center" }}
+    >
       <h2 style={{ textAlign: "left", marginBottom: 0 }}>QR Code Scanner</h2>
 
       <div id={qrcodeRegionId} className={styles.region}>
@@ -134,10 +137,11 @@ const QrCodeScanner = ({ onSuccess, onFailure, autoStart = false }) => {
               padding: "10px 20px",
               border: "none",
               borderRadius: "6px",
-              background: "#007bff",
+              background: "#05f390",
               color: "#fff",
               cursor: "pointer",
-            }}>
+            }}
+          >
             Start Scanning
           </button>
         ) : (
@@ -150,14 +154,17 @@ const QrCodeScanner = ({ onSuccess, onFailure, autoStart = false }) => {
               background: "#dc3545",
               color: "#fff",
               cursor: "pointer",
-            }}>
+            }}
+          >
             Stop Scanning
           </button>
         )}
       </div>
 
       <div style={{ marginTop: "10px" }}>
-        <p><strong>Last Scanned Ticket ID:</strong></p>
+        <p>
+          <strong>Last Scanned Ticket ID:</strong>
+        </p>
         <div
           style={{
             minHeight: "24px",
@@ -165,7 +172,8 @@ const QrCodeScanner = ({ onSuccess, onFailure, autoStart = false }) => {
             padding: "10px",
             backgroundColor: "#f9f9f9",
             overflowWrap: "anywhere",
-          }}>
+          }}
+        >
           {scannedData}
         </div>
       </div>

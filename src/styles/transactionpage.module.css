@@ -5,12 +5,9 @@
     border-bottom: 1px solid;
 }
 
-.transaction td:nth-child(even){
-    background: rgb(217, 215, 215);
-}
 
 .transaction td{
-    padding: 0.5rem;
+    padding: 0.3rem 0.5rem;
 }
 
 /* End of styles for the Transaction Component */

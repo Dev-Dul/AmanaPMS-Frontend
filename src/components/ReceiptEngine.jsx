@@ -1,30 +1,31 @@
+import logoUrl from "../assets/Img/swiftryde_logo.jpg";
 import styles from "../styles/receipt.module.css";
-import { useEffect, useRef } from "react";
+import { AuthContext } from "../../utils/context";
+import { useEffect, useRef, useContext } from "react";
 import React from "react";
-// import QRCode from "qrcode";
+import QRCode from "qrcode";
 
-function Receipt({
-  eventName = "AFUSTA Bus Transit Ticket",
-  userName = "Abdulrahim Jamil",
-  ticketId = "TCKT-2025-98765",
-  amount = "$25.00",
-  date = new Date().toLocaleDateString(),
-  wittyLine = "The Swift Way To Move 🎟️",
-  logoUrl = "/logo.png",
-  tagline = "Powered by SwiftRyde",
-}) {
+function Receipt({trip}) {
+  const { user } = useContext(AuthContext);
   const qrRef = useRef(null);
+  const ticket = trip.ticket;
 
   // Generate QR code on mount
-  // useEffect(() => {
-  //   if (qrRef.current) {
-  //     QRCode.toCanvas(
-  //       qrRef.current,
-  //       JSON.stringify({ ticketId, userName, eventName }),
-  //       { width: 100, margin: 1 }
-  //     );
-  //   }
-  // }, [ticketId, userName, eventName]);
+  useEffect(() => {
+    if (qrRef.current) {
+      QRCode.toCanvas(
+        qrRef.current,
+        JSON.stringify({ ticket }),
+        { width: 100, margin: 1 }
+      );
+    }
+  }, [trip]);
+
+  const eventName = "AFUSTA Bus Transit Ticket";
+  const  wittyLine = "The Swift Way To Move 🎟️";
+  const tagline = "Powered by SwiftRyde";
+  const date = trip?.ticket?.created;
+  const plateNum = trip?.trip?.bus?.plateNumber || trip?.bus?.plateNumber; 
 
   return (
     <div className={`${styles.receiptContainer} printable`}>
@@ -38,14 +39,14 @@ function Receipt({
         {/* Body */}
         <div className={styles.receiptBody}>
           <p className={styles.label}>Issued To:</p>
-          <p className={styles.value}>{userName}</p>
+          <p className={styles.value}>{trip?.user?.fullname || user.fullname}</p>
 
           <div className={styles.divider}></div>
 
           <div className={styles.infoRow}>
             <div>
               <p className={styles.label}>Ticket ID</p>
-              <p className={styles.code}>{ticketId}</p>
+              <p className={styles.code}>{trip.ticket.id}</p>
             </div>
             <div>
               <p className={styles.label}>Route</p>
@@ -53,18 +54,18 @@ function Receipt({
             </div>
             <div className={styles.amount}>
               <p className={styles.label}>Amount</p>
-              <p className={styles.value}>{amount}</p>
+              <p className={styles.value}>N{trip?.ticket?.price}</p>
             </div>
           </div>
 
           <div className={styles.infoRow}>
             <div>
               <p className={styles.label}>Trip Type</p>
-              <p className={styles.code}>Return</p>
+              <p className={styles.code}>{trip.type}</p>
             </div>
             <div>
               <p className={styles.label}>Seat No.</p>
-              <p className={styles.code}>30</p>
+              <p className={styles.code}>{trip.seatNumber}</p>
             </div>
             <div>
               <p className={styles.label}>B/Stop</p>
@@ -72,13 +73,13 @@ function Receipt({
             </div>
             <div>
               <p className={styles.label}>Bus</p>
-              <p className={styles.code}>KSUSTA-BS-001</p>
+              <p className={styles.code}>{plateNum}</p>
             </div>
           </div>
 
-          {/* <div className={styles.qrBox}>
+          <div className={styles.qrBox}>
             <canvas ref={qrRef}></canvas>
-          </div> */}
+          </div>
 
           <p className={styles.witty}>{wittyLine}</p>
         </div>

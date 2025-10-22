@@ -237,7 +237,7 @@ function OperatorPage() {
                   id={operator.staffId}
                   name={operator.fullname}
                   role={operator.role}
-                  bus={operator.bus.plateNumber}
+                  bus={operator.drivenBuses ?? operator.conductedBuses}
                   date={operator.createdAt}
                   status={operator.status}
                 />

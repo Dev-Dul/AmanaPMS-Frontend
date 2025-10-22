@@ -1,13 +1,14 @@
+import { useFetchTrip, purchaseTicket, markTripAsDone } from "../../utils/fetch";
 import styles from "../styles/trip.module.css";
 import Receipt from "../components/ReceiptEngine";
 import { useState, useContext } from "react";
 import { XCircle } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../utils/context";
-import { useFetchTrip, purchaseTicket } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { format  } from "date-fns";
 import { toast } from "sonner";
 
 function TripPage() {
@@ -16,12 +17,9 @@ function TripPage() {
   const [price, setPrice] = useState(0);
   const [overlay, setOverlay] = useState(false);
   const { user, userLoad } = useContext(AuthContext);
-  const { trip, tripLoading, tripError } = useFetchTrip(tripId);
+  const { trip, tripLoading, tripError, refetch } = useFetchTrip(tripId);
   const { register, handleSubmit, formState: { errors }} = useForm();
 
-
-  const isPassenger = user?.role === "STUDENT" || user?.role === "STAFF";
-  const paid = trip?.boardings?.find(boarding => boarding.user.id === user.id); // Replace with actual trip payment info when available
 
   function handleOverlay(){
     setOverlay((prev) => !prev);
@@ -32,8 +30,9 @@ function TripPage() {
   }
 
   function handlePrice(e){
-    const stop = e.target.value;
-    setPrice(stop.price);
+    const price = e.target.value;
+    console.log("price:", price);
+    setPrice(price);
   }
 
   function handlePrint() {
@@ -51,6 +50,22 @@ function TripPage() {
     toast.promise(ticketPromise, {
         loading: "Processing ticket purchase...",
         success: (response) => {
+          refetch(tripId);
+          return response.message;
+        },
+        error: (error) => {
+            return error.message;
+        }
+    })
+  }
+
+
+  async function handleTrip(){
+    const tripPromise = markTripAsDone(tripId);
+    toast.promise(tripPromise, {
+        loading: "Processing...",
+        success: (response) => {
+          refetch(tripId);
           return response.message;
         },
         error: (error) => {
@@ -61,6 +76,10 @@ function TripPage() {
 
   if(userLoad || tripLoading) return <Loader />;
   if(!user || tripError || !trip) return <Error />;
+
+  const isPassenger = user?.role === "STUDENT" || user?.role === "STAFF";
+  const paid = trip?.boardings?.find((boarding) => boarding.user.id === user.id);
+  const isActive = trip.status === "ACTIVE" && isPassenger && !paid;
 
   const busStops = trip.route.stops ?? [
     "School - Aleiro (Custom)",
@@ -73,8 +92,9 @@ function TripPage() {
     "School - BK (Halliru Abdu)",
   ];
 
+
   const details = [
-    { label: "Departure", value: trip.departureTime ?? "6:30 AM" },
+    { label: "Departure", value: format(trip.departureTime, "h:mm a") ?? "6:30 AM" },
     { label: "Trip Type", value: trip.type ?? "RETURN" },
     { label: "Bus", value: trip.bus.plateNumber ?? "AFUSTA 001" },
     { label: "Driver", value: trip.bus.driver.fullname ?? "Mal Suleiman" },
@@ -98,15 +118,12 @@ function TripPage() {
 
           <div className={styles.inputBox}>
             <label htmlFor="stop">Select Bus Stop</label>
-            <select name="stop" id="stop" defaultValue="" onChange={handlePrice} 
-              {...register("stop", {
-                required: "Bus stop is required",
-              })}>
+            <select name="stop" id="stop" value={price} onChange={handlePrice} required>
               <option value="" disabled>
                 Select Bus Stop
               </option>
               {busStops.map((stop, index) => (
-                <option key={index} value={stop}>
+                <option key={index} value={stop.price}>
                   {stop.name ?? stop}
                 </option>
               ))}
@@ -123,7 +140,7 @@ function TripPage() {
       {/* Ticket Receipt Overlay */}
       <div className={`${styles.overlay} ${styles.two} ${open ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOpen} />
-        <Receipt trip={trip} />
+        {paid && <Receipt trip={paid} />}
         <button type="button" onClick={handlePrint}>
           Print
         </button>
@@ -177,20 +194,20 @@ function TripPage() {
         <div className={styles.fourthBox}>
           <h2>Bus Stops</h2>
           {busStops.map((stop, i) => (
-            <h3 key={i}>{stop}</h3>
+            <h3 key={i}>{stop.name ?? stop}</h3>
           ))}
         </div>
       </div>
 
       {/* Actions */}
       <div className={styles.bottom}>
-        {isPassenger && !paid && (
+        {isActive && (
           <button onClick={handleOverlay}>Purchase Ticket</button>
         )}
         {isPassenger && paid && (
           <button onClick={handleOpen}>View Ticket</button>
         )}
-        {!isPassenger && <button>Mark Trip As Completed</button>}
+        {!isPassenger && <button onClick={handleTrip}>Mark Trip As Completed</button>}
         <button>Make A Complaint</button>
       </div>
     </div>

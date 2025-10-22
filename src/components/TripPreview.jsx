@@ -1,7 +1,9 @@
 import styles from '../styles/trip.module.css';
 import { BusFront, Clock } from 'lucide-react';
+import { format } from 'date-fns';
 
 function TripPreview({title, status, time }){
+  const formatted = format(time, "h:mm a");
 	return (
     <div className={styles.preview}>
       <div className={styles.first}>
@@ -13,7 +15,7 @@ function TripPreview({title, status, time }){
           <p>
             {" "}
             <Clock size={15} style={{ margin: "2px 5px"}} />
-            {time}
+            {formatted}
           </p>
         </div>
       </div>

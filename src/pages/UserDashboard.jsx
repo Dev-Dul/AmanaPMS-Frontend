@@ -14,9 +14,7 @@ function UserDashboard() {
   const { user, userLoad } = useContext(AuthContext);
   const { trips, tripsLoading, tripsError } = useFetchTodaysTrips();
 
-  const isPassenger = user?.role === "STUDENT" || user?.role === "STAFF"; // You can adapt this based on your logic
-
-  if (userLoad) return <Loader />;
+  if (userLoad || tripsLoading) return <Loader />;
   if (!user || tripsError) return <Error />;
 
   // Format current date dynamically
@@ -26,6 +24,8 @@ function UserDashboard() {
     navigator.clipboard.writeText(user.accountNumber ?? "8069940628");
     toast.info("Account number copied!");
   };
+
+  const isPassenger = user?.role === "STUDENT" || user?.role === "STAFF"; // You can adapt this based on your logic
 
   return (
     <div className="container">
@@ -106,9 +106,9 @@ function UserDashboard() {
               <Link to={`/trips/${trip.id}`}>
                 <TripPreview
                   key={trip.id}
-                  title={trip.title ?? trip.route}
+                  title={trip.title ?? trip.route.shortName}
                   status={trip.status}
-                  time={trip.time ?? "N/A"}
+                  time={trip.departureTime ?? "N/A"}
                 />
               </Link>
             ))
