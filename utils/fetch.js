@@ -27,7 +27,7 @@ export async function SignUp(name, email, id, role, password) {
 }
 
 
-export async function hydrateUser() {
+export async function hydrateUser(){
   try {
     const response = await fetch(`${apiUrl}/api/v1/auth/hydrate`, {
       method: "GET",
@@ -52,7 +52,7 @@ export async function hydrateUser() {
 }
 
 
-export async function LogIn(id, password){
+export async function LogIn(username, password){
   try{
     const res = await fetch(`${apiUrl}/api/v1/login`, {
       method: "POST",
@@ -61,7 +61,7 @@ export async function LogIn(id, password){
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: id,
+        username: username,
         password: password,
       }),
     });
@@ -122,76 +122,104 @@ export function useFetchOverView(){
 
 
 
-export function useTripsLast7Days() {
+export function useLast7DaysPurchases() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchTrips() {
+    async function fetchPurchases() {
       try {
         const res = await fetch(`${apiUrl}/api/v1/admin/data/recent`, {
           credentials: "include",
         });
         const json = await res.json();
         if(!res.ok) throw new Error(json.message);
-        setData(json.data);
+        setData(json.purchases);
       }catch(err){
         setError(err.message);
       }finally{
         setLoading(false);
       }
     }
-    fetchTrips();
+    fetchPurchases();
   }, []);
 
   return { data, loading, error };
 }
 
 
-export function useFetchStats(type){
-  const [stats, setStat] = useState([]);
-  const [statLoading, setLoading] = useState(true);
-  const [statError, setError] = useState(null);
+export function usefetchPurchases() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchStats(type){
+    async function fetchPurchases() {
       try {
-        const res = await fetch(`${apiUrl}/api/v1/admin/data/weekly/${type}`, {
+        const res = await fetch(`${apiUrl}/api/v1/purchases/all`, {
           credentials: "include",
         });
         const json = await res.json();
         if(!res.ok) throw new Error(json.message);
-        setStat(json.data);
+        setData(json.purchases);
       }catch(err){
         setError(err.message);
       }finally{
         setLoading(false);
       }
     }
-    fetchStats(type);
+    fetchPurchases();
   }, []);
 
-  return { stats, statLoading, statError };
+  return { data, loading, error };
 }
 
 
-export function useFetchBuses(){
-    const [busError, setError] = useState(null);
-    const [buses, setBuses] = useState([]);
-    const [busLoading, setLoading] = useState(true);
+export function usefetchBatches() {
+  const [error, setError] = useState(null);
+  const [batches, setBatches] = useState([]);
+  const [batchesLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBatches() {
+      try {
+        const res = await fetch(`${apiUrl}/api/v1/purchases/batches/all`, {
+          credentials: "include",
+        });
+        const json = await res.json();
+        if(!res.ok) throw new Error(json.message);
+        setBatches(json.batches);
+      }catch(err){
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
+    }
+    fetchBatches();
+  }, []);
+
+  return { batches, batchesLoading, error };
+}
+
+
+
+export function useFetchDrugs(){
+    const [drugs, setDrugs] = useState([]);
+    const [drugError, setError] = useState(null);
+    const [drugLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchBuses(){
+        async function fetchDrugs(){
             try{
-                const res = await fetch(`${apiUrl}/api/v1/admin/buses/all`, {
+                const res = await fetch(`${apiUrl}/api/v1/products/drugs/all`, {
                     method: "GET",
                     credentials: "include",
                 });
 
-                if(!res.ok) throw new Error("Error fetching buses!");
+                if(!res.ok) throw new Error("Error fetching drugs!");
                 const data = await res.json();
-                setBuses(data.buses);
+                setDrugs(data.drugs);
             }catch(err){
                 setError(err.message);
             }finally{
@@ -199,73 +227,16 @@ export function useFetchBuses(){
             }
         }
 
-        fetchBuses();
+        fetchDrugs();
 
     }, []);
 
-    return { buses, busLoading, busError };
+    return { drugs, drugLoading, drugError };
 }
 
-export async function registerNewBus(plateNum, make, model, capacity, driverId, conductorId){
+export async function registerNewDrug(name, cost, price, quantity, manufacturer, userId){
   try{
-    const res = await fetch(`${apiUrl}/api/v1/admin/buses/new`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        make: make,
-        model: model,
-        driverId: driverId,
-        capacity: capacity,
-        plateNum: plateNum,
-        conductorId: conductorId
-      })
-    });
-
-    if(!res.ok) throw new Error("Error registering new bus!");
-    const data = await res.json();
-    return data;
-  }catch(err){
-    throw err;
-  }
-}
-
-
-export function useFetchRoutes(){
-    const [routeError, setError] = useState(null);
-    const [routes, setRoutes] = useState([]);
-    const [routeLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchRoutes(){
-            try{
-                const res = await fetch(`${apiUrl}/api/v1/admin/routes/all`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if(!res.ok) throw new Error("Error fetching routes!");
-                const data = await res.json();
-                setRoutes(data.routes);
-            }catch(err){
-                setError(err.message);
-            }finally{
-                setLoading(false);
-            }
-        }
-
-        fetchRoutes();
-
-    }, []);
-
-    return { routes, routeLoading, routeError };
-}
-
-export async function createNewRoute(name, shortName, startPoint, endPoint) {
-  try {
-    const res = await fetch(`${apiUrl}/api/v1/admin/routes/new`, {
+    const res = await fetch(`${apiUrl}/api/v1/products/drugs/new`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -273,19 +244,174 @@ export async function createNewRoute(name, shortName, startPoint, endPoint) {
       },
       body: JSON.stringify({
         name: name,
-        endPoint: endPoint,
-        shortName: shortName,
-        startPoint: startPoint
-      }),
+        cost: cost,
+        price: price,
+        userId: userId,
+        quantity: quantity,
+        manufacturer: manufacturer,
+      })
     });
 
-    if(!res.ok) throw new Error("Error creating new route!");
+    if(!res.ok) throw new Error("Error registering new drug!");
     const data = await res.json();
     return data;
   }catch(err){
     throw err;
   }
 }
+
+
+export async function updateDrug(drugId, name, cost, price, quantity, manufacturer, userId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/products/drugs/update`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        cost: cost,
+        price: price,
+        drugId: drugId,
+        userId: userId,
+        quantity: quantity,
+        manufacturer: manufacturer,
+      })
+    });
+
+    if(!res.ok) throw new Error("Error updating drug!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+
+export async function deleteDrug(drugId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/products/drugs/delete/${drugId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if(!res.ok) throw new Error("Error deleting drug!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+
+export async function deleteItem(itemId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/products/items/delete/${itemId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if(!res.ok) throw new Error("Error deleting item!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+export async function updateItem(itemId, name, cost, price, quantity, manufacturer, type, userId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/products/items/update`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        cost: cost,
+        type: type,
+        price: price,
+        itemId: itemId,
+        userId: userId,
+        quantity: quantity,
+        manufacturer: manufacturer,
+      })
+    });
+
+    if(!res.ok) throw new Error("Error updating item!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
+
+export function useFetchItems(){
+    const [items, setItems] = useState([]);
+    const [itemsError, setError] = useState(null);
+    const [itemsLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchItems(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/products/items/all`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching Items!");
+                const data = await res.json();
+                setItems(data.drugs);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchItems();
+
+    }, []);
+
+    return { items, itemsLoading, itemsError };
+}
+
+export async function registerNewItem(name, cost, price, quantity, manufacturer, type, userId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/products/items/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        cost: cost,
+        type: type,
+        price: price,
+        userId: userId,
+        quantity: quantity,
+        manufacturer: manufacturer,
+      })
+    });
+
+    if(!res.ok) throw new Error("Error registering new item!");
+    const data = await res.json();
+    return data;
+  }catch(err){
+    throw err;
+  }
+}
+
 
 export function useFetchRevenue(){
     const [revError, setError] = useState(null);
@@ -348,22 +474,22 @@ export function useFetchUsers(){
 }
 
 
-export function useFetchOperators(){
-  const [operators, setOperators] = useState([]);
-  const [operatorError, setError] = useState(null);
-  const [operatorsLoading, setLoading] = useState(true);
+export function useFetchStaff(){
+  const [staff, setStaff] = useState([]);
+  const [staffError, setError] = useState(null);
+  const [staffLoading, setLoading] = useState(true);
 
     useEffect(() => {
-      async function fetchOperators() {
+      async function fetchStaff() {
         try {
-          const res = await fetch(`${apiUrl}/api/v1/admin/users/operators/all`, {
+          const res = await fetch(`${apiUrl}/api/v1/admin/users/staff/all`, {
             method: "GET",
             credentials: "include",
           });
 
-          if(!res.ok) throw new Error("Error fetching Operators!");
+          if(!res.ok) throw new Error("Error fetching Staff!");
           const data = await res.json();
-          setOperators(data.operators);
+          setStaff(data.staff);
 
         }catch(err){
           setError(err.message);
@@ -372,32 +498,84 @@ export function useFetchOperators(){
         }
       }
 
-      fetchOperators();
+      fetchStaff();
     }, []);
 
-    return { operators, operatorsLoading, operatorError };
+    return { staff, staffLoading, staffError };
 }
 
-export async function registerNewOperator(fullname, role, staffId, busId){
+
+export async function registerNewStaff(fullname, password, email, username){
   try {
-    const res = await fetch(`${apiUrl}/api/v1/admin/operators/new`, {
+    const res = await fetch(`${apiUrl}/api/v1/admin/staff/new`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        role: role,
-        busId: busId,
-        staffId: staffId,
+        email: email,
+        username: username,
         fullname: fullname,
+        password: password,
       }),
     });
 
-    if (!res.ok) throw new Error("Error registering new operator!");
+    if (!res.ok) throw new Error("Error registering new staff!");
     const data = await res.json();
     return data;
   } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function registerNewPurchase(type, quantity, sellerId, drugId, itemId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/purchases/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: type,
+        quantity: quantity,
+        sellerId: sellerId,
+        ...(drugId && { drugId: drugId }),
+        ...(itemId && { drugId: itemId }),
+      }),
+    });
+
+    if (!res.ok) throw new Error("Error recording new purchase!");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function registerNewBatch(totalDrugs, totalItems, totalCost, userId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/purchases/batches/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+       userId,
+       totalCost,
+       totalDrugs,
+       totalItems,
+      }),
+    });
+
+    if(!res.ok) throw new Error("Error recording new batch!");
+    const data = await res.json();
+    return data;
+  }catch(err){
     throw err;
   }
 }
@@ -411,7 +589,7 @@ export function useFetchUser(userId){
     useEffect(() => {
       async function fetchUser(userId) {
         try {
-          const res = await fetch(`${apiUrl}/api/v1/users/${userId}`, {
+          const res = await fetch(`${apiUrl}/api/v1/admin/users/${userId}`, {
             method: "GET",
             credentials: "include",
           });
@@ -432,28 +610,6 @@ export function useFetchUser(userId){
     return { member, memberLoading, memberError };
 }
 
-
-
-export async function verifyTicket(ticketData){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/tickets/verify`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            payload: ticketData,
-          }),
-        });
-
-        const data = await res.json();
-        if(!res.ok) throw new Error(data.message);
-        return data;
-    }catch(err){
-        throw err;
-    }
-}
 
 
 
@@ -480,48 +636,6 @@ export async function createNewTrip(time, busId, routeId){
       throw err;
     }
 }
-
-
-export async function markTripAsDone(tripId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/trips/done/${tripId}`, {
-          credentials: "include",
-        }
-      );
-
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.message);
-      return data;
-    }catch(err){
-      throw err;
-    }
-}
-
-
-export async function purchaseTicket(price, userId, tripId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/tickets/new`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            price: price,
-            tripId: tripId,
-            userId: userId,
-          }),
-        }
-      );
-
-      const data = await res.json();
-      if(!res.ok) throw new Error(data.message);
-      return data;
-    }catch(err){
-      throw err;
-    }
-}
-
 
 
 export function useFetchTrip(tripId){

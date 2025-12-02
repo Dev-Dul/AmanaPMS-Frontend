@@ -16,7 +16,7 @@ function TripPage() {
   const [open, setOpen] = useState(false);
   const [price, setPrice] = useState(0);
   const [overlay, setOverlay] = useState(false);
-  const { user, userLoad } = useContext(AuthContext);
+  const { user, userLoad, hydrate } = useContext(AuthContext);
   const { trip, tripLoading, tripError, refetch } = useFetchTrip(tripId);
   const { register, handleSubmit, formState: { errors }} = useForm();
 
@@ -51,6 +51,8 @@ function TripPage() {
         loading: "Processing ticket purchase...",
         success: (response) => {
           refetch(tripId);
+          handleOverlay();
+          hydrate();
           return response.message;
         },
         error: (error) => {
@@ -103,7 +105,7 @@ function TripPage() {
   const extraDetails = [
     { label: "Conductor", value: trip.bus.conductor.fullname ?? "Lawal Muhammad" },
     { label: "Capacity", value: trip.bus.capacity ?? "35" },
-    { label: "ETA", value: trip.eta ?? "7:30 AM" },
+    { label: "ETA", value: trip.eta ?? "11:30 PM" },
     { label: "Route", value: trip.route.shortName ?? "Sch - BK" },
   ];
 

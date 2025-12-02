@@ -1,6 +1,6 @@
 import styles from "../styles/operatorpage.module.css";
-import Operator from "../components/Operator";
-import { useFetchOperators, useFetchBuses, registerNewOperator } from "../../utils/fetch";
+import Operator from "../components/Staff";
+import { useFetchStaff, registerNewStaff } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
 import { AuthContext } from "../../utils/context";
 import { exportToExcel } from "../../utils/utils";
@@ -10,15 +10,15 @@ import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { useContext } from "react";
 import { toast } from "sonner";
+import Staff from "../components/Staff";
 
-function OperatorPage() {
+function StaffPage() {
     const [overlay, setOverlay] = useState(false);
     const { user, userLoad, userError } = useContext(AuthContext);
     const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState("ALL");
     const [roleFilter, setRoleFilter] = useState("ALL");
-    const { operators, operatorsLoading, operatorError } = useFetchOperators();
-    const { buses, busLoading, busError } = useFetchBuses();
+    const { staff, staffLoading, staffError } = useFetchStaff();
     const { register, handleSubmit, formState: { errors }} = useForm();
     
     
@@ -35,16 +35,16 @@ function OperatorPage() {
     }
 
     function handleExport(){
-      if(operators.length > 0){
-        const safeUsers = operators.map(({ password, ...rest }) => rest)
-        exportToExcel(safeUsers, "swiftryde_operator_data", "SwiftRyde Operator Data");
+      if(staff.length > 0){
+        const safeUsers = staff.map(({ password, ...rest }) => rest)
+        exportToExcel(safeUsers, "swiftryde_staff_data", "Staff Data");
       }else{
         toast.error("No data available");
       }
     }
 
     function handleFilter() {
-      let filtered = operators;
+      let filtered = staff;
       // Filter by status
       if(statFilter !== "ALL") filtered = filtered.filter((opr) => opr.status === statFilter);
       if(roleFilter !== "ALL") filtered = filtered.filter((opr) => opr.role === roleFilter);
@@ -54,12 +54,12 @@ function OperatorPage() {
 
     useEffect(() => {
       handleFilter();
-    }, [statFilter, roleFilter, operators])
+    }, [statFilter, roleFilter, staff])
 
     async function onSubmit(formData){
-        const operatorPromise = registerNewOperator(formData.fullname, formData.role, formData.staffId, formData.busId );
-        toast.promise(operatorPromise, {
-            loading: "Registering new operator...",
+        const staffPromise = registerNewStaff(formData.fullname, formData.password, formData.email, formData.username);
+        toast.promise(staffPromise, {
+            loading: "Registering new staff...",
             success: (response) => {
               return response.message;
             },
@@ -69,21 +69,20 @@ function OperatorPage() {
         })
     }
 
-    if(operatorsLoading || userLoad || busLoading) return <Loader/>
+    if(staffLoading || userLoad) return <Loader/>
     if(userError) return <Error error={userError} />
-    if(operatorError) return <Error error={operatorError} />
+    if(staffError) return <Error error={staffError} />
 
-    const active = operators.filter(operator => operator.status === "ACTIVE").length;
-    const inActive = operators.filter(operator => operator.status !== "ACTIVE").length;
-    const totalDrivers = operators.filter((operator) => operator.role === "DRIVER").length;
-    const totalConductors = operators.filter(operator => operator.role === 'CONDUCTOR').length;
+    const active = staff.filter(st => st.status === "ACTIVE").length;
+    const inActive = staff.filter(st => st.status !== "ACTIVE").length;
+    
 
   return (
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={handleOverlay} />
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <h2>Register A New Operator</h2>
+          <h2>Register A New Staff</h2>
           <div className={styles.inputBox}>
             <label htmlFor="fullname">Fullname</label>
             <input
@@ -98,90 +97,69 @@ function OperatorPage() {
             )}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="staffId">Staff ID</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
-              id="staffId"
-              {...register("staffId", {
-                required: "Operator's staffId is required",
+              id="username"
+              {...register("username", {
+                required: "Staff's username is required",
               })}
             />
-            {errors.staffId && (
-              <p className={styles.error}>{errors.staffId.message}</p>
+            {errors.username && (
+              <p className={styles.error}>{errors.username.message}</p>
             )}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="role">Assign Role</label>
-            <select
-              name="role"
-              id="role"
-              {...register("role", {
-                required: "Operator's role is required",
-              })}>
-              <option value="" selected>
-                Select Operator Role
-              </option>
-              <option value={"DRIVER"}>DRIVER</option>
-              <option value={"CONDUCTOR"}>CONDUCTOR</option>
-            </select>
-            {errors.role && (
-              <p className={styles.error}>{errors.role.message}</p>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              {...register("email", {
+                required: "Staff's email is required",
+              })}
+            />
+            {errors.email && (
+              <p className={styles.error}>{errors.email.message}</p>
             )}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="role">Assign Bus</label>
-            <select
-              name="role"
-              id="busId"
-              {...register("busId", {
-                required: "Bus id is required",
-              })}>
-              <option value="" selected>
-                Select Bus For Operator
-              </option>
-              {buses.length > 0 ? (
-                buses.map((bus) => (
-                  <option key={bus.id} value={bus.id}>
-                    {bus.plateNumber}
-                  </option>
-                ))
-              ) : (
-                <option>No buses found</option>
-              )}
-            </select>
-            {errors.busId && (
-              <p className={styles.error}>{errors.busId.message}</p>
+            <label htmlFor="password">password</label>
+            <input
+              type="password"
+              id="password"
+              {...register("password", {
+                required: "Staff's passwod is required",
+              })}
+            />
+            {errors.password && (
+              <p className={styles.error}>{errors.password.message}</p>
             )}
           </div>
+          
           <button>Register</button>
         </form>
       </div>
+      
       <div className="header">
-        <h2>Operators</h2>
+        <h2>Staff</h2>
       </div>
       <div className={styles.top}>
         <div className={styles.cards}>
           <div className={styles.card}>
-            <h2>Total Operators</h2>
-            <h3>{operators.length}</h3>
+            <h2>Total Staff</h2>
+            <h3>{staff.length}</h3>
           </div>
+
           <div className={styles.card}>
-            <h2>Total Drivers</h2>
-            <h3>{totalDrivers}</h3>
-          </div>
-          <div className={styles.card}>
-            <h2>Total Conductors</h2>
-            <h3>{totalConductors}</h3>
-          </div>
-          <div className={styles.card}>
-            <h2>Total Active Operators</h2>
+            <h2>Total Active Staff</h2>
             <h3>{active}</h3>
           </div>
           <div className={styles.card}>
-            <h2>Total Suspended Operators</h2>
+            <h2>Total Suspended Staff</h2>
             <h3>{inActive}</h3>
           </div>
         </div>
+
         <div className={styles.action}>
           <div className={styles.filter}>
             <div className="first">
@@ -207,39 +185,39 @@ function OperatorPage() {
           </div>
           <div className={styles.left}>
             <button onClick={handleExport}>
-              Download Operator Data <Download style={{ marginLeft: "1rem" }} />
+              Download Staff Data <Download style={{ marginLeft: "1rem" }} />
             </button>
             <button onClick={handleOverlay}>
-              Register New Operator{" "}
+              Register New Staff{" "}
               <PlusCircle style={{ marginLeft: "1rem" }} />
             </button>
           </div>
         </div>
       </div>
       <div className={styles.middle}>
-        <h3>Opearators</h3>
+        <h3>Staff</h3>
         <table>
           <thead>
             <tr>
               <th>ID</th>
               <th>NAME</th>
-              <th>ROLE</th>
-              <th>BUS</th>
-              <th>DATE HIRED</th>
+              <th>USERNAME</th>
+              <th>DATE REGISTERED</th>
+              <th>TOTAL SALES</th>
               <th>STATUS</th>
               <th colSpan={2}>ACTION</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((operator) => (
-                <Operator
-                  id={operator.staffId}
-                  name={operator.fullname}
-                  role={operator.role}
-                  bus={operator.drivenBuses ?? operator.conductedBuses}
-                  date={operator.createdAt}
-                  status={operator.status}
+              filteredData.map((staff) => (
+                <Staff
+                  id={staff.id}
+                  name={staff.fullname}
+                  username={staff.username}
+                  date={staff.created}
+                  sales={staff.purchases.length}
+                  status={staff.status}
                 />
               ))
             ) : (
@@ -247,7 +225,7 @@ function OperatorPage() {
                 <td
                   colSpan="8"
                   style={{ textAlign: "center", padding: "1rem" }}>
-                  No operators found
+                  No staff found
                 </td>
               </tr>
             )}
@@ -258,4 +236,4 @@ function OperatorPage() {
   );
 }
 
-export default OperatorPage;
+export default StaffPage;

@@ -1,16 +1,15 @@
 import styles from "../styles/operatorpage.module.css";
 import { format } from "date-fns";
 
-function Operator({id, name, role, bus, date, status}){
+function Staff({id, name, username, date, sales, status}){
     const formatted = format(date, "do MMMM, yyyy");
-    const assignedBus = bus[0].plateNumber;
     return (
         <tr className={styles.operator}>
             <td>{id}</td>
             <td>{name}</td>
-            <td>{role}</td>
-            <td>{assignedBus}</td>
+            <td>{username}</td>
             <td>{formatted}</td>
+            <td>{sales}</td>
             <td>{status}</td>
             <td><button className={styles.suspend}>SUSPEND</button></td>
             <td><button className={styles.del}>DELETE</button></td>
@@ -18,4 +17,4 @@ function Operator({id, name, role, bus, date, status}){
     )
 }
 
-export default Operator;
+export default Staff;

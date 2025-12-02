@@ -4,11 +4,11 @@ import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../utils/context";
-import { useTripsLast7Days, useFetchOverView } from "../../utils/fetch";
+import { useLast7DaysPurchases, useFetchOverView } from "../../utils/fetch";
 
 function OverviewPage() {
   const { user, userLoad } = useContext(AuthContext);
-  const { data, loading, error } = useTripsLast7Days();
+  const { data, loading, error } = useLast7DaysPurchases();
   const { overview, ovLoading, ovError } = useFetchOverView();
 
   if(loading || userLoad || ovLoading) return <Loader />;
@@ -26,22 +26,27 @@ function OverviewPage() {
         <div className={styles.cardsWrapper}>
           <h3>Here's today's stats</h3>
           <div className={styles.cards}>
+
             <div className={styles.card}>
-              <h2>{overview.today.trips}</h2>
-              <h4>Total Trips</h4>
+              <h2>{overview.today.purchases}</h2>
+              <h4>Total Puchases</h4>
             </div>
+
             <div className={styles.card}>
-              <h2>{overview.today.passengers}</h2>
-              <h4>Passengers</h4>
+              <h2>{overview.today.drugs}</h2>
+              <h4>Total Drugs Sold</h4>
             </div>
+
             <div className={styles.card}>
-              <h2>{overview.today.tickets}</h2>
-              <h4>Tickets Sold</h4>
+              <h2>{overview.today.items}</h2>
+              <h4>Total Items Sold</h4>
             </div>
+            
             <div className={styles.card}>
               <h2>₦{overview.today.revenue}</h2>
               <h4>Total Revenue</h4>
             </div>
+
           </div>
         </div>
       </div>
@@ -52,28 +57,57 @@ function OverviewPage() {
           <h3>All-time stats</h3>
           <div className={styles.cards}>
             <div className={styles.card}>
-              <h2>{overview.trips}</h2>
-              <h4>Total Trips</h4>
+              <h2>{overview.allDrugs}</h2>
+              <h4>Total Drugs</h4>
             </div>
+
             <div className={styles.card}>
-              <h2>{overview.students + overview.staff}</h2>
-              <h4>Passengers</h4>
+              <h2>{overview.availableDrugs}</h2>
+              <h4>Available Drugs</h4>
             </div>
+
             <div className={styles.card}>
-              <h2>{overview.tickets}</h2>
-              <h4>Tickets Sold</h4>
+              <h2>{overview.finishedDrugs}</h2>
+              <h4>Finished Drugs</h4>
             </div>
+
+            <div className={styles.card}>
+              <h2>{overview.items}</h2>
+              <h4>Total Items</h4>
+            </div>
+
+            <div className={styles.card}>
+              <h2>{overview.availableItems}</h2>
+              <h4>Available Items</h4>
+            </div>
+
+            <div className={styles.card}>
+              <h2>{overview.finishedItems}</h2>
+              <h4>Finished Items</h4>
+            </div>
+
+            <div className={styles.card}>
+              <h2>{overview.staff}</h2>
+              <h4>Total Staff</h4>
+            </div>
+
+            <div className={styles.card}>
+              <h2>{overview.totalPurchases}</h2>
+              <h4>All Time Purchases</h4>
+            </div>
+
             <div className={styles.card}>
               <h2>₦{overview.totalRevenue}</h2>
               <h4>Total Revenue</h4>
             </div>
+
           </div>
         </div>
       </div>
 
       {/* ===== Bottom Section (Bar Chart) ===== */}
       <div className={styles.bottom}>
-        <h2>Trips in the Last 7 Days</h2>
+        <h2>Purchases in the Last 7 Days</h2>
         <div className={styles.chart}>
           {data.length === 0 ? (
             <p style={{ textAlign: "center", color: "#888" }}>
@@ -88,7 +122,7 @@ function OverviewPage() {
                 <XAxis dataKey="date" />
                 <YAxis allowDecimals={false} />
                 <Tooltip
-                  formatter={(value) => [`${value} trips`, "Trips"]}
+                  formatter={(value) => [`${value} purchases`, "Purchases"]}
                   labelFormatter={(label) =>
                     new Date(label).toLocaleDateString("en-US", {
                       weekday: "short",
