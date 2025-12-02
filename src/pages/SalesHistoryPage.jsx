@@ -1,17 +1,16 @@
 import { parseISO, subMonths, isAfter, isBefore, startOfYear, endOfYear, subYears } from "date-fns";
+import { useState, useEffect, useContext } from "react";
 import styles from "../styles/tripshistory.module.css";
 import Receipt from "../components/ReceiptEngine";
-import Trip from "../components/Trip";
-import { Download, XCircle } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { exportToExcel } from "../../utils/utils";
+import { Download, XCircle } from "lucide-react";
+import Purchase from "../components/Purchase";
 import { toast } from "sonner";
 
-function TripHistoryPage() {
+function SalesHistoryPage() {
     const [data, setData] = useState([]);
-    const [trip, setTrip] = useState(null);
+    const [purchase, setPurchase] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
     const [overlay, setOverlay] = useState(false);
     const [monthFilter, setMonthFilter] = useState("0");
@@ -26,9 +25,9 @@ function TripHistoryPage() {
       setStatFilter(e.target.value);
     }
 
-    function handleOverlay(trip){
-      if(trip){
-        setTrip(trip);
+    function handleOverlay(purchase){
+      if(purchase){
+        setPurchase(purchase);
         setOverlay((prev) => !prev);
       }else{
         setOverlay((prev) => !prev);
@@ -41,7 +40,7 @@ function TripHistoryPage() {
 
     function handleExport() {
       if(data.length > 0) {
-        exportToExcel(routes, `${user.fullname}_swiftryde_trips_history`, "SWIFTRYDE USER TRIP HISTORY");
+        exportToExcel(routes, `${user.fullname}_swiftryde_sales_history`, "SWIFTRYDE USER SALES HISTORY");
       }else{
         toast.error("No data available");
       }
@@ -72,7 +71,7 @@ function TripHistoryPage() {
         });
       }
 
-      if(statFilter !== "ALL") filtered = filtered.filter((trp) => trp.status === statFilter);
+      if(statFilter !== "ALL") filtered = filtered.filter((purchase) => purchase.type === statFilter);
   
       setFilteredData(filtered);
   
@@ -84,8 +83,8 @@ function TripHistoryPage() {
 
 
     useEffect(() => {
-      if(user && Array.isArray(user.boardings)){
-        setData(user.boardings);
+      if(user && Array.isArray(user.purchases)){
+        setData(user.purchases);
       }
     }, [user]);
 
@@ -93,7 +92,6 @@ function TripHistoryPage() {
     if(userLoad) return <Loader />;
     if(!user) return <Error/>;
 
-    console.log("Filtered Data:", filteredData);
 
   return (
     <div className="container">
@@ -105,7 +103,7 @@ function TripHistoryPage() {
         </button>
       </div>
       <div className="header">
-        <h2>Trips History</h2>
+        <h2>Sales History</h2>
       </div>
       <div className={styles.top}>
         <div className={styles.filter}>
@@ -120,14 +118,15 @@ function TripHistoryPage() {
             </select>
           </div>
           <div className="second">
-            <h2>Filter By Status:</h2>
+            <h2>Filter By Product:</h2>
             <select
               name="filter_two"
               id="filter_two"
               onChange={handleStatChange}>
               <option value="ALL">ALL</option>
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="EXPIRED">EXPIRED</option>
+              <option value="DRUG">DRUGS</option>
+              <option value="OTHER">OTHERS</option>
+              <option value="COSMETIC">COSMETICS</option>
             </select>
           </div>
         </div>
@@ -138,39 +137,38 @@ function TripHistoryPage() {
         </div>
       </div>
       <div className={styles.middle}>
-        <h3>Trips</h3>
+        <h3>Sales</h3>
         <table>
           <thead>
             <tr>
               <th>ID</th>
               <th>DATE</th>
               <th>TYPE</th>
-              <th>ROUTE</th>
-              <th>SEAT NO.</th>
-              <th>STATUS</th>
+              <th>QTT</th>
+              <th>AMOUNT</th>
               <th>RECEIPT</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((trip) => (
-                <Trip
-                  key={trip.id}
-                  id={trip.id}
-                  date={trip.boardedAt}
-                  type={trip.trip.type}
-                  route={trip.trip.route.shortName}
-                  seat={trip.seatNumber}
-                  status={trip.trip.status}
-                  onView={() => handleOverlay(trip)}
+              filteredData.map((purchase) => (
+                <Purchase
+                  key={purchase.id}
+                  id={purchase.id}
+                  date={purchase.created}
+                  type={purchase.type}
+                  quantity={purchase.quantity}
+                  item={purchase.item ?? null}
+                  drug={purchase.drug ?? null}
+                  onView={() => handleOverlay(purchase)}
                 />
               ))
             ) : (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="6"
                   style={{ textAlign: "center", padding: "1rem" }}>
-                  No trips found
+                  No sales by this user found
                 </td>
               </tr>
             )}
@@ -181,4 +179,4 @@ function TripHistoryPage() {
   );
 }
 
-export default TripHistoryPage;
+export default SalesHistoryPage;
