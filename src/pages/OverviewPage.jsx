@@ -1,10 +1,10 @@
-import styles from "../styles/overviewpage.module.css";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useLast7DaysPurchases, useFetchOverView } from "../../utils/fetch";
+import styles from "../styles/overviewpage.module.css";
+import { AuthContext } from "../../utils/context";
+import { useContext, useState } from "react";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../utils/context";
-import { useLast7DaysPurchases, useFetchOverView } from "../../utils/fetch";
 
 function OverviewPage() {
   const { user, userLoad } = useContext(AuthContext);

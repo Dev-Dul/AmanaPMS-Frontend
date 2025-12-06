@@ -1,21 +1,18 @@
 import { ArrowRight, Wallet, Plus, ClipboardCopy, TrendingUp } from "lucide-react";
 import styles from "../styles/userdashboard.module.css";
-import TripPreview from "../components/TripPreview";
-import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
-import Loader from "../components/Loader";
-import Error from "../components/Error";
-import { useFetchTodaysTrips } from "../../utils/fetch";
 import { format, startOfToday } from "date-fns";
-import { toast } from "sonner";
+import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import Error from "../components/Error";
+import { useContext } from "react";
+import { toast } from "sonner";
 
 function UserDashboard() {
   const { user, userLoad } = useContext(AuthContext);
-  const { trips, tripsLoading, tripsError } = useFetchTodaysTrips();
 
-  if (userLoad || tripsLoading) return <Loader />;
-  if (!user || tripsError) return <Error />;
+  if (userLoad) return <Loader />;
+  if (!user) return <Error />;
 
   // Format current date dynamically
   const today = format(new Date(), "EEE, MMM d yyyy");
@@ -36,7 +33,7 @@ function UserDashboard() {
       <div className={styles.top}>
         <h1 style={{ color: "#05f390" }}>Welcome Back!, {user.fullname}</h1>
         {isPassenger && (
-          <p className={styles.sub}>Where are we headed today?</p>
+          <p className={styles.sub}>Let's see how far we can go today.</p>
         )}
       </div>
 
@@ -53,7 +50,7 @@ function UserDashboard() {
                 </div>
                 <div>
                   <button>
-                    Transaction History <ArrowRight className={styles.icon} />
+                    Sale History <ArrowRight className={styles.icon} />
                   </button>
                 </div>
               </div>
@@ -87,11 +84,11 @@ function UserDashboard() {
 
         <div className={styles.tripBox}>
           <div className={styles.heading}>
-            <h2>Total Trips</h2>
+            <h2>Total Sales</h2>
             <TrendingUp />
           </div>
-          <h3>{user.trips?.length ?? 0}</h3>
-          <p>Lifetime Trips Completed</p>
+          <h3>{user.purchases?.length ?? 0}</h3>
+          <p>Lifetime Sales Completed</p>
         </div>
       </div>
 
@@ -100,7 +97,7 @@ function UserDashboard() {
           Trips {isPassenger ? "Available" : "Assigned"} Today ({today})
         </h2>
 
-        <div className={styles.trips}>
+        {/* <div className={styles.trips}>
           {trips && trips.length > 0 ? (
             trips.map((trip) => (
               <Link to={`/trips/${trip.id}`}>
@@ -117,7 +114,7 @@ function UserDashboard() {
               No trips available today
             </p>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

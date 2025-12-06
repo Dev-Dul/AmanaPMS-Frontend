@@ -93,9 +93,9 @@ export function imageLinkGenerator(seed, admin = null){
   const encodedName = encodeURIComponent(seed);
   let imageUrl;
   if(admin){
-    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=fffff7&textColor=05f390`;
+    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=fffff7&textColor=007ba7`;
   }else{
-    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=05f390&textColor=fffff7`;
+    imageUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodedName}&backgroundColor=007ba7&textColor=fffff7`;
   }
 
   return imageUrl;

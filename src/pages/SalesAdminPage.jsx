@@ -5,6 +5,7 @@ import styles from "../styles/revenuepage.module.css";
 import { usefetchPurchases } from "../../utils/fetch";
 import { AuthContext } from "../../utils/context";
 import { exportToExcel } from "../../utils/utils";
+import Receipt from "../components/ReceiptEngine";
 import Purchase from "../components/Purchase";
 import { useForm } from "react-hook-form";
 import Loader from "../components/Loader";
@@ -28,7 +29,7 @@ function SalesAdminPage() {
 
     function handleExport(){
       if(data.length > 0){
-        exportToExcel(data, "swiftryde_trip_history_by_weeks", "SWIFTRYDE TRIP STATISTICS BY WEEKS");
+        exportToExcel(data, "alamana_pms_sales_history_by_weeks", "ALAMANA SALES STATISTICS BY WEEKS");
       }else{
         toast.error("No data available");
       }
@@ -82,6 +83,10 @@ function SalesAdminPage() {
     setOpen((prev) => !prev);
   }
 
+  function handlePrint(){
+    window.print();
+  }
+
   function handleStatChange(e) {
     setStatFilter(e.target.value);
   }
@@ -117,7 +122,7 @@ function SalesAdminPage() {
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={() => handleOverlay()} />
-        {trip && <Receipt trip={trip} />}
+        {purchase && <Receipt purchase={purchase} />}
         <button type="button" onClick={handlePrint}>
           Print
         </button>
@@ -140,7 +145,7 @@ function SalesAdminPage() {
           </div>
 
           <div className={styles.card}>
-            <h2>Sales Made Last Month</h2>
+            <h2>Sales Made In Last 30 days</h2>
             <h3>{salesMadeLastMonth.length}</h3>
           </div>
 
@@ -200,7 +205,7 @@ function SalesAdminPage() {
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((week) => (
+              filteredData.map((purchase) => (
                 <Purchase
                   key={purchase.id}
                   id={purchase.id}

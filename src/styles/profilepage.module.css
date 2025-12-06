@@ -1,316 +1,445 @@
-
-.top{
-    height: auto;
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-around;
-    flex-direction: column;
-    box-sizing: border-box;
-    margin-top: 17vh;
-    margin-bottom: 0;
-    position: relative;
-    padding: 2rem 0;
-    border-bottom: 3px solid #05f390;
+.top {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-top: 17vh;
+  margin-bottom: 0;
+  position: relative;
+  padding: 2rem 0;
+  border-bottom: 3px solid #007ba7;
 }
 
-.back{
-    position: absolute;
-    top: 0;
-    left: 0;
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-
-.notif{
-    position: absolute;
-    top: 30px;
-    right: 20px;
-    cursor: pointer;
+.notif {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  cursor: pointer;
 }
 
-.top h1, .top h2{
-    margin: 0;
+.top h1,
+.top h2 {
+  margin: 0;
 }
 
-.top h1{
-    margin-top: 1rem;
+.top h1 {
+  margin-top: 1rem;
 }
 
-.top > h2{
-    margin-top: 1rem;
+.top > h2 {
+  margin-top: 1rem;
 }
 
-.pic, .text{
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.pic,
+.text {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.frame{
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    border: 1px solid #05f390;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
+.frame {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 1px solid #007ba7;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
-.frame p{
-    width: 100%;
-    position: absolute;
-    margin: 0;
-    bottom: 0;
-    font-size: 0.6rem;
-    border-radius: 5px;
-    font-weight: bolder;
+.frame p {
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  bottom: 0;
+  font-size: 0.6rem;
+  border-radius: 5px;
+  font-weight: bolder;
 }
 
-.frame.og{
-    border: 5px solid;
-    border-image: linear-gradient(45deg, #ffd700, #8b775c);
-    border-radius: 50%;
+.frame.og {
+  border: 5px solid;
+  border-image: linear-gradient(45deg, #ffd700, #8b775c);
+  border-radius: 50%;
 }
 
-.text{
-    flex-direction: column;
+.text {
+  flex-direction: column;
 }
 
-.text h1{
-    color: #05f390;
-    font-size: 2rem;
+.text h1 {
+  color: #007ba7;
+  font-size: 2rem;
 }
 
-.text h2{
-    font-size: 1.3rem;
+.text h2 {
+  font-size: 1.3rem;
 }
 
-.btns{
-    height: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin: 1rem 0;
-    justify-content: space-evenly;
+.btns {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  justify-content: space-evenly;
 }
 
-.btns h3{
-    margin: 0;
-    padding: 0;
-    font-size: 1.35rem;
+.btns h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.35rem;
 }
 
-.btns h3 span{
-    margin: 0;
-    padding: 0;
-    font-size: 1.2rem;
-    font-weight: bolder;
+.btns h3 span {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: bolder;
 }
 
-.bigBtns{
-    height: auto;
-    width: 100%;
-    display: flex;
-    margin: 0.5rem 0;
-    align-items: center;
-    justify-content: space-around;
+.bigBtns {
+  height: auto;
+  width: 100%;
+  display: flex;
+  margin: 0.5rem 0;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.bigBtns button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.bigBtns button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-.pts{
-    width: 40%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-    position: relative;
-    margin-top: 1rem;
+.pts {
+  width: 40%;
+  margin: 0;
+  display: grid;
+  position: relative;
+  margin-top: 1rem;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.pts > div h2{
-    font-size: 1rem;
-    margin-bottom: 0;
+.pts > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-
-.pts > div h3{
-    font-size: 1.5rem;
-    margin: 0;
+.pts > div h2 {
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
-.pts button{
-    position: absolute;
-    right: -20px;
-    top: 5px;
-    width: 20px;
-    background: transparent;
-    color: #040404;
-    padding: 0.5rem 0.8rem;
-    padding-left: 0;
+.pts > div h3 {
+  font-size: 1.5rem;
+  margin: 0;
 }
 
-.pts h2{
-    font-size: 2rem;
+.pts button {
+  position: absolute;
+  right: -20px;
+  top: 5px;
+  width: 20px;
+  background: transparent;
+  color: #040404;
+  padding: 0.5rem 0.8rem;
+  padding-left: 0;
 }
 
-.actionBox{
-    height: auto;
-    width: 80%;
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    margin-top: 1.5rem;
-    justify-content: center;
-    flex-direction: column;
-    border: 2px solid #05f390;
-    border-radius: 15px;
-    border-bottom: 5px solid #05f390;
-    /* padding: 0 2rem; */
+.pts h2 {
+  font-size: 2rem;
 }
 
-
-.actionBox > h2{
-    align-self: flex-start;
-    padding-left: 3.5rem;
-    margin-bottom: 5px;
+.actionBox {
+  height: auto;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 15px;
+  /* padding: 0 2rem; */
+  border: 2px solid #007ba7;
+  border-bottom: 5px solid #007ba7;
 }
 
-.action{
-    height: auto;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    place-items: center;
-    padding-bottom: 1rem;
+.actionBox > h2 {
+  align-self: flex-start;
+  padding-left: 3.5rem;
+  margin-bottom: 5px;
+}
+
+.action {
+  height: auto;
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  place-items: center;
+  padding-bottom: 1rem;
+  grid-template-columns: 1fr;
 }
 
 .action > button,
-.txns > button{
-    width: 90%;
-    color: white;
-    background: #05f390;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.txns > button {
+  width: 90%;
+  color: white;
+  background: #007ba7;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.txns > button{
-    margin-bottom: 0.5rem;
+.txns > button {
+  margin-bottom: 0.5rem;
 }
 
 .action > button .arrow,
-.txns > button .arrow{
-    position: absolute;
-    right: 30px;
+.txns > button .arrow {
+  position: absolute;
+  right: 30px;
 }
 
-
-.txns{
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 1.5rem;
+.txns {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1.5rem;
 }
 
-.txns button{
-    width: 100%;
+.txns button {
+  width: 100%;
 }
 
-
-.error{
-    position: absolute;
-    bottom: -25px;
-    font-size: 0.65rem;
-    left: 15%;
+.error {
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.65rem;
+  left: 15%;
 }
 
+.overlay {
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  transform: translateY(100vh);
+  transition: all 0.8s ease;
+}
+
+.overlay.active {
+  transform: translate(0);
+}
+
+.close {
+  position: absolute;
+  top: 50px;
+  right: 150px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #007ba7;
+}
+
+.overlay .selectionBox {
+  height: auto;
+  width: 60%;
+  display: flex;
+  border: 2px solid;
+  border-radius: 20px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.selectionBox h2 {
+  font-size: 1.5rem;
+}
+
+.btnBox {
+  height: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.danger {
+  color: white;
+  background: red;
+}
+
+.overlay form {
+  width: max-content;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 20px;
+  /* border: 1px solid; */
+  border-radius: 0px;
+  background: white;
+  /* backdrop-filter: blur(15px); */
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.3);
+}
+
+.overlay form > h2,
+.overlay form > h3 {
+  margin: 0;
+}
+
+.inputBox {
+  height: 3.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  position: relative;
+}
+
+.inputBox label {
+  align-self: flex-start;
+}
+
+.inputBox input,
+.inputBox select {
+  height: 70%;
+  width: 100%;
+  cursor: pointer;
+  text-indent: 10px;
+  border: 1px solid #007ba7;
+  /* border-radius: 10px; */
+}
+
+.error {
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.65rem;
+  left: 15%;
+}
+
+.overlay form button {
+  margin-top: 0;
+  color: white;
+  background: #007ba7;
+  margin-top: 0.5rem;
+  transition: all 0.5s ease;
+}
+
+.overlay form button:hover {
+  color: #040404;
+  background: white;
+}
 
 @media screen and (min-width: 768px) {
-    .deets{
-        height: 25vh;
-    }
+  .deets {
+    height: 25vh;
+  }
 
-    .action{
-        margin-top: 1rem;
-    }
+  .action {
+    margin-top: 1rem;
+  }
 
-    .action button{
-        padding: 0.5rem 1.3rem;
-    }
+  .action button {
+    padding: 0.5rem 1.3rem;
+  }
 }
 
+@media screen and (max-width: 468px) {
+  .text h1 {
+    font-size: 1.5rem;
+  }
 
-@media screen and (max-width: 468px){
+  .text h2 {
+    font-size: 1rem;
+  }
 
-    .text h1{
-        font-size: 1.5rem;
-    }
+  .btns h3 {
+    font-size: 1.15rem;
+  }
 
-    .text h2{
-        font-size: 1rem;
-    }
+  .frame {
+    height: 150px;
+    width: 150px;
+  }
 
-    .btns h3{
-        font-size: 1.15rem;
-    }
+  .pts {
+    width: 85%;
+  }
 
-    .frame {
-        height: 150px;
-        width: 150px;
-    }
+  .pts > div h2 {
+    font-size: 0.85rem;
+  }
 
-    .pts{
-        width: 85%;
-    }
+  .pts > div h3 {
+    font-size: 1.2rem;
+  }
 
-    .pts > div h2{
-        font-size: 0.85rem;
-    }
+  .pts button {
+    right: 35px;
+  }
 
-    .pts > div h3{
-        font-size: 1.2rem;
-    }
+  .actionBox {
+    width: 90%;
+  }
 
-    .pts button{
-        right: 35px;
-    }
+  .actionBox > h2 {
+    padding-left: 2rem;
+  }
 
-    .actionBox{
-        width: 90%;
-    }
+  .action {
+    gap: 0.7rem;
+    width: 100%;
+  }
 
-    .actionBox > h2{
-        padding-left: 2rem;
-    }
+  .txns {
+    width: 90%;
+  }
 
-    .action{
-        gap: 0.7rem;
-        width: 100%;
-    }
+  .action > button {
+    width: 90%;
+  }
 
-    .txns{
-        width: 90%;
-    }
+  .txns button {
+    padding-left: 1.5rem;
+  }
 
-    .action > button{
-        width: 90%;
-    }
+  .close {
+    top: 120px;
+  }
 
-    .txns button{
-        padding-left: 1.5rem;
-    }
+  .overlay form {
+    width: 85%;
+  }
 
-    .close{
-        top: 120px;
-    }
+  .close {
+    height: 35px;
+    width: 35px;
+    right: 30px;
+  }
 }

@@ -1,5 +1,5 @@
+import { Home, User, UserCog, Pill, Briefcase, Tag,  UserPlus, Plus, DollarSign, Clock } from "lucide-react";
 import styles from "../styles/navbar.module.css";
-import { Home, User, CreditCard, List, UserPlus, Bus, MapPin, DollarSign, Scan, Clock } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ScrollContext } from "../../utils/utils";
@@ -11,36 +11,18 @@ function Navbar({ role, showNav, isMobile }) {
 
   // 🧭 Define navigation items per role (same as Sidebar)
   const menuItems = {
-    STUDENT: [
-      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      {
-        icon: <CreditCard />,
-        label: "Transactions",
-        path: "/transaction-history",
-      },
-      { icon: <User />, label: "Profile", path: "/profile" },
-    ],
     STAFF: [
       { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      { icon: <CreditCard />, label: "Transactions",  path: "/transaction-history"},
+      { icon: <Clock />, label: "Sales History", path: "/sales-history" },
+      { icon: <Plus />, label: "New Sale", path: "/new" },
       { icon: <User />, label: "Profile", path: "/profile" },
     ],
     ADMIN: [
       { icon: <Home />, label: "Overview", path: "/overview" },
-      { icon: <User />, label: "Users", path: "/users" },
-      { icon: <UserPlus />, label: "Operators", path: "/operators" },
-      { icon: <Bus />, label: "Buses", path: "/buses" },
-      { icon: <MapPin />, label: "Routes", path: "/routes" },
-      { icon: <DollarSign />, label: "Revenue", path: "/revenue" },
-      { icon: <Clock />, label: "Trip Admin", path: "/trip-admin" },
-    ],
-    OPERATOR: [
-      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Scan />, label: "Scanner", path: "/scanner" },
+      { icon: <Clock />, label: "Sales History", path: "/sales-history" },
+      { icon: <Plus />, label: "New Sale", path: "/new" },
+      { icon: <UserCog />, label: "Admin", path: "/admin" },
       { icon: <User />, label: "Profile", path: "/profile" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
     ],
   };
 

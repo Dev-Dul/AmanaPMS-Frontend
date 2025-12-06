@@ -66,8 +66,8 @@ export async function LogIn(username, password){
       }),
     });
 
-    if(!res.ok) throw new Error("Error Logging In!");
     const data = await res.json();
+    if(!res.ok) throw new Error(data.message);
     return data;
   }catch(err){
     throw err;
@@ -118,6 +118,37 @@ export function useFetchOverView(){
     }, []);
 
     return { overview, ovLoading, ovError };
+}
+
+
+export function useFetchStats(){
+    const [stats, setStats] = useState([]);
+    const [statError, setError] = useState(null);
+    const [statLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchStats(){
+            try{
+                const res = await fetch(`${apiUrl}/api/v1/admin/revenue/stats`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if(!res.ok) throw new Error("Error fetching Stats!");
+                const data = await res.json();
+                setStats(data.stats);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        fetchStats();
+
+    }, []);
+
+    return { stats, statLoading, statError };
 }
 
 
@@ -231,7 +262,7 @@ export function useFetchDrugs(){
 
     }, []);
 
-    return { drugs, drugLoading, drugError };
+    return { drugs, setDrugs, drugLoading, drugError };
 }
 
 export async function registerNewDrug(name, cost, price, quantity, manufacturer, userId){
@@ -261,7 +292,7 @@ export async function registerNewDrug(name, cost, price, quantity, manufacturer,
 }
 
 
-export async function updateDrug(drugId, name, cost, price, quantity, manufacturer, userId){
+export async function updateDrug(drugId, name, cost, price, quantity, manufacturer){
   try{
     const res = await fetch(`${apiUrl}/api/v1/products/drugs/update`, {
       method: "POST",
@@ -274,7 +305,6 @@ export async function updateDrug(drugId, name, cost, price, quantity, manufactur
         cost: cost,
         price: price,
         drugId: drugId,
-        userId: userId,
         quantity: quantity,
         manufacturer: manufacturer,
       })
@@ -326,7 +356,7 @@ export async function deleteItem(itemId){
   }
 }
 
-export async function updateItem(itemId, name, cost, price, quantity, manufacturer, type, userId){
+export async function updateItem(itemId, name, cost, price, quantity, manufacturer, type){
   try{
     const res = await fetch(`${apiUrl}/api/v1/products/items/update`, {
       method: "POST",
@@ -340,7 +370,6 @@ export async function updateItem(itemId, name, cost, price, quantity, manufactur
         type: type,
         price: price,
         itemId: itemId,
-        userId: userId,
         quantity: quantity,
         manufacturer: manufacturer,
       })
@@ -370,7 +399,7 @@ export function useFetchItems(){
 
                 if(!res.ok) throw new Error("Error fetching Items!");
                 const data = await res.json();
-                setItems(data.drugs);
+                setItems(data.items);
             }catch(err){
                 setError(err.message);
             }finally{
@@ -382,7 +411,7 @@ export function useFetchItems(){
 
     }, []);
 
-    return { items, itemsLoading, itemsError };
+    return { items, setItems, itemsLoading, itemsError };
 }
 
 export async function registerNewItem(name, cost, price, quantity, manufacturer, type, userId){
@@ -501,7 +530,7 @@ export function useFetchStaff(){
       fetchStaff();
     }, []);
 
-    return { staff, staffLoading, staffError };
+    return { staff, setStaff, staffLoading, staffError };
 }
 
 
@@ -522,6 +551,70 @@ export async function registerNewStaff(fullname, password, email, username){
     });
 
     if (!res.ok) throw new Error("Error registering new staff!");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function updateAdminProfile(fullname, password, email, username, userId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/admin/profile/update`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        userId: userId,
+        username: username,
+        fullname: fullname,
+        password: password,
+      }),
+    });
+
+    if (!res.ok) throw new Error("Error updating admin profile!");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function manageStaff(userId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/admin/staff/manage/${userId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if(!res.ok) throw new Error("Error suspending / activating staff account!");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function deleteStaff(userId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/admin/staff/delete/${userId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if(!res.ok) throw new Error("Error deleting staff account!");
     const data = await res.json();
     return data;
   } catch (err) {

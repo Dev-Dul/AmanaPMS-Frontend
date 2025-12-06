@@ -10,9 +10,9 @@ import { toast } from "sonner";
 
 function SalesHistoryPage() {
     const [data, setData] = useState([]);
+    const [overlay, setOverlay] = useState(false);
     const [purchase, setPurchase] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
-    const [overlay, setOverlay] = useState(false);
     const [monthFilter, setMonthFilter] = useState("0");
     const [statFilter, setStatFilter] = useState("ALL");
     const { user, userLoad } = useContext(AuthContext);
@@ -40,7 +40,7 @@ function SalesHistoryPage() {
 
     function handleExport() {
       if(data.length > 0) {
-        exportToExcel(routes, `${user.fullname}_swiftryde_sales_history`, "SWIFTRYDE USER SALES HISTORY");
+        exportToExcel(routes, `${user.fullname}_alamana_sales_history`, "ALAMANA USER SALES HISTORY");
       }else{
         toast.error("No data available");
       }
@@ -91,13 +91,14 @@ function SalesHistoryPage() {
 
     if(userLoad) return <Loader />;
     if(!user) return <Error/>;
+    console.log("filtered:". filteredData);
 
 
   return (
     <div className="container">
       <div className={`${styles.overlay} ${overlay ? styles.active : ""}`}>
         <XCircle className={styles.close} onClick={() => handleOverlay()} />
-        {trip && <Receipt trip={trip} />}
+        {purchase && <Receipt purchase={purchase} />}
         <button type="button" onClick={handlePrint}>
           Print
         </button>

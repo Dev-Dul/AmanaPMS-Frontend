@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/sidebar.module.css";
-import { Home, User, CreditCard, UserPlus, Bus, MapPin, DollarSign, Scan, Menu, ArrowLeft, Clock } from "lucide-react";
+import { Home, User, Briefcase, Pill, Tag, CreditCard, UserPlus, Bus, MapPin, DollarSign, Plus ,Menu, ArrowLeft, Clock } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar({ role, handleToggle }) {
@@ -10,42 +10,20 @@ function Sidebar({ role, handleToggle }) {
 
   // Define items per role
   const menuItems = {
-    STUDENT: [
-      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      {
-        icon: <CreditCard />,
-        label: "Transaction History",
-        path: "/transactions",
-      },
-      { icon: <User />, label: "Profile", path: "/profile" },
-    ],
     STAFF: [
       { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      { icon: <CreditCard />, label: "Transaction History", path: "/transactions", },
+      { icon: <Clock />, label: "Sales History", path: "/sales-history" },
+      { icon: <Plus />, label: "New Sale", path: "/new" },
       { icon: <User />, label: "Profile", path: "/profile" },
     ],
     ADMIN: [
       { icon: <Home />, label: "Overview", path: "/overview" },
-      { icon: <Bus />, label: "Buses", path: "/buses" },
-      { icon: <MapPin />, label: "Routes", path: "/routes" },
       { icon: <DollarSign />, label: "Revenue", path: "/revenue" },
-      { icon: <Clock />, label: "Trip Admin", path: "/trip-admin" },
-      { icon: <UserPlus />, label: "Operators", path: "/operators" },
-      { icon: <User />, label: "Users Overview", path: "/users" },
-      { icon: <User />, label: "Profile", path: "/profile" },
-    ],
-    DRIVER: [
-      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Scan />, label: "Scanner", path: "/scanner" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
-      { icon: <User />, label: "Profile", path: "/profile" },
-    ],
-    CONDUCTOR: [
-      { icon: <Home />, label: "Dashboard", path: "/dashboard" },
-      { icon: <Scan />, label: "Scanner", path: "/scanner" },
-      { icon: <Clock />, label: "Trip History", path: "/trip-history" },
+      { icon: <Pill />, label: "Drugs", path: "/drugs" },
+      { icon: <Plus />, label: "New Sale", path: "/new" },
+      { icon: <Tag />, label: "Items", path: "/items" },
+      { icon: <Briefcase />, label: "Sales Admin", path: "/sales-admin" },
+      { icon: <UserPlus />, label: "Staff", path: "/staff" },
       { icon: <User />, label: "Profile", path: "/profile" },
     ],
   };
@@ -60,7 +38,7 @@ function Sidebar({ role, handleToggle }) {
   return (
     <div className={`${styles.sidebar} ${collapse ? styles.collapsed : ""}`}>
       <div className={styles.top}>
-        {collapse ? <h2 className={styles.logo}>S</h2> : <h2>SwiftRyde</h2>}
+        {collapse ? <h2 className={styles.logo}>A</h2> : <h2>Al-AMANA PMS</h2>}
       </div>
       <div className="middle">
         {items.map((item, index) => (

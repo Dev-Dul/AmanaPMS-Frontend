@@ -6,8 +6,8 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [userLoad, setUserLoad] = useState(true); // true = loading
   const [error, setError] = useState(null);
+  const [userLoad, setUserLoad] = useState(true); // true = loading
 
   /**
    * Runs the external hydration function and updates user state.
@@ -53,11 +53,12 @@ export function AuthProvider({ children }) {
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem("logged");
+    LogOut();
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, userLoad, error, hydrate, handleLogin, handleLogout, setUser, }}>
+    <AuthContext.Provider value={{ user, userLoad, error, hydrate, handleLogin, handleLogout, setUser }}>
       {children}
     </AuthContext.Provider>
   );

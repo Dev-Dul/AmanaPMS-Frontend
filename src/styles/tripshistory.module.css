@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  background: #05f390;
+  background: #007ba7;
   transition: all 0.5s ease;
 }
 
@@ -97,7 +97,7 @@
   align-items: center;
   justify-content: space-between;
   color: white;
-  background: #05f390;
+  background: #007ba7;
   box-sizing: border-box;
   padding: 0.3rem 3rem;
   transition: all 0.5s ease;
@@ -118,6 +118,7 @@
   flex-direction: column;
   margin-top: 1.5rem;
   padding: 2rem;
+  overflow-x: auto;
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.2);
@@ -140,7 +141,7 @@
 .middle table thead tr {
   border-radius: 20px;
   color: white;
-  background: #05f390;
+  background: #007ba7;
 }
 
 .middle table thead tr th {
@@ -170,7 +171,7 @@
 .overlay button {
   width: 90%;
   color: white;
-  background-color: #05f390;
+  background-color: #007ba7;
 }
 
 .close {
@@ -179,7 +180,7 @@
   right: 150px;
   border-radius: 50%;
   cursor: pointer;
-  border: 1px solid #05f390;
+  border: 1px solid #007ba7;
 }
 
 @media screen and (max-width: 468px) {

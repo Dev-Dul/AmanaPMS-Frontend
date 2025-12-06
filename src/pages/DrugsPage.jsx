@@ -1,6 +1,6 @@
 import styles from "../styles/routespage.module.css";
 import Drug from "../components/Drug";
-import { useFetchDrugs, registerNewDrug, updateItem, updateDrug } from "../../utils/fetch";
+import { useFetchDrugs, registerNewDrug, updateItem, updateDrug, deleteDrug } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
 import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
@@ -11,12 +11,13 @@ import { exportToExcel } from "../../utils/utils";
 import { toast } from "sonner";
 
 function DrugsPage() {
+    const [open, setOpen] = useState(false);
     const [isUpdate, setUpdate] = useState(false);
     const [overlay, setOverlay] = useState(false);
-    const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
     const { user, userLoad } = useContext(AuthContext);
-    const { drugs, drugLoading, drugError } = useFetchDrugs();
+    const { drugs, setDrugs, drugLoading, drugError } = useFetchDrugs();
     const { register, handleSubmit, reset, formState: { errors }} = useForm({ defaultValues: {
       name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: ""
     }});
@@ -24,6 +25,10 @@ function DrugsPage() {
 
     function handleOverlay(){
         setOverlay(prev => !prev);
+    }
+
+    function handleOpen(){
+        setOpen(false);
     }
 
     function handleUpdate(drug){
@@ -41,7 +46,12 @@ function DrugsPage() {
     }
 
     function handleStatChange(e) {
-      setStatFilter(e.target.value);
+       const v = e.target.value;
+        setStatFilter(
+          v === "true" ? true :
+          v === "false" ? false :
+          null
+        );
     }
 
     function handleFilter() {
@@ -52,10 +62,25 @@ function DrugsPage() {
       setFilteredData(filtered);
     }
 
+    function updateDrugList(drug, mode = "new"){
+      switch (mode) {
+        case "new":
+          setDrugs(prev => [drug, ...prev]);
+          break;
+        case "delete":
+          setDrugs((prevDrugs) =>
+            prevDrugs.filter((pvd) => pvd.id !== drug.id)
+          );
+          break;
+        default:
+          break;
+      }
+    }
+
     async function onSubmit(formData){
       let drugPromise = null;
       if(isUpdate){
-        drugPromise = updateDrug(formData.drugId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, user.id);
+        drugPromise = updateDrug(formData.drugId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer);
       }else{
         drugPromise = registerNewDrug(formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, user.id);
       }
@@ -63,12 +88,33 @@ function DrugsPage() {
       toast.promise(drugPromise, {
           loading: `${isUpdate ? "Updating" : "Registering new"} drug...`,
           success: (response) => {
+            updateDrugList(response.drug);
             return response.message;
           },
           error: (error) => {
               return error.message;
           }
       })
+  }
+
+  async function handleAction(id) {
+    const drugPromise = deleteDrug(id);
+    toast.promise(drugPromise, {
+      loading: "Deleting drug...",
+      success: (response) => {
+        if(response.drug){
+          updateDrugList(response.drug, "delete");
+        }
+        return response.message;
+      },
+      error: (error) => {
+        return error.message;
+      },
+    });
+  }
+  
+  function handleDelete(id){
+    setOpen(id);
   }
 
     useEffect(() => {
@@ -79,8 +125,8 @@ function DrugsPage() {
     if(!user) return <Error />;
     if(drugError) return <Error error={drugError} />;
 
-    const isAvailable = drugs.filter(drug => drug.isAvailable === true).length;
-    const isFinished = drugs.filter(drug => drug.isAvailable !== true).length;
+    const isAvailable = drugs?.filter(drug => drug?.isAvailable === true).length;
+    const isFinished = drugs?.filter(drug => drug?.isAvailable !== true).length;
     
 
   return (
@@ -164,6 +210,17 @@ function DrugsPage() {
         </form>
       </div>
 
+      <div className={`${styles.overlay} ${open ? styles.active : ''}`}>
+          <XCircle className={styles.close} onClick={handleOpen} />
+          <div className={styles.selectionBox}>
+              <h2>Are you sure you want to delete this drug?</h2>
+              <div className={styles.btnBox}>
+                  <button className={styles.danger} onClick={() => handleAction(open)}>Yes</button>
+                  <button onClick={() => setOpen(false)}>No</button>
+              </div>
+          </div>
+      </div>
+
       <div className="header">
         <h2>Drugs</h2>
       </div>
@@ -192,9 +249,9 @@ function DrugsPage() {
                 id="filter_two"
                 onChange={handleStatChange}
               >
-                <option value={null}>ALL</option>
-                <option value={true}>AVAILABLE</option>
-                <option value={false}>FINISHED</option>
+                <option value="null">ALL</option>
+                <option value="true">AVAILABLE</option>
+                <option value="false">FINISHED</option>
               </select>
             </div>
           </div>
@@ -226,7 +283,7 @@ function DrugsPage() {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((drug) => (
-                <Drug drug={drug} key={drug.id} handleUpdate={handleUpdate} />
+                <Drug drug={drug} key={drug.id} handleUpdate={handleUpdate}  handleDelete={handleDelete} />
               ))
             ) : (
               <tr>

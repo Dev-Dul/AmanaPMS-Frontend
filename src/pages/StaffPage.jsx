@@ -1,43 +1,45 @@
-import styles from "../styles/operatorpage.module.css";
-import Operator from "../components/Staff";
-import { useFetchStaff, registerNewStaff } from "../../utils/fetch";
+import { useFetchStaff, registerNewStaff, manageStaff, deleteStaff } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
+import styles from "../styles/operatorpage.module.css";
 import { AuthContext } from "../../utils/context";
 import { exportToExcel } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import Staff from "../components/Staff";
 import { useContext } from "react";
 import { toast } from "sonner";
-import Staff from "../components/Staff";
 
 function StaffPage() {
+    const [open, setOpen] = useState(false);
     const [overlay, setOverlay] = useState(false);
-    const { user, userLoad, userError } = useContext(AuthContext);
+    const [isDelete, setDelete] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState("ALL");
     const [roleFilter, setRoleFilter] = useState("ALL");
-    const { staff, staffLoading, staffError } = useFetchStaff();
+    const { user, userLoad, userError } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors }} = useForm();
+    const { staff, setStaff, staffLoading, staffError } = useFetchStaff();
     
     
     function handleOverlay(){
         setOverlay(prev => !prev);
     }
 
-    function handleStatChange(e){
-      setStatFilter(e.target.value);
+
+    function handleOpen(){
+        setOpen(false);
     }
 
-    function handleRoleChange(e){
-      setRoleFilter(e.target.value);
+    function handleStatChange(e){
+      setStatFilter(e.target.value);
     }
 
     function handleExport(){
       if(staff.length > 0){
         const safeUsers = staff.map(({ password, ...rest }) => rest)
-        exportToExcel(safeUsers, "swiftryde_staff_data", "Staff Data");
+        exportToExcel(safeUsers, "almana_staff_data", "Almana Staff Data");
       }else{
         toast.error("No data available");
       }
@@ -47,7 +49,6 @@ function StaffPage() {
       let filtered = staff;
       // Filter by status
       if(statFilter !== "ALL") filtered = filtered.filter((opr) => opr.status === statFilter);
-      if(roleFilter !== "ALL") filtered = filtered.filter((opr) => opr.role === roleFilter);
 
       setFilteredData(filtered);
     }
@@ -56,11 +57,39 @@ function StaffPage() {
       handleFilter();
     }, [statFilter, roleFilter, staff])
 
+    function updateStaffList(staff, mode = "new", role = null){
+      const staffId = staff.id;
+      switch(mode){
+        case "new":
+          setStaff(prev => [staff, ...prev]);
+          break;
+        case "update":
+            setStaff((prevStaff) =>
+              prevStaff.map(staff =>
+                staff.id === staffId
+                  ? { ...staff, status: role }
+                  : staff
+              )
+            );
+          break;
+        case "delete":
+          setStaff((prevStaff) =>
+              prevStaff.filter((staff) =>
+                staff.id !== staffId
+              )
+            );
+          break;
+        default:
+          break;
+      }
+    }
+
     async function onSubmit(formData){
         const staffPromise = registerNewStaff(formData.fullname, formData.password, formData.email, formData.username);
         toast.promise(staffPromise, {
             loading: "Registering new staff...",
             success: (response) => {
+              updateStaffList(response.staff);
               return response.message;
             },
             error: (error) => {
@@ -69,10 +98,47 @@ function StaffPage() {
         })
     }
 
+
+    async function handleAction(id) {
+      let staffPromise = null;
+      if (isDelete) {
+        staffPromise = deleteStaff(id);
+      } else {
+        staffPromise = manageStaff(id);
+      }
+
+      toast.promise(staffPromise, {
+        loading: `${isDelete ? "Deleting" : "Suspending / Reactivating"} staff account...`,
+        success: (response) => {
+          if(response.info){
+            updateStaffList(response.info.user, "update", response.info.newRole);
+          }else{
+            updateStaffList(response.user, "delete");
+          }
+          setOpen(false);
+          return response.message;
+        },
+        error: (error) => {
+          return error.message;
+        },
+      });
+    }
+
+    function handleDelete(num, id){
+      if(num === 1){
+        setDelete(false);
+      }else{
+        setDelete(true);
+      }
+      setOpen(id);
+    }
+    
     if(staffLoading || userLoad) return <Loader/>
     if(userError) return <Error error={userError} />
     if(staffError) return <Error error={staffError} />
-
+    
+    let check = null;
+    if(open) check = staff.find((st) => st.id === open).status === "ACTIVE";
     const active = staff.filter(st => st.status === "ACTIVE").length;
     const inActive = staff.filter(st => st.status !== "ACTIVE").length;
     
@@ -89,7 +155,7 @@ function StaffPage() {
               type="text"
               id="fullname"
               {...register("fullname", {
-                required: "Operator's fullname is required",
+                required: "Staff's fullname is required",
               })}
             />
             {errors.fullname && (
@@ -128,7 +194,11 @@ function StaffPage() {
               type="password"
               id="password"
               {...register("password", {
-                required: "Staff's passwod is required",
+                required: "Staff's password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long."
+                }
               })}
             />
             {errors.password && (
@@ -138,6 +208,17 @@ function StaffPage() {
           
           <button>Register</button>
         </form>
+      </div>
+
+      <div className={`${styles.overlay} ${open ? styles.active : ''}`}>
+          <XCircle className={styles.close} onClick={handleOpen} />
+          <div className={styles.selectionBox}>
+              <h2>Are you sure you want to {isDelete ? "delete" : check ?  "suspend" : "activate" } this staff account?</h2>
+              <div className={styles.btnBox}>
+                  <button className={styles.danger} onClick={() => handleAction(open)}>Yes</button>
+                  <button onClick={() => setOpen(false)}>No</button>
+              </div>
+          </div>
       </div>
       
       <div className="header">
@@ -162,14 +243,6 @@ function StaffPage() {
 
         <div className={styles.action}>
           <div className={styles.filter}>
-            <div className="first">
-              <h2>Filter By Role:</h2>
-              <select name="filter" id="filter" onChange={handleRoleChange}>
-                <option value="0">ALL</option>
-                <option value="1">DRIVER</option>
-                <option value="2">CONDUCTOR</option>
-              </select>
-            </div>
             <div className="second">
               <h2>Filter By Status:</h2>
               <select
@@ -179,7 +252,6 @@ function StaffPage() {
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="EXPIRED">SUSPENDED</option>
-                <option value="EXPIRED">DELETED</option>
               </select>
             </div>
           </div>
@@ -218,6 +290,7 @@ function StaffPage() {
                   date={staff.created}
                   sales={staff.purchases.length}
                   status={staff.status}
+                  handleDelete={handleDelete}
                 />
               ))
             ) : (

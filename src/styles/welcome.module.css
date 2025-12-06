@@ -55,11 +55,13 @@
 
 .container.signup .left,
 .container.login .right {
+  height: 100%;
   width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background: url("../assets/Img/img_two.png") center / cover;
 }
 
 .container.signup .right,
@@ -137,8 +139,7 @@
 .left form h2,
 .right form h2 {
   font-size: 1rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0;
+  margin: 0.5rem 0rem;
 }
 
 .nav,
@@ -175,7 +176,7 @@
 
 .btns button:hover,
 .btns button.selected {
-  color: #05f390;
+  color: #007ba7;
   border-radius: 0;
   background: #fff;
 }
@@ -237,7 +238,7 @@
   height: 70%;
   width: 100%;
   text-indent: 10px;
-  border: 1px solid #05f390;
+  border: 1px solid #007ba7;
   /* border-radius: 10px; */
 }
 
@@ -275,11 +276,11 @@
 
 .google {
   color: black;
+  margin: 0;
   background: white;
   border: 1px solid;
   border-radius: 0px;
   padding: 0.5rem 3.5rem;
-  margin: 0;
 }
 
 .redirect {
@@ -291,7 +292,7 @@ form button {
   margin: 5px 0;
   border-radius: 0;
   color: white;
-  background: #05f390;
+  background: #007ba7;
   padding: 0.35rem 4rem;
 }
 

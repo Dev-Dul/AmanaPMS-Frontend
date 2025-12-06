@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 20px;
-  background: #05f390;
+  background: #007ba7;
   color: #fff;
   padding: 0 1rem;
   transition: all 1.5s ease;
@@ -82,10 +82,10 @@ nav .second {
 .logo {
   height: 100%;
   width: 30%;
-  font-family: "homebase";
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .logo h2 {
@@ -109,7 +109,7 @@ nav button {
 }
 
 .end button {
-  color: #05f390;
+  color: #007ba7;
   background: #fff;
 }
 
@@ -220,7 +220,7 @@ nav button {
   flex-direction: column;
   transition: all 1s ease;
   position: relative;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("../assets/Img/homepage_one.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("../assets/Img/bg.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -335,14 +335,15 @@ nav button {
   width: 20%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   transition-delay: 1.5s;
+  justify-content: flex-start;
 }
 
 .action button {
+  width: 80%;
+  padding: 1rem 0.75rem;
   color: #f3f3f3;
-  background: #05f390;
-  padding: 0.75rem;
+  background: #007ba7;
 }
 
 .section {
@@ -407,7 +408,7 @@ nav button {
   min-height: 100vh;
   display: flex;
   padding: 0 4rem;
-  background: #05f390;
+  background: #007ba7;
   color: #f3f3f3;
 }
 
@@ -426,7 +427,7 @@ nav button {
 }
 
 .play button {
-  color: #05f390;
+  color: #007ba7;
   margin-top: 1rem;
   font-family: "homebase";
   background: #f3f3f3;
@@ -459,17 +460,23 @@ nav button {
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  color: #05f390;
+  color: #007ba7;
   gap: 8px;
   background: #fff;
   border-bottom: 3px solid;
 }
 
-.card .icon {
+.card .icon, .card img {
   width: 100px;
   height: 100px;
-  color: var(--brand-color, #05f390); 
+  color: var(--brand-color, #007ba7); 
   margin-bottom: 6px;
+}
+
+.card img{
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
 }
 
 .card h3 {
@@ -510,7 +517,7 @@ nav button {
   height: auto;
   width: 80%;
   padding: 0.5rem 0;
-  border: 1px solid #05f390;
+  border: 1px solid #007ba7;
 }
 
 .inputBox {
@@ -530,14 +537,14 @@ nav button {
   font-size: 1.5rem;
   font-family: inherit;
   text-indent: 10px;
-  border: 1px solid #05f390;
+  border: 1px solid #007ba7;
 }
 
 .inputBox button {
   width: 90%;
   color: #f3f3f3;
   padding: 1rem 0;
-  background: #05f390;
+  background: #007ba7;
 }
 
 .footer {
@@ -547,7 +554,7 @@ nav button {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  background: #05f390;
+  background: #007ba7;
   color: #f3f3f3;
 }
 
@@ -611,7 +618,7 @@ nav button {
     width: 80vw;
     margin-right: 0;
     overflow: hidden;
-    background: #05f390;
+    background: #007ba7;
     transition: all 1.5s ease;
     transform: translateX(100vw);
   }
@@ -683,18 +690,18 @@ nav button {
   .welcome h1 {
     font-size: 3rem;
     margin-top: 0;
-    text-wrap: balance;
+    text-align: left;
+    /* text-wrap: balance; */
   }
 
   .welcome h2 {
     font-size: 1.3rem;
-    padding-left: 2.3rem;
   }
 
   .subOne {
-    margin-left: 0.8rem;
     margin-bottom: 0;
     font-size: 0.8rem;
+    margin-left: 0.8rem;
   }
 
   .anim h2 {
@@ -704,7 +711,6 @@ nav button {
   .action {
     width: 85%;
     margin-top: 0.5rem;
-    justify-content: space-around;
   }
 
   .action button {

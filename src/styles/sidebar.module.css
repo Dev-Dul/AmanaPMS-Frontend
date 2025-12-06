@@ -17,7 +17,7 @@
 
 .logo{
   font-size: 2rem;
-  color: #05f390;
+  color: #007ba7;
   font-family: "quickstep";
 }
 
@@ -52,5 +52,5 @@
 
 .icon.active{
     color: white;
-    background: #05f390;
+    background: #007ba7;
 }

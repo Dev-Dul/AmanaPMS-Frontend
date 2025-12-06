@@ -1,12 +1,17 @@
 import { IconControl, IconHistory, IconPayment, IconTicket, IconTracking, IconVerify } from "../components/Icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import sales from "../assets/Img/sales-analytics.svg"
+import inventory from "../assets/Img/inventory.svg";
 import styles from "../styles/homepage.module.css";
+import { useMediaQuery } from "react-responsive";
+import payments from "../assets/Img/payments.svg"
+import revenue from "../assets/Img/revenue.svg";
+import history from "../assets/Img/history.svg";
 import { useState, useEffect } from "react";
+import users from "../assets/Img/users.svg"
+import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
-import { useForm } from "react-hook-form";
-import img from "../assets/Img/bus_stop.png";
 import { toast } from "sonner";
 
 function HomePage(){
@@ -51,7 +56,7 @@ function HomePage(){
         <header className={styles.header}>
           <nav>
             <div className={styles.logo}>
-              <h2>SWIFTRYDE</h2>
+              <h2>ALAMANA</h2>
             </div>
             <div className={styles.menu}>
               <input
@@ -69,10 +74,9 @@ function HomePage(){
                 <div className={styles.center}>
                   <button style={{ "--pos": "1" }}>Features</button>
                   <button style={{ "--pos": "2" }}>About</button>
-                  <button style={{ "--pos": "3" }} onClick={() => navigate("/login")}>Login</button>
                 </div>
                 <div className={styles.end}>
-                  <button style={{ "--pos": "4" }} onClick={() => navigate("/signup")}>Sign Up</button>
+                  <button style={{ "--pos": "4" }} onClick={() => navigate("/login")}>Log In</button>
                 </div>
               </div>
             </div>
@@ -81,46 +85,17 @@ function HomePage(){
         <div className={styles.main}>
           <div className={`${styles.welcome}`}>
             <div className={styles.textTwo}>
-              <p className={styles.subOne}>Welcome to SWIFTRYDE</p>
-              <h1>AFUSTA Digital Transit Management System.</h1>
-              <h2>Your Gateway To Swift Transit.</h2>
+              <p className={styles.subOne}>Welcome to ALAMANA</p>
+              <h1>Digital Management System.</h1>
+              <h2>Trusted Care, Every Step.</h2>
               <div className={styles.action}>
-                <button onClick={() => navigate("/launch")}>Get Started</button>
-                <button>How It Works</button>
+                <button onClick={() => navigate("/login")}>Login</button>
               </div>
             </div>
-            {/* <div className={`${styles.cryptoAnim} ${show ? styles.show : ""}`}>
-              <Lottie animationData={cryptoAnim} loop={true} autoPlay={true} />
-            </div> */}
+            
           </div>
         </div>
-        <div className={`${styles.section} ${styles.sectionOne}`}>
-          <motion.div
-            className={styles.left}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.8 }}>
-            <img src={img} alt="Bus Stop Image" />
-          </motion.div>
-          <motion.div
-            className={styles.right}
-            initial={{ opacity: 0, x: -80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.8 }}>
-            <h2>The Ultimate Transit Platform.</h2>
-            <p className={styles.subTwo}>
-              Experience Transit Like Never Before.
-            </p>
-            <p style={{ textAlign: "justify" }}>
-              The AFUSTA Transit Management System (powered by SwiftRyde) is a
-              platform that puts all your transit needs in one place - powerful,
-              seamless and built to take you where you want to be. <br />
-              <span>No Hurdles, No Delays, Just Swift Movement.</span>
-            </p>
-          </motion.div>
-        </div>
+        
         <div className={styles.play}>
           <motion.div
             className={styles.features}
@@ -131,28 +106,28 @@ function HomePage(){
             <h2>Features</h2>
             <div className={styles.cards}>
               <div className={styles.card}>
-                <IconTicket className={styles.icon} />
-                <h3>Ticket Purchase</h3>
+                <img src={inventory} alt="Inventory" />
+                <h3>Manage Inventory</h3>
               </div>
               <div className={styles.card}>
-                <IconPayment className={styles.icon} />
-                <h3>Seamless Payments</h3>
+                <img src={payments} alt="Payments" />
+                <h3>Seamless Sales Recording</h3>
               </div>
               <div className={styles.card}>
-                <IconHistory className={styles.icon} />
-                <h3>Trip History</h3>
+                <img src={history} alt="Sales history" />
+                <h3>Track Sales History</h3>
               </div>
               <div className={styles.card}>
                 <IconVerify className={styles.icon} />
-                <h3>{!isMobile && "Streamlined"} Ticket Verification</h3>
+                <h3>{!isMobile && "Streamlined"} Receipt Issuance</h3>
               </div>
               <div className={styles.card}>
-                <IconControl className={styles.icon} />
-                <h3>Centralized Control</h3>
+                <img src={sales} alt="Sales" />
+                <h3>Robust Sales Analytics</h3>
               </div>
               <div className={styles.card}>
-                <IconTracking className={styles.icon} />
-                <h3>Track payments &  More</h3>
+                <img src={users} alt="Manage staff" />
+                <h3>Streamlined staff management</h3>
               </div>
             </div>
           </motion.div>
@@ -189,13 +164,12 @@ function HomePage(){
         </div>
         <div className={styles.footer}>
           <div className={styles.top}>
-            <h2>AFUSTA TRANSIT MANAGEMENT SYSTEM</h2>
-            <h3>Powered By SWIFTRYDE</h3>
-            <p className={styles.subThree}>The Swift Way To Move</p>
+            <h2>ALAMANA DIGITAL MANAGEMENT SYSTEM</h2>
+            <p className={styles.subThree}>Trusted Care, Every Step.</p>
           </div>
           <div className={styles.bottom}>
             <p>
-              Built by Abdulrahim Jamil (2010203057). All Rights Reserved &copy;
+              Built by Abdulrahim Jamil. All Rights Reserved &copy;
               2025.
             </p>
           </div>

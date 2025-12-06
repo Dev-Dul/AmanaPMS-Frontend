@@ -1,0 +1,130 @@
+.top{
+    height: auto;
+    /* max-height: 10vh; */
+    width: 100%;
+    margin-top: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.quoteBlock{
+    height: auto;
+    width: 90%;
+    margin-top: 0.3rem;
+    border-radius: 15px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+    z-index: 10;
+    border: 2px solid #007ba7;
+    position: relative;
+}
+
+.quoteBlock::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.20;
+    pointer-events: none;
+    background-image: radial-gradient(circle at top right, #b0e0e6 0%, #007ba7 40%, transparent 100%);
+}
+
+.quoteBlock .qtop{
+    height: auto;
+    width: 100%;
+    text-align: left;
+    margin-top: 0;
+}
+
+.qte{
+    height: 50px;
+    width: 50px;
+    color: #007ba7;
+}
+
+.quoteBlock h2{
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+
+.author{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.author p{
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.boxes{
+    height: auto;
+    width: 100%;
+    display: grid;
+    gap: 1.5rem;
+    padding: 0.5rem 1rem;
+    margin-top: 13vh;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.box{
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-content: end;
+    border-radius: 10px;
+    padding: 1.5rem;
+    background: transparent;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid #b0e0e6;
+    box-shadow: 0px 10px 10px #007ba7;
+}
+
+.box:hover{
+    color: white;
+    background: #b0e0e6;
+    box-shadow: inset 10px 10px 15px  #b0e0e6;
+}
+
+.text h2{
+    margin: 0;
+    color: #034963;
+    font-size: 2rem;
+    text-align: left;
+}
+
+@media screen and (max-width: 468px) {
+
+    .quoteBlock h2{
+        text-align: left;
+        padding: 0rem 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .qte{
+        height: 30px;
+        width: 30px;
+    }
+
+    .author p{
+        font-size: 1rem;
+    }
+
+    .boxes{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+

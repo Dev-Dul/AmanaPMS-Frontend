@@ -32,10 +32,10 @@ function App() {
             <div>
               <motion.div
                 key={location.pathname}
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.8 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.5 }}
                 className={`${toggle ? 'collapsed' : ''} ${'wrapper'}`}>
                 <Outlet />
               </motion.div>

@@ -12,12 +12,12 @@
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    border: 2px solid #05f390;
-    box-sizing: border-box;
     padding: 1rem 0;
     border-radius: 25px;
-    border-bottom: 5px solid #05f390;
     overflow-x: hidden;
+    box-sizing: border-box;
+    border: 2px solid #007ba7;
+    border-bottom: 5px solid #007ba7;
 }
 
 
@@ -25,7 +25,7 @@
     margin: 0;
     /* margin-bottom: 20px; */
     font-size: 1.3rem;
-    color: #05f390;
+    color: #007ba7;
     padding-left: 3.5rem;
 }
 
@@ -59,17 +59,17 @@
 
 .top .cardsWrapper .cards .card{
     color: white;
-    background: #05f390;
+    background: #007ba7;
 }
 
 .middle .cardsWrapper .cards .card{
-    border-color: #05f390;
+    border-color: #007ba7;
     background: transparent;
     backdrop-filter: blur(10px);
 }
 
 .middle .cardsWrapper .cards .card h2{
-    color: #05f390;
+    color: #007ba7;
 }
 
 .cards{
@@ -122,7 +122,7 @@
     margin: 0 auto;
     font-size: 1.3rem;
     margin-top: 20px;
-    border-bottom: 2px solid #05f390;
+    border-bottom: 2px solid #007ba7;
 }
 
 .chart{
@@ -131,7 +131,7 @@
     margin: 0 auto;
     margin-top: 20px;
     border-radius: 15px;
-    border: 2px solid #05f390;
+    border: 2px solid #007ba7;
 }
 
 

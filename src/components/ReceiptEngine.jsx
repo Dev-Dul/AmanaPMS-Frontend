@@ -1,31 +1,19 @@
-import logoUrl from "../assets/Img/swiftryde_logo.jpg";
+import logoUrl from "../assets/Img/amanaLogo.png";
 import styles from "../styles/receipt.module.css";
 import { AuthContext } from "../../utils/context";
 import { useEffect, useRef, useContext } from "react";
 import React from "react";
 import QRCode from "qrcode";
 
-function Receipt({trip}) {
-  const { user } = useContext(AuthContext);
-  const qrRef = useRef(null);
-  const ticket = trip.ticket;
+function Receipt({purchase}) {
+  
 
-  // Generate QR code on mount
-  useEffect(() => {
-    if (qrRef.current) {
-      QRCode.toCanvas(
-        qrRef.current,
-        JSON.stringify({ ticket }),
-        { width: 100, margin: 1 }
-      );
-    }
-  }, [trip]);
-
-  const eventName = "AFUSTA Bus Transit Ticket";
-  const  wittyLine = "The Swift Way To Move 🎟️";
-  const tagline = "Powered by SwiftRyde";
-  const date = trip?.ticket?.created;
-  const plateNum = trip?.trip?.bus?.plateNumber || trip?.bus?.plateNumber; 
+  const eventName = "ALAMANA PMS Purchase Receipt";
+  const  wittyLine = "Trusted Care, Every Step!";
+  const tagline = "Powered by Transcendent Systems (An original creation by Abdulrahim Jamil)";
+  const date = purchase.created;
+  const issuer = purchase.seller.fullname; 
+  const price = purchase?.drug?.price || purchase?.item?.price;
 
   return (
     <div className={`${styles.receiptContainer} printable`}>
@@ -39,46 +27,52 @@ function Receipt({trip}) {
         {/* Body */}
         <div className={styles.receiptBody}>
           <p className={styles.label}>Issued To:</p>
-          <p className={styles.value}>{trip?.user?.fullname || user.fullname}</p>
+          <p className={styles.value}>Customer</p>
 
           <div className={styles.divider}></div>
 
           <div className={styles.infoRow}>
             <div>
-              <p className={styles.label}>Ticket ID</p>
-              <p className={styles.code}>{trip.ticket.id}</p>
+              <p className={styles.label}>Purchase ID</p>
+              <p className={styles.code}>{purchase.id}</p>
             </div>
             <div>
-              <p className={styles.label}>Route</p>
-              <p className={styles.code}>Sch/BK</p>
+              <p className={styles.label}>Purchase Type</p>
+              <p className={styles.code}>{purchase.type}</p>
             </div>
             <div className={styles.amount}>
-              <p className={styles.label}>Amount</p>
-              <p className={styles.value}>N{trip?.ticket?.price}</p>
+              <p className={styles.label}>Product Name</p>
+              <p className={styles.value}>
+                {purchase?.drug?.name || purchase?.item?.name}
+              </p>
             </div>
           </div>
 
           <div className={styles.infoRow}>
-            <div>
-              <p className={styles.label}>Trip Type</p>
-              <p className={styles.code}>{trip.type}</p>
+            <div className={styles.amount}>
+              <p className={styles.label}>Amount</p>
+              <p className={styles.value}>
+                ₦{price}
+              </p>
             </div>
-            <div>
-              <p className={styles.label}>Seat No.</p>
-              <p className={styles.code}>{trip.seatNumber}</p>
-            </div>
-            <div>
-              <p className={styles.label}>B/Stop</p>
-              <p className={styles.code}>AP2</p>
-            </div>
-            <div>
-              <p className={styles.label}>Bus</p>
-              <p className={styles.code}>{plateNum}</p>
-            </div>
-          </div>
 
-          <div className={styles.qrBox}>
-            <canvas ref={qrRef}></canvas>
+            <div>
+              <p className={styles.label}>Quantity</p>
+              <p className={styles.code}>{purchase.quantity}</p>
+            </div>
+
+            <div>
+              <p className={styles.label}>Issued By:</p>
+              <p className={styles.code}>{issuer}</p>
+            </div>
+
+            <div className={styles.divider}></div>
+
+            <div>
+              <p className={styles.label}>Total:</p>
+              <p className={styles.code}>{purchase.quantity * price}</p>
+            </div>
+
           </div>
 
           <p className={styles.witty}>{wittyLine}</p>

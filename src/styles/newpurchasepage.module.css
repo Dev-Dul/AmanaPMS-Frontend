@@ -1,0 +1,179 @@
+.one {
+  position: relative;
+  z-index: 10;
+}
+
+.one::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.2;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at bottom right,
+    #5cd2fd 0%,
+    #007ba7 40%,
+    transparent 100%
+  );
+}
+
+.arrow{
+    height: 30px;
+    width: 30px;
+    margin-top: 2rem
+}
+
+.top {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 13vh;
+}
+
+.top h2 {
+  font-size: 3rem;
+}
+
+.body {
+  height: auto;
+  width: 100%;
+  margin-top: 17vh;
+}
+
+.body.two{
+    margin: 0;
+}
+
+.body > h2 {
+  font-size: 2.5rem;
+  font-family: "captain";
+}
+
+.body form {
+  height: auto;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.inputBox {
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.inputBox label {
+  color: #5cd2fd;
+}
+
+.inputBox input,
+.inputBox select {
+  height: 70%;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  text-indent: 10px;
+  border-radius: 10px;
+  transition: all 0.8s ease;
+  background: #c0c0c0;
+  position: relative;
+  border: 1px solid #007ba7;
+}
+
+.inputBox select {
+  height: 100%;
+}
+
+.choose {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.choose button {
+  height: 100%;
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #007ba7;
+}
+
+.inputBox.area{
+    height: auto;
+}
+
+.inputBox textarea {
+  width: 102%;
+  outline: none;
+  border: 1px solid;
+  border-radius: 15px;
+  text-indent: 10px;
+  padding: 2rem 0.5rem;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  transition: all 0.8s ease;
+}
+
+.inputBox input:focus,
+.inputBox textarea:focus {
+  color: white;
+  background: #007ba7;
+}
+
+.body form > button {
+  padding: 1rem;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  background: #007ba7;
+  box-shadow: 0px 5px 10px #5cd2fd;
+}
+
+.note {
+  text-align: left;
+}
+
+.error {
+  position: absolute;
+  left: 20px;
+  font-size: 0.8rem;
+  bottom: -17px;
+}
+
+@media screen and (max-width: 458px) {
+  .top h2 {
+    font-size: 2rem;
+  }
+
+  .body > h2 {
+    font-size: 2.3rem;
+  }
+
+  .body > p{
+    font-size: 1rem;
+    text-wrap: balance;
+  }
+
+  .body form {
+    width: 90%;
+  }
+
+  .note {
+    font-size: 0.7rem;
+  }
+
+  .createNote{
+    font-size: 0.9rem;
+  }
+}

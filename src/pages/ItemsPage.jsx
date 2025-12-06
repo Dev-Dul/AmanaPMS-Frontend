@@ -1,4 +1,4 @@
-import { useFetchItems, registerNewItem, updateItem } from "../../utils/fetch";
+import { useFetchItems, registerNewItem, updateItem, deleteItem } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
 import { useEffect, useState, useContext } from "react";
 import styles from "../styles/routespage.module.css";
@@ -10,13 +10,14 @@ import Error from "../components/Error";
 import Item from "../components/Item";
 import { toast } from "sonner";
 
-function itemsPage() {
+function ItemsPage() {
+    const [open, setOpen] = useState(false);
     const [isUpdate, setUpdate] = useState(false);
     const [overlay, setOverlay] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState(null);
     const { user, userLoad } = useContext(AuthContext);
-    const { items, itemsLoading, itemsError } = useFetchItems();
+    const { items, setItems, itemsLoading, itemsError } = useFetchItems();
     const { register, handleSubmit, reset, formState: { errors }} = useForm({ defaultValues: {
       name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: "", type: ''
     }});
@@ -24,6 +25,10 @@ function itemsPage() {
 
     function handleOverlay(){
         setOverlay(prev => !prev);
+    }
+
+    function handleOpen(){
+        setOpen(false);
     }
 
     function handleUpdate(item){
@@ -41,7 +46,8 @@ function itemsPage() {
     }
 
     function handleStatChange(e) {
-      setStatFilter(e.target.value);
+       const v = e.target.value;
+       setStatFilter(v === "true" ? true : v === "false" ? false : null);
     }
 
     function handleFilter() {
@@ -52,10 +58,25 @@ function itemsPage() {
       setFilteredData(filtered);
     }
 
+    function updateItemList(item, mode = "new"){
+      switch (mode) {
+        case "new":
+          setItems(prev => [item, ...prev]);
+          break;
+        case "delete":
+          setItems((prevItems) =>
+            prevItems.filter((pvd) => pvd.id !== item.id)
+          );
+          break;
+        default:
+          break;
+      }
+    }
+
     async function onSubmit(formData){
       let itemPromise = null;
       if(isUpdate){
-        itemPromise = updateItem(formData.itemId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type, user.id);
+        itemPromise = updateItem(formData.itemId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type);
       }else{
         itemPromise = registerNewItem(formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type, user.id);
       }
@@ -63,6 +84,7 @@ function itemsPage() {
       toast.promise(itemPromise, {
           loading: `${isUpdate ? "Updating" : "Registering new"} Item...`,
           success: (response) => {
+            updateItemList(response.item);
             return response.message;
           },
           error: (error) => {
@@ -70,6 +92,26 @@ function itemsPage() {
           }
       })
   }
+
+  async function handleAction(id) {
+      const itemPromise = deleteItem(id);
+      toast.promise(itemPromise, {
+        loading: "Deleting item...",
+        success: (response) => {
+          if(response.item){
+            updateItemList(response.item, "delete");
+          }
+          return response.message;
+        },
+        error: (error) => {
+          return error.message;
+        },
+      });
+    }
+    
+    function handleDelete(id){
+      setOpen(id);
+    }
 
     useEffect(() => {
       handleFilter();
@@ -79,8 +121,8 @@ function itemsPage() {
     if(!user) return <Error />;
     if(itemsError) return <Error error={itemsError} />;
 
-    const isAvailable = items.filter(item => item.isAvailable === true).length;
-    const isFinished = items.filter(item => item.isAvailable !== true).length;
+    const isAvailable = items?.filter(item => item.isAvailable === true).length;
+    const isFinished = items?.filter(item => item.isAvailable !== true).length;
     
 
   return (
@@ -181,6 +223,17 @@ function itemsPage() {
         </form>
       </div>
 
+      <div className={`${styles.overlay} ${open ? styles.active : ''}`}>
+          <XCircle className={styles.close} onClick={handleOpen} />
+          <div className={styles.selectionBox}>
+              <h2>Are you sure you want to delete this item?</h2>
+              <div className={styles.btnBox}>
+                  <button className={styles.danger} onClick={() => handleAction(open)}>Yes</button>
+                  <button onClick={() => setOpen(false)}>No</button>
+              </div>
+          </div>
+      </div>
+
       <div className="header">
         <h2>items</h2>
       </div>
@@ -188,7 +241,7 @@ function itemsPage() {
         <div className={styles.cards}>
           <div className={styles.card}>
             <h2>Total Items</h2>
-            <h3>{items.length}</h3>
+            <h3>{items?.length}</h3>
           </div>
           <div className={styles.card}>
             <h2>Total Available Items</h2>
@@ -207,11 +260,10 @@ function itemsPage() {
               <select
                 name="filter_two"
                 id="filter_two"
-                onChange={handleStatChange}
-              >
-                <option value={null}>ALL</option>
-                <option value={true}>AVAILABLE</option>
-                <option value={false}>FINISHED</option>
+                onChange={handleStatChange}>
+                <option value="null">ALL</option>
+                <option value="true">AVAILABLE</option>
+                <option value="false">FINISHED</option>
               </select>
             </div>
           </div>
@@ -242,9 +294,9 @@ function itemsPage() {
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
+            {filteredData?.length > 0 ? (
               filteredData.map((item) => (
-                <Item item={item} key={item.id} handleUpdate={handleUpdate} />
+                <Item item={item} key={item.id} handleUpdate={handleUpdate} handleDelete={handleDelete} />
               ))
             ) : (
               <tr>
@@ -263,4 +315,4 @@ function itemsPage() {
   );
 }
 
-export default itemsPage;
+export default ItemsPage;

@@ -64,9 +64,11 @@
     height: auto;
     width: 90%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    place-items: center;
+    gap: 1rem;
     column-gap: 1rem;
+    place-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
 }
 
 .cards.two{
@@ -85,7 +87,7 @@
     justify-content: space-around;
     flex-direction: column;
     padding: 0.2rem 1.5rem;
-    background: #05f390;
+    background: #007ba7;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.35);
 }
 
@@ -127,14 +129,15 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-direction: column;
 }
 
 
 .filterTop > div{
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .filterTop > div h2{
@@ -145,7 +148,7 @@
 
 .filterTop > div select{
     height: 2rem;
-    width: 40%;
+    width: 50%;
     border: 1px solid;
     text-indent: 10px;
     cursor: pointer;
@@ -167,7 +170,7 @@
     color: white;
     display: inline-flex;
     align-items: center;
-    background: #05f390;
+    background: #007ba7;
     padding: 0.3rem 1rem;
     justify-content: space-between;
     box-sizing: border-box;
@@ -224,10 +227,11 @@
 
 .middle table thead tr{
     color: white;
-    background: #05f390;
+    background: #007ba7;
 }
 
 .middle table thead tr th{
+    text-align: left;
     border-left: 2px solid;
 }
 
@@ -342,7 +346,7 @@
     width: 100%;
     text-indent: 10px;
     cursor: pointer;
-    border: 1px solid #05f390;
+    border: 1px solid #007ba7;
     /* border-radius: 10px; */
 }
 
@@ -363,7 +367,7 @@
 .overlayTwo form button{
     margin-top: 0;
     color: white;
-    background: #05f390;
+    background: #007ba7;
     margin-top:0.5rem;
     transition: all 0.5s ease;
 }
@@ -389,12 +393,12 @@
     width: 100%;
   }
 
-  .filter > div {
-    flex-direction: row;
+  .filterTop > div {
+    margin-bottom: 0.5rem;
   }
 
   .filter > div h2 {
-    font-size: 0.65rem;
+    font-size: 0.9rem;
   }
 
   .filter > div select {
@@ -404,7 +408,7 @@
   }
 
   .left {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 
   .left button{
@@ -413,7 +417,7 @@
     padding: 0.5rem;
   }
 
-  .cards {
+  .cards, .cards.two {
     max-height: 260px;
     overflow: auto;
     scrollbar-width: thin;

@@ -2,7 +2,7 @@ import styles from "../styles/routespage.module.css";
 import { deleteItem } from "../../utils/fetch";
 import { format } from "date-fns";
 
-function Item({ item, handleUpdate }){
+function Item({ item, handleUpdate, handleDelete }){
     const formatted = format(item.registered, "do MMMM, yyyy");
     return (
         <tr className={styles.route}>
@@ -14,7 +14,7 @@ function Item({ item, handleUpdate }){
             <td>{item.isAvailable ? "AVAILABLE" : "FINISHED"}</td>
             <td>{formatted}</td>
             <td><button className={styles.suspend} onClick={() => handleUpdate(item)}>UPDATE</button></td>
-            <td><button className={styles.del}>DELETE</button></td>
+            <td><button className={styles.del} onClick={() => handleDelete(item.id)}>DELETE</button></td>
         </tr>
     )
 }
