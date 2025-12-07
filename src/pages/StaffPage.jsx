@@ -112,7 +112,7 @@ function StaffPage() {
         success: (response) => {
           if(response.info){
             updateStaffList(response.info.user, "update", response.info.newRole);
-          }else{
+          }else{ 
             updateStaffList(response.user, "delete");
           }
           setOpen(false);

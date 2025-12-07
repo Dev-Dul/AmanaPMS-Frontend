@@ -31,7 +31,7 @@ function UserDashboard() {
       </div>
 
       <div className={styles.top}>
-        <h1 style={{ color: "#05f390" }}>Welcome Back!, {user.fullname}</h1>
+        <h1 style={{ color: "#007ba7" }}>Welcome Back!, {user.fullname}</h1>
         {isPassenger && (
           <p className={styles.sub}>Let's see how far we can go today.</p>
         )}
@@ -43,9 +43,6 @@ function UserDashboard() {
             <div className={styles.action}>
               <div className={styles.ft}>
                 <div>
-                  <h2 style={{ color: "#05f390" }}>
-                    <Wallet className={styles.icon} /> Your Wallet
-                  </h2>
                   <p>Acct Name: {user.fullname}</p>
                 </div>
                 <div>
@@ -58,26 +55,17 @@ function UserDashboard() {
               <div className={styles.mid}>
                 <div>
                   <h3>Available Balance (NGN)</h3>
-                  <h2 className={styles.amt} style={{ color: "#05f390" }}>
+                  <h2 className={styles.amt} style={{ color: "#007ba7" }}>
                     <span>N</span> {user?.wallet?.balance ?? 0}
                   </h2>
                 </div>
                 <div>
                   <button>
-                    Add Money <Plus className={styles.icon} />
+                    Record New Sale <Plus className={styles.icon} />
                   </button>
                 </div>
               </div>
 
-              <div className={styles.btm}>
-                <h3>
-                  Acct Number: {user.accountNumber ?? "8069940628"} (
-                  {user.bankName ?? "Moniepoint"})
-                </h3>
-                <button onClick={copyAccountNumber}>
-                  <ClipboardCopy className={styles.icon} /> Copy Account Number
-                </button>
-              </div>
             </div>
           </div>
         )}
@@ -90,31 +78,6 @@ function UserDashboard() {
           <h3>{user.purchases?.length ?? 0}</h3>
           <p>Lifetime Sales Completed</p>
         </div>
-      </div>
-
-      <div className={styles.bottom}>
-        <h2>
-          Trips {isPassenger ? "Available" : "Assigned"} Today ({today})
-        </h2>
-
-        {/* <div className={styles.trips}>
-          {trips && trips.length > 0 ? (
-            trips.map((trip) => (
-              <Link to={`/trips/${trip.id}`}>
-                <TripPreview
-                  key={trip.id}
-                  title={trip.title ?? trip.route.shortName}
-                  status={trip.status}
-                  time={trip.departureTime ?? "N/A"}
-                />
-              </Link>
-            ))
-          ) : (
-            <p style={{ textAlign: "center", padding: "1rem" }}>
-              No trips available today
-            </p>
-          )}
-        </div> */}
       </div>
     </div>
   );

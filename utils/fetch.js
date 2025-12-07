@@ -68,6 +68,7 @@ export async function LogIn(username, password){
 
     const data = await res.json();
     if(!res.ok) throw new Error(data.message);
+    if(data.user.status !== "ACTIVE") throw new Error("Your account has been suspended!");
     return data;
   }catch(err){
     throw err;

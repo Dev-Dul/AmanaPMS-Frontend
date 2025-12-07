@@ -45,7 +45,7 @@
 }
 
 .acctBox{
-  border-color: #05f390;
+  border-color: #007ba7;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
 }
@@ -53,7 +53,7 @@
 .tripBox {
   color: white;
   margin-top: 1rem;
-  background: #05f390;
+  background: #007ba7;
 }
 
 .acctBox > h2 {
@@ -118,9 +118,6 @@
   justify-content: space-between;
 }
 
-.mid {
-  margin-top: 1rem;
-}
 
 .mid > div h3 {
   margin: 0;
@@ -142,7 +139,7 @@
   color: white;
   border: none;
   padding: 0.3rem 2rem;
-  background: #05f390;
+  background: #007ba7;
 }
 
 .btm h3 {
@@ -154,7 +151,7 @@
 .btm button {
   border: 1px solid;
   padding: 0.3rem 1rem;
-  border-color: #05f390;
+  border-color: #007ba7;
 }
 
 .arrow {
@@ -196,7 +193,7 @@
   padding: 1rem;
   border-radius: 10px;
   border-bottom: 5px solid;
-  border-color: #05f390;
+  border-color: #007ba7;
 }
 
 .bottom > h2 {

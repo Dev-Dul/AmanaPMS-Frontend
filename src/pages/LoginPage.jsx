@@ -24,7 +24,6 @@ function LogInPage(){
             success: (response) => {
                 if(response && response.user){
                   const { role } = response.user;
-                  localStorage.setItem("logged", "true");
                   handleLogin(response.user);
                   if(role === "ADMIN"){
                     navigate("/overview");

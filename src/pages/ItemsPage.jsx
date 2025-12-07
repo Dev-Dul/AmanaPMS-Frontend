@@ -85,6 +85,10 @@ function ItemsPage() {
           loading: `${isUpdate ? "Updating" : "Registering new"} Item...`,
           success: (response) => {
             updateItemList(response.item);
+            if(isUpdate){
+              reset();
+              setUpdate(prev => !prev);
+            }
             return response.message;
           },
           error: (error) => {

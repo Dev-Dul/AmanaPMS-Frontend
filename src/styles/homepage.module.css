@@ -215,11 +215,12 @@ nav button {
   width: 100%;
   display: flex;
   color: white;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   transition: all 1s ease;
   position: relative;
+  padding: 0rem 5rem;
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("../assets/Img/bg.jpeg");
   background-size: cover;
   background-position: center;
