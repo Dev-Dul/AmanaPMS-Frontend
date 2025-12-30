@@ -15,9 +15,9 @@ function StaffPage() {
     const [open, setOpen] = useState(false);
     const [overlay, setOverlay] = useState(false);
     const [isDelete, setDelete] = useState(false);
-    const [filteredData, setFilteredData] = useState([]);
     const [statFilter, setStatFilter] = useState("ALL");
     const [roleFilter, setRoleFilter] = useState("ALL");
+    const [filteredData, setFilteredData] = useState([]);
     const { user, userLoad, userError } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors }} = useForm();
     const { staff, setStaff, staffLoading, staffError } = useFetchStaff();
@@ -251,7 +251,7 @@ function StaffPage() {
                 onChange={handleStatChange}>
                 <option value="ALL">ALL</option>
                 <option value="ACTIVE">ACTIVE</option>
-                <option value="EXPIRED">SUSPENDED</option>
+                <option value="INACTIVE">SUSPE</option>
               </select>
             </div>
           </div>
