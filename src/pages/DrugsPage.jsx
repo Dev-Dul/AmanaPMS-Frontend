@@ -1,6 +1,6 @@
 import styles from "../styles/routespage.module.css";
 import Drug from "../components/Drug";
-import { useFetchDrugs, registerNewDrug, updateItem, updateDrug, deleteDrug } from "../../utils/fetch";
+import { useFetchDrugs, registerNewDrug, updateDrug, deleteDrug } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
 import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
@@ -19,12 +19,13 @@ function DrugsPage() {
     const { user, userLoad } = useContext(AuthContext);
     const { drugs, setDrugs, drugLoading, drugError } = useFetchDrugs();
     const { register, handleSubmit, reset, formState: { errors }} = useForm({ defaultValues: {
-      name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: ""
+      id: 0, name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: ""
     }});
     
 
     function handleOverlay(){
         setOverlay(prev => !prev);
+        if(isUpdate) setUpdate(false);
     }
 
     function handleOpen(){
@@ -33,7 +34,7 @@ function DrugsPage() {
 
     function handleUpdate(drug){
         reset(drug);
-        setUpdate(prev => !prev);
+        setUpdate(true);
         setOverlay(prev => !prev);
     }
 
@@ -66,11 +67,15 @@ function DrugsPage() {
       switch (mode) {
         case "new":
           setDrugs(prev => [drug, ...prev]);
+          handleOverlay();
           break;
         case "delete":
           setDrugs((prevDrugs) =>
             prevDrugs.filter((pvd) => pvd.id !== drug.id)
           );
+          handleOverlay();
+          setOpen(false);
+          setUpdate(false);
           break;
         default:
           break;
@@ -80,7 +85,7 @@ function DrugsPage() {
     async function onSubmit(formData){
       let drugPromise = null;
       if(isUpdate){
-        drugPromise = updateDrug(formData.drugId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer);
+        drugPromise = updateDrug(formData.id, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer);
       }else{
         drugPromise = registerNewDrug(formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, user.id);
       }
@@ -135,7 +140,7 @@ function DrugsPage() {
         <XCircle className={styles.close} onClick={handleOverlay} />
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <h2>{isUpdate ? "Update Drug" : "Register A New Drug"}</h2>
-          <input type="hidden" {...register("drugId")} />
+          <input type="hidden" {...register("id")} />
           <div className={styles.inputBox}>
             <label htmlFor="name">Drug name</label>
             <input
@@ -206,17 +211,17 @@ function DrugsPage() {
             )}
           </div>
 
-          <button type="submit">Register</button>
+          <button type="submit">{isUpdate ? "Update" : "Register"}</button>
         </form>
       </div>
 
-      <div className={`${styles.overlay} ${open ? styles.active : ''}`}>
+      <div className={`${styles.overlay} ${styles.two} ${open ? styles.active : ''}`}>
           <XCircle className={styles.close} onClick={handleOpen} />
           <div className={styles.selectionBox}>
               <h2>Are you sure you want to delete this drug?</h2>
               <div className={styles.btnBox}>
-                  <button className={styles.danger} onClick={() => handleAction(open)}>Yes</button>
-                  <button onClick={() => setOpen(false)}>No</button>
+                  <button className={styles.danger} onClick={() => handleAction(open)} style={{background: "red", color: "white"}}>Yes</button>
+                  <button onClick={() => setOpen(false)} style={{background: "black", color: "white"}}>No</button>
               </div>
           </div>
       </div>

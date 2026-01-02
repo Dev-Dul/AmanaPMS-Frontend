@@ -19,12 +19,13 @@ function ItemsPage() {
     const { user, userLoad } = useContext(AuthContext);
     const { items, setItems, itemsLoading, itemsError } = useFetchItems();
     const { register, handleSubmit, reset, formState: { errors }} = useForm({ defaultValues: {
-      name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: "", type: ''
+      id: 0, name: '', quantity: 0, price: 0.0, cost: 0.0, manufacturer: "", type: ''
     }});
     
 
     function handleOverlay(){
         setOverlay(prev => !prev);
+        if(isUpdate) setUpdate(false);
     }
 
     function handleOpen(){
@@ -33,7 +34,7 @@ function ItemsPage() {
 
     function handleUpdate(item){
         reset(item);
-        setUpdate(prev => !prev);
+        setUpdate(true);
         setOverlay(prev => !prev);
     }
 
@@ -67,6 +68,8 @@ function ItemsPage() {
           setItems((prevItems) =>
             prevItems.filter((pvd) => pvd.id !== item.id)
           );
+          setOpen(false);
+          setUpdate(false);
           break;
         default:
           break;
@@ -76,7 +79,7 @@ function ItemsPage() {
     async function onSubmit(formData){
       let itemPromise = null;
       if(isUpdate){
-        itemPromise = updateItem(formData.itemId, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type);
+        itemPromise = updateItem(formData.id, formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type);
       }else{
         itemPromise = registerNewItem(formData.name, formData.cost, formData.price, formData.quantity, formData.manufacturer, formData.type, user.id);
       }
@@ -135,7 +138,7 @@ function ItemsPage() {
         <XCircle className={styles.close} onClick={handleOverlay} />
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <h2>{isUpdate ? "Update Item" : "Register A New Item"}</h2>
-          <input type="hidden" {...register("itemId")}/>
+          <input type="hidden" {...register("id")}/>
           <div className={styles.inputBox}>
             <label htmlFor="name">Item name</label>
             <input
