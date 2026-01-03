@@ -19,7 +19,7 @@ function LogInPage(){
 
 
     function checkUser(user){
-      if(isAfter(new Date(), addDays(user.created, 10))){
+      if(isAfter(new Date(), addDays(user.created, 12))){
         toast.error("Free trial has ended. Contact DevAbdul for more info");
         return true;
       }else{
