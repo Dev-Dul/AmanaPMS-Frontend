@@ -19,9 +19,13 @@ function LogInPage(){
 
 
     function checkUser(user){
-      if(isAfter(new Date(), addDays(user.created, 12))){
-        toast.error("Free trial has ended. Contact DevAbdul for more info");
-        return true;
+      if(import.meta.env.NODE_ENV === "production"){
+        if(isAfter(new Date(), addDays(user.created, 12))) {
+          toast.error("Free trial has ended. Contact DevAbdul for more info");
+          return true;
+        }else{
+          return false;
+        }
       }else{
         return false;
       }

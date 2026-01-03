@@ -3,11 +3,11 @@ import Drug from "../components/Drug";
 import { useFetchDrugs, registerNewDrug, updateDrug, deleteDrug } from "../../utils/fetch";
 import { Download, PlusCircle, XCircle } from "lucide-react";
 import { useEffect, useState, useContext } from "react";
+import { exportToExcel } from "../../utils/utils";
+import { AuthContext } from "../../utils/context";
 import { useForm } from "react-hook-form";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
-import { AuthContext } from "../../utils/context";
-import { exportToExcel } from "../../utils/utils";
 import { toast } from "sonner";
 
 function DrugsPage() {
