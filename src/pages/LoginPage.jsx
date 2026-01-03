@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import styles from "../styles/welcome.module.css";
 import { AuthContext } from "../../utils/context";
 import { useMediaQuery } from "react-responsive";
+import { addDays, isAfter } from "date-fns";
 import { useForm } from "react-hook-form";
 import { LogIn } from "../../utils/fetch";
 import { toast } from "sonner";
@@ -17,20 +18,33 @@ function LogInPage(){
     // const apiUrl = import.meta.env.VITE_API_URL;
 
 
+    function checkUser(user){
+      if(isAfter(new Date(), addDays(user.created, 10))){
+        toast.error("Free trial has ended. Contact DevAbdul for more info");
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+
+
     async function onSubmit(formData){
         const LogInPromise = LogIn(formData.username, formData.password);
         toast.promise(LogInPromise, {
             loading: "Loggin you In...",
             success: (response) => {
                 if(response && response.user){
-                  const { role } = response.user;
-                  handleLogin(response.user);
-                  if(role === "ADMIN"){
-                    navigate("/overview");
-                  }else{
-                    navigate("/dashboard");
-                  }
+                  if(!checkUser(response.user)){
+                    const { role } = response.user;
+                    handleLogin(response.user);
+                    if(role === "ADMIN"){
+                      navigate("/overview");
+                    }else{
+                      navigate("/dashboard");
+                    }
                     return response.message;
+                  }
                 }
             },
             error: (error) => {
