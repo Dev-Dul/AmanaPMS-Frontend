@@ -6,13 +6,14 @@ import { AuthContext } from "../../utils/context";
 import { useMediaQuery } from "react-responsive";
 import { addDays, isAfter } from "date-fns";
 import { useForm } from "react-hook-form";
+import Loader from "../components/Loader";
 import { LogIn } from "../../utils/fetch";
 import { toast } from "sonner";
 
 
 function LogInPage(){
     const navigate = useNavigate();
-    const { handleLogin } = useContext(AuthContext);
+    const { handleLogin, hydrate, user, userLoad } = useContext(AuthContext);
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     const { register, handleSubmit, formState: { errors }} = useForm();
     // const apiUrl = import.meta.env.VITE_API_URL;
@@ -30,7 +31,6 @@ function LogInPage(){
         return false;
       }
     }
-
 
 
     async function onSubmit(formData){
@@ -66,6 +66,21 @@ function LogInPage(){
         document.body.classList.remove(styles.bodyStyles);
       }
     }, [])
+
+    useEffect(() => {
+      hydrate();
+      if(user && !userLoad){
+        const { role } = user;
+        if(role === "ADMIN"){
+          navigate("/overview");
+        }else{
+          navigate("/dashboard");
+        }
+      }
+   }, [user])
+
+
+    if(userLoad) return <Loader />
 
 
     return (
