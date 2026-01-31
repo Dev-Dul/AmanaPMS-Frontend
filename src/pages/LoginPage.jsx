@@ -20,8 +20,8 @@ function LogInPage(){
 
 
     function checkUser(user){
-      if(import.meta.env.NODE_ENV === "production"){
-        if(isAfter(new Date(), addDays(user.created, 12))) {
+      if(import.meta.env.VITE_NODE_ENV === "production"){
+        if(isAfter(new Date(), addDays(user.created, 50))) {
           toast.error("Free trial has ended. Contact DevAbdul for more info");
           return true;
         }else{
