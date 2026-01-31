@@ -84,7 +84,7 @@ function ProfilePage(){
 
     async function copyLink(){
       try{
-          await navigator.clipboard.writeText("Hello world");
+          await navigator.clipboard.writeText(import.meta.env.VITE_TG_ADD);
           toast.info("App link successfully copied!")
       }catch(err){
           toast.error(`Error copying app link due to: ${err.message}`)
