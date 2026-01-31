@@ -4,7 +4,7 @@ function Error({ error = ''}){
     return (
       <div className={styles.error}>
         <h2>Oops, An Error Occurred.</h2>
-        {error && <p>Error: {error} </p>}
+        {error && <p>Error: {error.msg} </p>}
         <p className={styles.sub}>
           Try: Refreshing the page or checking your internet connection.
         </p>
