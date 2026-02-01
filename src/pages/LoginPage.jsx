@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 function LogInPage(){
     const navigate = useNavigate();
-    const { handleLogin, hydrate, user, userLoad } = useContext(AuthContext);
+    const { handleLogin, userLoad } = useContext(AuthContext);
     const isMobile = useMediaQuery({ query: "(max-width: 486px)" });
     const { register, handleSubmit, formState: { errors }} = useForm();
     // const apiUrl = import.meta.env.VITE_API_URL;
@@ -21,7 +21,7 @@ function LogInPage(){
 
     function checkUser(user){
       if(import.meta.env.VITE_NODE_ENV === "production"){
-        if(isAfter(new Date(), addDays(user.created, 50))) {
+        if(isAfter(new Date(), addDays(new Date(user.created), 50))) {
           toast.error("Free trial has ended. Contact DevAbdul for more info");
           return true;
         }else{
@@ -67,16 +67,6 @@ function LogInPage(){
       }
     }, [])
 
-   useEffect(() => {
-     if(!userLoad && user){
-       const { role } = user;
-       navigate(role === "ADMIN" ? "/overview" : "/dashboard");
-     }
-   }, [user, userLoad, navigate]);
-
-
-
-    if(userLoad) return <Loader />
 
 
     return (
