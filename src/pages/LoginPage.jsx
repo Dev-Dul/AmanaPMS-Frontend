@@ -67,17 +67,13 @@ function LogInPage(){
       }
     }, [])
 
-    useEffect(() => {
-      hydrate();
-      if(user && !userLoad){
-        const { role } = user;
-        if(role === "ADMIN"){
-          navigate("/overview");
-        }else{
-          navigate("/dashboard");
-        }
-      }
-   }, [user])
+   useEffect(() => {
+     if(!userLoad && user){
+       const { role } = user;
+       navigate(role === "ADMIN" ? "/overview" : "/dashboard");
+     }
+   }, [user, userLoad, navigate]);
+
 
 
     if(userLoad) return <Loader />
