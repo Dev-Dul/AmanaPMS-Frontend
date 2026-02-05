@@ -12,7 +12,7 @@ function OverviewPage() {
   const { overview, ovLoading, ovError } = useFetchOverView();
 
   if(loading || userLoad || ovLoading) return <Loader />;
-  if(error || !user || ovError) return <Error error={error} />;
+  if(error || !user || ovError) return <Error error={error || ovError} />;
 
   return (
     <div className="container">
