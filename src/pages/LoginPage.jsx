@@ -19,18 +19,18 @@ function LogInPage(){
     // const apiUrl = import.meta.env.VITE_API_URL;
 
 
-    function checkUser(user){
-      if(import.meta.env.VITE_NODE_ENV === "production"){
-        if(isAfter(new Date(), addDays(new Date(user.created), 50))) {
-          toast.error("Free trial has ended. Contact DevAbdul for more info");
-          return true;
-        }else{
-          return false;
-        }
-      }else{
-        return false;
-      }
-    }
+    // function checkUser(user){
+    //   if(import.meta.env.VITE_NODE_ENV === "production"){
+    //     if(isAfter(new Date(), addDays(new Date(user.created), 50))) {
+    //       toast.error("Free trial has ended. Contact DevAbdul for more info");
+    //       return true;
+    //     }else{
+    //       return false;
+    //     }
+    //   }else{
+    //     return false;
+    //   }
+    // }
 
 
     async function onSubmit(formData){
@@ -39,16 +39,14 @@ function LogInPage(){
             loading: "Loggin you In...",
             success: (response) => {
                 if(response && response.user){
-                  if(!checkUser(response.user)){
-                    const { role } = response.user;
-                    handleLogin(response.user);
-                    if(role === "ADMIN"){
-                      navigate("/overview");
-                    }else{
-                      navigate("/dashboard");
-                    }
-                    return response.message;
+                  const { role } = response.user;
+                  handleLogin(response.user);
+                  if(role === "ADMIN"){
+                    navigate("/overview");
+                  }else{
+                    navigate("/dashboard");
                   }
+                  return response.message;
                 }
             },
             error: (error) => {
